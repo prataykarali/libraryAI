@@ -1,0 +1,265 @@
+{
+  "concepts": [
+    {
+      "name": "Basic Algebra",
+      "summary": "Learn to solve equations using variables and fundamental operations."
+    },
+    {
+      "name": "Linear Algebra",
+      "summary": "A study on vectors and matrices that extends basic algebra to solve systems of linear equations."
+    },
+    {
+      "name": "Calculus (Study of Rates/Integration)",
+      "summary": "A branch of mathematics focused on the study of rates of change and accumulation using derivatives and integrals, often applied to understand continuous functions."
+    },
+    {
+      "name": "Probability Theory",
+      "summary": "The mathematics of randomness and uncertainty."
+    },
+    {
+      "name": "Statistics in Machine Learning and Data Science",
+      "summary": "Statistics is the study of data analysis, inference using probability, which depends on mathematical understanding."
+    },
+    {
+      "name": "Python Programming",
+      "summary": "Python programming teaches how to write code in the Python language."
+    },
+    {
+      "name": "Machine Learning & AI Basics",
+      "summary": "A subset of Artificial Intelligence that enables systems to learn from data, requiring foundational skills like linear algebra and calculus."
+    },
+    {
+      "name": "Deep Learning (or Deep Reinforcement Learning)",
+      "summary": "This section explains the core principles and applications of deep learning, detailing how it uses multiple layers to process complex patterns. It also identifies key use cases for image recognition and natural language processing."
+    },
+    {
+      "name": "Computer Vision",
+      "summary": "The ability of computers to interpret and understand visual information such as images and videos through machine learning. It is a key technology used in facial recognition, autonomous vehicles, and medical imaging."
+    },
+    {
+      "name": "Natural Language Processing (NLP)",
+      "summary": "A subfield of artificial intelligence that enables computers to process, understand, and generate human language."
+    },
+    {
+      "name": "Basic arithmetic (Algebraic Foundation)",
+      "summary": "The core subject of mathematics that teaches fundamental skills in addition, subtraction, multiplication, and division."
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Linear Algebra",
+      "to": "Statistics in Machine Learning and Data Science",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Linear Algebra",
+      "to": "Machine Learning & AI Basics",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Linear Algebra",
+      "to": "Computer Vision",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Calculus (Study of Rates/Integration)",
+      "to": "Statistics in Machine Learning and Data Science",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Calculus (Study of Rates/Integration)",
+      "to": "Machine Learning & AI Basics",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Probability Theory",
+      "to": "Statistics in Machine Learning and Data Science",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Probability Theory",
+      "to": "Statistics in Machine Learning and Data Science",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Probability Theory",
+      "to": "Machine Learning & AI Basics",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Statistics in Machine Learning and Data Science",
+      "to": "Machine Learning & AI Basics",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Python Programming",
+      "to": "Statistics in Machine Learning and Data Science",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Python Programming",
+      "to": "Machine Learning & AI Basics",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Python Programming",
+      "to": "Statistics in Machine Learning and Data Science",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Machine Learning & AI Basics",
+      "to": "Deep Learning (or Deep Reinforcement Learning)",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Machine Learning & AI Basics",
+      "to": "Computer Vision",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Deep Learning (or Deep Reinforcement Learning)",
+      "to": "Computer Vision",
+      "relation": "unlocks"
+    },
+    {
+      "from": "Computer Vision",
+      "to": "Deep Learning (or Deep Reinforcement Learning)",
+      "relation": "unlocks"
+    }
+  ],
+  "learning_path": [
+    "Python Programming",
+    "Computer Vision",
+    "Basic arithmetic (Algebraic Foundation)",
+    "Basic Algebra",
+    "Linear Algebra",
+    "Calculus (Study of Rates/Integration)",
+    "Probability Theory",
+    "Statistics in Machine Learning and Data Science",
+    "Machine Learning & AI Basics",
+    "Deep Learning (or Deep Reinforcement Learning)",
+    "Natural Language Processing (NLP)"
+  ],
+  "full_okf_data": [
+    {
+      "concept_name": "Basic Algebra",
+      "summary": "Learn to solve equations using variables and fundamental operations.",
+      "prerequisites": [
+        "Calculus"
+      ],
+      "unlocks": []
+    },
+    {
+      "concept_name": "Linear Algebra",
+      "summary": "A study on vectors and matrices that extends basic algebra to solve systems of linear equations.",
+      "prerequisites": [
+        "Basic Algebra"
+      ],
+      "unlocks": [
+        "Machine Learning",
+        "Computer Graphics"
+      ]
+    },
+    {
+      "concept_name": "Calculus (Study of Rates/Integration)",
+      "summary": "A branch of mathematics focused on the study of rates of change and accumulation using derivatives and integrals, often applied to understand continuous functions.",
+      "prerequisites": [
+        "Algebra",
+        "Linear Algebra"
+      ],
+      "unlocks": [
+        "Machine Learning Optimization",
+        "Physics Application"
+      ]
+    },
+    {
+      "concept_name": "Probability Theory",
+      "summary": "The mathematics of randomness and uncertainty.",
+      "prerequisites": [
+        "Understanding of basic algebra"
+      ],
+      "unlocks": [
+        "Statistics",
+        "Machine Learning"
+      ]
+    },
+    {
+      "concept_name": "Statistics in Machine Learning and Data Science",
+      "summary": "Statistics is the study of data analysis, inference using probability, which depends on mathematical understanding.",
+      "prerequisites": [
+        "Probability Theory",
+        "Algebra"
+      ],
+      "unlocks": [
+        "Machine Learning Algorithms"
+      ]
+    },
+    {
+      "concept_name": "Python Programming",
+      "summary": "Python programming teaches how to write code in the Python language.",
+      "prerequisites": [
+        "Logical Thinking"
+      ],
+      "unlocks": [
+        "Machine Learning",
+        "Data Science"
+      ]
+    },
+    {
+      "concept_name": "Machine Learning & AI Basics",
+      "summary": "A subset of Artificial Intelligence that enables systems to learn from data, requiring foundational skills like linear algebra and calculus.",
+      "prerequisites": [
+        "Linear Algebra",
+        "Calculus",
+        "Probability",
+        "Statistics"
+      ],
+      "unlocks": [
+        "Deep Learning",
+        "Computer Vision"
+      ]
+    },
+    {
+      "concept_name": "Deep Learning (or Deep Reinforcement Learning)",
+      "summary": "This section explains the core principles and applications of deep learning, detailing how it uses multiple layers to process complex patterns. It also identifies key use cases for image recognition and natural language processing.",
+      "prerequisites": [
+        "Machine Learning",
+        "Neural Networks"
+      ],
+      "unlocks": [
+        "Understanding neural network architecture",
+        "Applying deep learning in computer vision tasks"
+      ]
+    },
+    {
+      "concept_name": "Computer Vision",
+      "summary": "The ability of computers to interpret and understand visual information such as images and videos through machine learning. It is a key technology used in facial recognition, autonomous vehicles, and medical imaging.",
+      "prerequisites": [],
+      "unlocks": [
+        "computer vision for image analysis",
+        "deep learning algorithms"
+      ]
+    },
+    {
+      "concept_name": "Natural Language Processing (NLP)",
+      "summary": "A subfield of artificial intelligence that enables computers to process, understand, and generate human language.",
+      "prerequisites": [
+        "Machine Learning",
+        "Deep Learning"
+      ],
+      "unlocks": [
+        "Chatbots",
+        "Translation systems",
+        "Text analysis applications"
+      ]
+    },
+    {
+      "concept_name": "Basic arithmetic (Algebraic Foundation)",
+      "summary": "The core subject of mathematics that teaches fundamental skills in addition, subtraction, multiplication, and division.",
+      "prerequisites": [
+        "Understanding basic arithmetic"
+      ],
+      "unlocks": []
+    }
+  ]
+}

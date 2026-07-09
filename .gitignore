@@ -1,0 +1,31 @@
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python caching
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# KuzuDB Database folders
+okf_graph.db/
+tmp_kuzu_test.db/
+
+# Local LLM Models (GGUF, etc.)
+models/
+
+# Pipeline generated outputs
+okf_results.json
+okf_graph.json
+accuracy.json
+pdf_chunks.json
+mock_results.json
+mock_relationships.json
+mock_graph.json
+
+# IDE settings
+.vscode/
+.idea/

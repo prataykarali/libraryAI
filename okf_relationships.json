@@ -1,0 +1,129 @@
+[
+  {
+    "concept_name": "Basic Algebra",
+    "summary": "Learn to manipulate equations and solve for unknowns using fundamental operations.",
+    "prerequisites": [
+      "Intermediate Mathematics"
+    ],
+    "unlocks": [
+      "Higher Mathematics"
+    ]
+  },
+  {
+    "concept_name": "Linear Algebra",
+    "summary": "A branch of mathematics that extends basic algebra to work with vectors and matrices.",
+    "prerequisites": [
+      "Basic Algebra"
+    ],
+    "unlocks": [
+      "Machine Learning",
+      "Computer Graphics"
+    ]
+  },
+  {
+    "concept_name": "Calculus (Differential Calculus)",
+    "summary": "The study of rates of change and accumulation using derivatives and integrals, primarily to understand continuous functions.",
+    "prerequisites": [
+      "Algebra",
+      "Linear Algebra"
+    ],
+    "unlocks": [
+      "Machine Learning Optimization",
+      "Physics Applications"
+    ]
+  },
+  {
+    "concept_name": "Probability Theory",
+    "summary": "The mathematics of randomness and uncertainty.",
+    "prerequisites": [
+      "Basic Algebra",
+      "Counting Principles"
+    ],
+    "unlocks": [
+      "Statistics",
+      "Machine Learning"
+    ]
+  },
+  {
+    "concept_name": "Statistics",
+    "summary": "Statistics is a field dedicated to analyzing and inferring data using probability methods.",
+    "prerequisites": [
+      "Understanding of Probability"
+    ],
+    "unlocks": [
+      "Machine Learning",
+      "Data Science"
+    ]
+  },
+  {
+    "concept_name": "Python Programming",
+    "summary": "Learn how to write code using the Python language.",
+    "prerequisites": [
+      "Programming Logic"
+    ],
+    "unlocks": [
+      "Machine Learning",
+      "Data Science"
+    ]
+  },
+  {
+    "concept_name": "Machine Learning",
+    "summary": "A subset of Artificial Intelligence designed to enable systems with learning capabilities based on data.",
+    "prerequisites": [
+      "linear algebra",
+      "calculus",
+      "probability",
+      "statistics"
+    ],
+    "unlocks": [
+      "deep learning",
+      "computer vision"
+    ]
+  },
+  {
+    "concept_name": "Deep Learning",
+    "summary": "A method of artificial intelligence that uses neural networks with multiple layers to process complex data patterns.",
+    "prerequisites": [
+      "Machine learning concepts"
+    ],
+    "unlocks": []
+  },
+  {
+    "concept_name": "Computer Vision with OpenAI Foundation Models",
+    "summary": "The ability to understand and interpret visual information through deep learning techniques, as well as the use of foundation models in diverse applications.",
+    "prerequisites": [
+      "Machine Learning concepts"
+    ],
+    "unlocks": [
+      "Facial recognition algorithms"
+    ]
+  },
+  {
+    "concept_name": "Natural Language Processing (NLP)",
+    "summary": "The ability of computers to understand and generate human language.",
+    "prerequisites": [
+      "Machine Learning",
+      "Deep Learning"
+    ],
+    "unlocks": [
+      "Chatbots",
+      "Translation systems",
+      "Text analysis applications"
+    ]
+  },
+  {
+    "concept_name": "Basic arithmetic (addition, subtraction, multiplication, division)",
+    "summary": "Fundamental skill in mathematics that serves as the foundation for learning algebra and higher-level math.",
+    "prerequisites": [
+      "Mathematics",
+      "Number concepts"
+    ],
+    "unlocks": [
+      "Algebra",
+      "Higher-level Mathematics",
+      "Pre-calculus (e.g., trigonometry)",
+      "Coordinate Geometry",
+      "Graphing Calculus"
+    ]
+  }
+]
