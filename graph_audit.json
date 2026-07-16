@@ -1,0 +1,20 @@
+{
+  "stats": {
+    "invalid_nodes": 0,
+    "empty_summary_nodes": 3,
+    "placeholder_nodes": 0,
+    "self_edges": 0,
+    "reciprocal_requires": 0
+  },
+  "examples": {
+    "invalid_nodes": [],
+    "empty_summary_nodes": [
+      "Event",
+      "Information Geometry",
+      "Neural Network"
+    ],
+    "placeholder_nodes": [],
+    "self_edges": [],
+    "reciprocal_requires": []
+  }
+}
