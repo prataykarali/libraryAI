@@ -19,14 +19,9 @@ relations onto matching current records, subject to grounding rules:
   record's doc_id:chunk_id so edges cite the asserting chunk.
 """
 import json
-import importlib.util
-import sys
 from collections import Counter
 
-spec = importlib.util.spec_from_file_location("okf", "okf_pipeline.py")
-okf = importlib.util.module_from_spec(spec)
-sys.modules["okf"] = okf
-spec.loader.exec_module(okf)
+import okf
 
 VALID_RELATIONS = okf.VALID_RELATIONS
 
