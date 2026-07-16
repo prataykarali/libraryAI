@@ -1,0 +1,153 @@
+{
+  "version": "v4",
+  "pairs_total": 95,
+  "train": 72,
+  "test": 23,
+  "sources": {
+    "gold": 12,
+    "v3_single": 46,
+    "empty": 18,
+    "v3_relations": 43,
+    "bak2": 11
+  },
+  "concept_objects": 202,
+  "relation_coverage_pct": 57.9,
+  "empty_rate_pct": 15.4,
+  "multi_concept_pct_of_nonempty": 50.5,
+  "pairs_with_3plus_concepts": 32,
+  "textbook_pair_pct": 35.0,
+  "max_label_share_pct": 9.4,
+  "top20_labels": [
+    [
+      "GPT",
+      21
+    ],
+    [
+      "BERT",
+      18
+    ],
+    [
+      "Fine-Tuning",
+      16
+    ],
+    [
+      "LoRA",
+      15
+    ],
+    [
+      "Vector",
+      11
+    ],
+    [
+      "Gradient Descent",
+      11
+    ],
+    [
+      "Matrix Decomposition",
+      11
+    ],
+    [
+      "ELMo",
+      7
+    ],
+    [
+      "Feature-Based Approach",
+      7
+    ],
+    [
+      "GraphRAG",
+      7
+    ],
+    [
+      "Attention Mechanism",
+      6
+    ],
+    [
+      "Knowledge Graph",
+      5
+    ],
+    [
+      "BiLSTM",
+      4
+    ],
+    [
+      "CLS Token",
+      4
+    ],
+    [
+      "Retrieval-Augmented Generation",
+      4
+    ],
+    [
+      "Multi-Head Attention",
+      4
+    ],
+    [
+      "Next Sentence Prediction",
+      3
+    ],
+    [
+      "Named Entity Recognition",
+      2
+    ],
+    [
+      "Community Detection",
+      2
+    ],
+    [
+      "Transformer Decoder",
+      2
+    ]
+  ],
+  "v3_baseline": {
+    "pairs": 852,
+    "top_label_share_pct": 36.8,
+    "empty_rate_pct": 51.1,
+    "relation_coverage_pct": 13.1
+  },
+  "dropped_by_label_cap": 13,
+  "top10_labels": [
+    [
+      "GPT",
+      19
+    ],
+    [
+      "BERT",
+      17
+    ],
+    [
+      "Fine-Tuning",
+      12
+    ],
+    [
+      "LoRA",
+      11
+    ],
+    [
+      "Matrix Decomposition",
+      9
+    ],
+    [
+      "Vector",
+      8
+    ],
+    [
+      "Gradient Descent",
+      8
+    ],
+    [
+      "GraphRAG",
+      7
+    ],
+    [
+      "ELMo",
+      7
+    ],
+    [
+      "Feature-Based Approach",
+      7
+    ]
+  ],
+  "label_cap": 8,
+  "leakage_after_fix": 0
+}
