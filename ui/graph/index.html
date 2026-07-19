@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Archipelago · Knowledge Graph</title>
+<meta name="description" content="Interactive knowledge graph explorer — 3 levels: books, concepts, cross-book connections."/>
+<style>@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fbf8f5;--s1:#f5ede6;--s2:#ecdcd0;--s3:#e0cfc3;
+  --bd:rgba(45,32,28,0.07);--bd2:rgba(45,32,28,0.13);--bd3:rgba(45,32,28,0.22);
+  --tx:#201715;--tx2:#4e3f3b;--mu:#806b66;--dm:#a8928d;--dm2:#dfcfc8;
+  --purple:#7c3aed;--green:#059669;--blue:#0284c7;--orange:#ea580c;
+  --pink:#db2777;--red:#dc2626;--yellow:#d97706;--cyan:#0891b2;
+}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--tx);
+  font-family:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(45,32,28,0.08);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(45,32,28,0.15)}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .5s}
+#loader.gone{opacity:0;pointer-events:none}
+.spin{width:46px;height:46px;border-radius:50%;border:3px solid rgba(124,58,237,0.08);
+  border-top-color:var(--purple);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ltxt{font-size:14px;font-weight:600;color:var(--tx2);letter-spacing:-.1px}
+.lsub{font-size:11px;color:var(--mu);margin-top:-6px}
+
+/* HEADER */
+#hdr{position:fixed;top:0;left:0;right:0;z-index:400;height:62px;
+  display:flex;align-items:center;gap:12px;padding:0 20px;
+  background:rgba(251,248,245,0.85);backdrop-filter:blur(24px) saturate(1.6);
+  -webkit-backdrop-filter:blur(24px) saturate(1.6);border-bottom:1px solid var(--bd)}
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:pointer}
+.brand-ico{width:32px;cup:32px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#ea580c);
+  display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 12px rgba(124,58,237,0.15)}
+.brand-name{font-size:16px;font-weight:800;letter-spacing:-.5px;
+  background:linear-gradient(120deg,#7c3aed 10%,#ea580c 90%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.brand-tag{padding:2px 7px;border-radius:5px;font-size:8.5px;font-weight:800;
+  background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.12);color:#7c3aed;letter-spacing:.5px}
+
+/* NAV TABS */
+#nav-tabs{display:flex;gap:4px;margin-left:12px}
+.nav-tab{padding:6px 16px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;
+  border:1px solid transparent;color:var(--mu);background:transparent;font-family:inherit;transition:all .15s;white-space:nowrap}
+.nav-tab:hover{color:var(--tx);background:rgba(45,32,28,0.03)}
+.nav-tab.active{color:#7c3aed;background:rgba(124,58,237,0.06);border-color:rgba(124,58,237,0.12)}
+.nav-tab .tab-count{font-size:9.5px;color:var(--dm);margin-left:4px;font-weight:500}
+.nav-tab.lib-tab.active{color:#ea580c;background:rgba(234,88,12,0.07);border-color:rgba(234,88,12,0.18)}
+
+/* LIBRARIAN PANEL */
+#librarian-panel{position:fixed;inset:62px 0 0 0;z-index:500;
+  background:var(--bg);overflow-y:auto;display:none;padding:28px 20px 40px}
+#librarian-panel.open{display:block}
+.lib-grid{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:20px}
+.lib-card{background:#fff;border:1px solid var(--bd2);border-radius:18px;padding:26px;
+  box-shadow:0 4px 20px rgba(45,32,28,0.06);transition:box-shadow .2s}
+.lib-card:hover{box-shadow:0 8px 32px rgba(45,32,28,0.10)}
+.lib-card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.lib-card-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.lib-card-icon.orange{background:rgba(234,88,12,0.08);border:1px solid rgba(234,88,12,0.12)}
+.lib-card-icon.purple{background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.10)}
+.lib-card-icon.green{background:rgba(5,150,105,0.06);border:1px solid rgba(5,150,105,0.10)}
+.lib-card-title{font-size:15px;font-weight:800;color:var(--tx);letter-spacing:-.3px}
+.lib-card-sub{font-size:11px;color:var(--mu);margin-top:3px;line-height:1.5}
+.lib-label{display:block;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--mu);margin-bottom:5px;margin-top:14px}
+.lib-label:first-of-type{margin-top:0}
+.lib-input,.lib-select,.lib-textarea{
+  width:100%;padding:9px 12px;border:1px solid var(--bd2);border-radius:10px;
+  background:rgba(45,32,28,0.015);color:var(--tx);font-family:inherit;font-size:13px;
+  outline:none;transition:border .15s,box-shadow .15s}
+.lib-input:focus,.lib-select:focus,.lib-textarea:focus{
+  border-color:rgba(124,58,237,0.35);box-shadow:0 0 0 3px rgba(124,58,237,0.06)}
+.lib-textarea{min-height:72px;resize:vertical}
+.lib-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 20px;border-radius:10px;font-size:13px;font-weight:700;
+  font-family:inherit;cursor:pointer;transition:all .15s;border:none;margin-top:14px;width:100%}
+.lib-btn.primary{background:linear-gradient(135deg,#7c3aed,#ea580c);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,0.2)}
+.lib-btn.primary:hover{box-shadow:0 6px 20px rgba(124,58,237,0.3);transform:translateY(-1px)}
+.lib-btn.primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.lib-btn.secondary{background:rgba(45,32,28,0.04);color:var(--tx2);border:1px solid var(--bd2)}
+.lib-btn.secondary:hover{background:rgba(45,32,28,0.08)}
+.lib-status{margin-top:12px;padding:10px 14px;border-radius:10px;font-size:12px;display:none;line-height:1.5}
+.lib-status.ok{background:rgba(5,150,105,0.06);border:1px solid rgba(5,150,105,0.15);color:#065f46;display:block}
+.lib-status.err{background:rgba(220,38,38,0.05);border:1px solid rgba(220,38,38,0.15);color:#991b1b;display:block}
+.lib-status.info{background:rgba(2,132,199,0.05);border:1px solid rgba(2,132,199,0.12);color:#0369a1;display:block}
+.lib-drop{border:2px dashed var(--bd2);border-radius:12px;padding:24px 16px;text-align:center;
+  cursor:pointer;transition:border-color .15s,background .15s;background:rgba(45,32,28,0.015)}
+.lib-drop:hover,.lib-drop.drag-over{border-color:rgba(234,88,12,0.4);background:rgba(234,88,12,0.03)}
+.lib-drop-icon{font-size:28px;margin-bottom:8px}
+.lib-drop-label{font-size:13px;font-weight:600;color:var(--tx2)}
+.lib-drop-hint{font-size:11px;color:var(--mu);margin-top:4px}
+.lib-stages{margin-top:12px;list-style:none;space-y:4px}
+.lib-stage{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;
+  font-size:11px;color:var(--mu);border:1px solid transparent;transition:all .2s}
+.lib-stage[data-state=active]{background:rgba(2,132,199,0.05);border-color:rgba(2,132,199,0.15);color:#0284c7;font-weight:600}
+.lib-stage[data-state=done]{color:#059669;}
+.lib-stage[data-state=error]{color:#dc2626;}
+.lib-dot{width:7px;height:7px;border-radius:50%;background:var(--bd3);flex-shrink:0;transition:background .2s}
+.lib-stage[data-state=active] .lib-dot{background:#0284c7;box-shadow:0 0 6px #0284c740;animation:lib-pulse .9s ease-in-out infinite}
+.lib-stage[data-state=done] .lib-dot{background:#059669}
+.lib-stage[data-state=error] .lib-dot{background:#dc2626}
+@keyframes lib-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.lib-elapsed{font-size:10px;color:var(--mu);margin-top:8px;font-family:'JetBrains Mono',monospace}
+
+#back-btn{display:none;padding:6px 16px;border-radius:8px;
+  background:linear-gradient(135deg,rgba(124,58,237,0.06),rgba(234,88,12,0.03));
+  border:1px solid rgba(124,58,237,0.15);color:#7c3aed;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;
+  box-shadow:0 2px 6px rgba(124,58,237,0.04)}
+#back-btn:hover{background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(234,88,12,0.06));
+  color:#6d28d9;border-color:rgba(124,58,237,0.25);transform:translateX(-2px)}
+
+#book-label{display:none;font-size:12.5px;font-weight:700;color:var(--tx2);
+  padding:4px 12px;border-radius:8px;background:rgba(45,32,28,0.02);
+  border:1px solid var(--bd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:250px}
+
+#sw{flex:1;max-width:280px;position:relative;margin-left:auto}
+#srch{width:100%;padding:8px 14px 8px 34px;background:rgba(45,32,28,0.03);border:1px solid var(--bd);
+  border-radius:24px;color:var(--tx);font-family:inherit;font-size:12px;outline:none;transition:all .2s}
+#srch:focus{background:rgba(255,255,255,0.8);border-color:rgba(124,58,237,0.3);box-shadow:0 0 0 3px rgba(124,58,237,0.05)}
+#srch::placeholder{color:var(--dm)}
+.sico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--dm);font-size:14px;pointer-events:none}
+
+/* CHIPS */
+#chip-bar{position:fixed;top:70px;left:14px;z-index:310;display:flex;gap:5px;flex-wrap:wrap;padding-top:3px}
+#chip-bar.hidden{display:none}
+.chip{padding:4px 12px;border-radius:18px;font-size:10px;font-weight:600;cursor:pointer;
+  border:1px solid var(--bd);color:var(--mu);background:rgba(255,255,255,0.5);font-family:inherit;transition:all .15s;user-select:none}
+.chip:hover{color:var(--tx);border-color:var(--bd2);background:#fff}
+.chip.on{font-weight:700;color:#fff}
+.chip[data-r=all].on{background:rgba(45,32,28,0.08);border-color:rgba(45,32,28,0.15);color:var(--tx)}
+.chip[data-r=requires].on{background:var(--purple);border-color:var(--purple)}
+.chip[data-r=enables].on{background:var(--green);border-color:var(--green)}
+.chip[data-r=uses].on{background:var(--blue);border-color:var(--blue)}
+.chip[data-r=extends].on{background:var(--orange);border-color:var(--orange)}
+.chip[data-r=part_of].on{background:var(--pink);border-color:var(--pink)}
+.chip[data-r=contrasts_with].on{background:var(--red);border-color:var(--red)}
+.chip[data-r=evaluated_by].on{background:var(--yellow);border-color:var(--yellow)}
+
+/* GRAPH AREA */
+#graph-wrap{position:fixed;inset:62px 0 0 0;z-index:100;background:var(--bg)}
+svg#graph-svg{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+svg#graph-svg:active{cursor:grabbing}
+svg#graph-svg.locked{cursor:default;pointer-events:none}
+
+/* EDGE STYLES — no triangle markers */
+.edge-line{stroke-linecap:round;transition:stroke-opacity .12s}
+.edge-line.dim{stroke-opacity:.02!important}
+.edge-line.hl{stroke-opacity:.95}
+.edge-line.external{stroke-dasharray:4 3;stroke-opacity:.25}
+
+/* BOOK GRAPH EDGES */
+.book-edge{stroke-linecap:round;stroke-opacity:.25}
+
+/* NODE STYLES */
+.node-g{cursor:pointer}
+.node-glow{pointer-events:none;transition:opacity .2s}
+.node-core{transition:r .15s,stroke-width .15s;stroke:rgba(45,32,28,0.05);stroke-width:1}
+.node-g:hover .node-core{stroke:rgba(45,32,28,0.2);stroke-width:2}
+.node-g.sel .node-core{stroke:rgba(45,32,28,0.3);stroke-width:2.5}
+.node-g.dim{opacity:.08}.node-g.dim .node-core{stroke-width:0}
+.node-g.ghost{opacity:.35;cursor:pointer}
+.node-g.ghost .node-core{stroke-dasharray:2 2;stroke:rgba(45,32,28,0.15);stroke-width:1}
+.node-g.ghost .node-glow{opacity:.01!important}
+.node-g.ghost .node-label{fill:var(--mu)}
+.node-ring{pointer-events:none;fill:none;stroke-width:2;stroke-dasharray:3 3;opacity:0;transition:opacity .25s}
+.node-g.sel .node-ring{opacity:.7;animation:ring-spin 8s linear infinite}
+@keyframes ring-spin{to{stroke-dashoffset:-60}}
+.node-label{font-family:'Outfit','Inter',sans-serif;font-size:11px;fill:var(--tx);
+  pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:4px;
+  stroke-linejoin:round;font-weight:600;letter-spacing:-.01em}
+.ghost-book-tag{font-family:'Outfit','Inter',sans-serif;font-size:8px;fill:var(--dm);
+  pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:3px;
+  stroke-linejoin:round;font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+.hub-glow{transform-box:fill-box;transform-origin:center;animation:hub-pulse 3s ease-in-out infinite}
+@keyframes hub-pulse{0%,100%{opacity:.07;transform:scale(1)}50%{opacity:.15;transform:scale(1.15)}}
+
+/* BOOK NODE LABEL (large) */
+.book-label{font-family:'Outfit','Inter',sans-serif;font-size:15px;font-weight:800;fill:var(--tx);
+  pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round;letter-spacing:-.3px}
+.book-sub{font-family:'Outfit','Inter',sans-serif;font-size:9.5px;fill:var(--mu);
+  pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+.book-count{font-family:'JetBrains Mono',monospace;font-size:10px;fill:var(--dm);
+  pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+
+/* FLASHCARD */
+#flashcard{position:fixed;top:74px;right:14px;bottom:14px;width:390px;z-index:350;
+  background:rgba(253,251,248,0.92);backdrop-filter:blur(36px) saturate(1.6);
+  -webkit-backdrop-filter:blur(36px) saturate(1.6);
+  border:1px solid rgba(45,32,28,0.08);border-radius:18px;
+  box-shadow:0 30px 70px rgba(45,32,28,0.08),inset 0 1px 0 rgba(255,255,255,0.7);
+  transform:translateX(440px) scale(.96);opacity:0;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .3s;
+  display:flex;flex-direction:column;overflow:hidden}
+#flashcard.open{transform:translateX(0) scale(1);opacity:1}
+.fc-hero{padding:24px 24px 18px;position:relative;overflow:hidden;border-bottom:1px solid var(--bd)}
+.fc-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;
+  background:rgba(45,32,28,0.04);border:1px solid rgba(45,32,28,0.06);color:var(--mu);
+  cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;transition:all .15s;z-index:10}
+.fc-close:hover{background:rgba(45,32,28,0.08);color:var(--tx)}
+.fc-badges{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.badge{padding:4px 12px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.bd-foundational{background:rgba(5,150,105,0.08);color:#059669;border:1px solid rgba(5,150,105,0.15)}
+.bd-intermediate{background:rgba(124,58,237,0.06);color:#7c3aed;border:1px solid rgba(124,58,237,0.12)}
+.bd-advanced{background:rgba(219,39,119,0.06);color:#db2777;border:1px solid rgba(219,39,119,0.12)}
+.bd-expert{background:rgba(217,119,6,0.08);color:#d97706;border:1px solid rgba(217,119,6,0.15)}
+.bd-type{background:rgba(2,132,199,0.06);color:#0284c7;border:1px solid rgba(2,132,199,0.12)}
+.fc-title{font-size:24px;font-weight:800;line-height:1.25;color:var(--tx);letter-spacing:-.5px;margin-bottom:10px}
+.fc-summary{font-size:14px;line-height:1.7;color:var(--tx2);font-weight:400}
+.fc-body{flex:1;overflow-y:auto;padding:0 24px 24px}
+.fc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;padding-top:20px}
+.fc-stat{background:rgba(45,32,28,0.02);border:1px solid var(--bd);border-radius:12px;padding:12px 14px}
+.fc-stat-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--mu);margin-bottom:4px;font-weight:700}
+.fc-stat-val{font-size:16px;font-weight:800;color:var(--tx)}
+.okf-section{background:linear-gradient(135deg,rgba(124,58,237,0.03),rgba(5,150,105,0.02));
+  border:1px solid rgba(124,58,237,0.06);border-radius:14px;padding:18px;margin-bottom:18px}
+.okf-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#7c3aed;font-weight:800;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px}
+.okf-title::before{content:'';width:6px;height:6px;border-radius:50%;background:#7c3aed;box-shadow:0 0 8px #7c3aed}
+.okf-group{margin-bottom:14px}.okf-group:last-child{margin-bottom:0}
+.okf-lbl{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--mu);margin-bottom:8px;font-weight:700}
+.okf-pills{display:flex;flex-wrap:wrap;gap:6px}
+.okf-pill{padding:5px 12px;border-radius:8px;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .12s;border:1px solid transparent}
+.okf-pill.prereq{background:rgba(124,58,237,0.05);color:#7c3aed;border-color:rgba(124,58,237,0.1)}
+.okf-pill.prereq:hover{background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.25);transform:translateY(-1px)}
+.okf-pill.unlock{background:rgba(5,150,105,0.04);color:#059669;border-color:rgba(5,150,105,0.08)}
+.okf-pill.unlock:hover{background:rgba(5,150,105,0.09);border-color:rgba(5,150,105,0.2);transform:translateY(-1px)}
+.okf-empty{font-size:11px;color:var(--dm);font-style:italic}
+.fc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px}
+.fc-tag{padding:4px 10px;border-radius:6px;font-size:10px;font-family:'JetBrains Mono',monospace;
+  background:rgba(45,32,28,0.02);border:1px solid var(--bd);color:var(--mu)}
+.fc-section-title{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--tx2);
+  margin-bottom:10px;font-weight:800;display:flex;align-items:center;gap:6px}
+.fc-cnt{background:rgba(45,32,28,0.04);border-radius:5px;padding:2px 8px;font-size:9.5px;color:var(--mu);letter-spacing:0;font-weight:600}
+.edge-list{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
+.edge-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;
+  background:rgba(255,255,255,0.5);border:1px solid var(--bd);font-size:12px;font-weight:500;transition:all .15s}
+.edge-item:hover{background:#fff;border-color:var(--bd2);transform:translateX(3px);box-shadow:0 2px 8px rgba(45,32,28,0.03)}
+.edge-arrow{font-size:11px;flex-shrink:0;width:16px;text-align:center}
+.edge-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tx)}
+.edge-rel{font-size:8.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;opacity:.6;flex-shrink:0}
+.fc-divider{height:1px;background:var(--bd);margin:16px 0}
+.src-box{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--mu);
+  background:rgba(255,255,255,0.4);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:10px}
+.src-box .doc{color:var(--tx2);font-weight:600}
+.src-highlight{margin-top:8px;padding:10px;border-left:3px solid rgba(124,58,237,0.3);
+  background:rgba(124,58,237,0.03);border-radius:0 8px 8px 0;color:var(--tx2);font-size:11px;
+  line-height:1.6;max-height:180px;overflow-y:auto;white-space:pre-wrap}
+
+/* TOOLTIP */
+#tip{position:fixed;z-index:600;pointer-events:none;background:rgba(253,251,248,0.98);backdrop-filter:blur(14px);
+  border:1px solid var(--bd2);border-radius:12px;padding:12px 16px;font-size:12px;opacity:0;
+  transition:opacity .1s;max-width:280px;box-shadow:0 10px 30px rgba(45,32,28,0.06)}
+#tip.v{opacity:1}
+#tip-name{font-weight:800;margin-bottom:4px;color:var(--tx);font-size:13px;letter-spacing:-.1px}
+#tip-type{font-size:10.5px;color:var(--mu);font-weight:500}
+#tip-summ{font-size:11px;color:var(--tx2);margin-top:6px;line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ZOOM/STATS */
+#zoom-ctrls{position:fixed;bottom:54px;right:16px;z-index:310;display:flex;flex-direction:column;gap:5px}
+.zb{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.8);border:1px solid var(--bd);
+  color:var(--tx2);cursor:pointer;font-size:16px;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;transition:all .12s;box-shadow:0 2px 6px rgba(45,32,28,0.03)}
+.zb:hover{background:#fff;color:var(--tx);border-color:var(--bd2)}
+#stats-bar{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:310;
+  display:flex;align-items:center;background:rgba(253,251,248,0.9);backdrop-filter:blur(20px) saturate(1.6);
+  border:1px solid var(--bd);border-radius:24px;overflow:hidden;padding:0 6px;box-shadow:0 4px 20px rgba(45,32,28,0.04)}
+.sb-item{padding:6px 12px;font-size:10.5px;font-weight:500;color:var(--mu);display:flex;align-items:center;gap:5px;
+  border-right:1px solid var(--bd);white-space:nowrap}
+.sb-item:last-child{border-right:none}
+.sb-item strong{color:var(--tx);font-weight:700;font-size:12px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:ldot 2s ease-in-out infinite}
+@keyframes ldot{0%,100%{opacity:.3;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}
+
+/* SEARCH RESULTS */
+#search-results{position:fixed;z-index:500;background:rgba(253,251,248,0.98);backdrop-filter:blur(20px);
+  border:1px solid var(--bd2);border-radius:14px;max-height:300px;overflow-y:auto;display:none;
+  box-shadow:0 20px 40px rgba(45,32,28,0.06)}
+#search-results.show{display:block}
+.sr-item{padding:11px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--bd);transition:background .1s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:#fff}
+.sr-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.sr-name{font-size:13px;font-weight:700;color:var(--tx);letter-spacing:-.1px}
+.sr-meta{font-size:10.5px;color:var(--mu);margin-left:auto;white-space:nowrap}
+
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+/* Gold highlighting */
+.node-g.highlighted-gold .node-ring {
+  opacity: 1 !important;
+  stroke: #ffd700 !important;
+  stroke-width: 3px !important;
+  stroke-dasharray: 4 4 !important;
+  animation: ring-spin-gold 4s linear infinite !important;
+}
+.node-g.highlighted-gold .node-glow {
+  opacity: 0.85 !important;
+  fill: #ffd700 !important;
+  transform-box: fill-box !important;
+  transform-origin: center !important;
+  animation: gold-glow-pulse 2s ease-in-out infinite !important;
+}
+@keyframes ring-spin-gold {
+  to { stroke-dashoffset: -40; }
+}
+@keyframes gold-glow-pulse {
+  0%, 100% {
+    opacity: 0.45 !important;
+    transform: scale(1.15);
+  }
+  50% {
+    opacity: 0.9 !important;
+    transform: scale(1.45);
+  }
+}
+
+/* Glassmorphic gold banner */
+#highlight-banner {
+  position: fixed;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.12), rgba(251, 248, 245, 0.95));
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #b45309;
+  transition: opacity 0.3s ease;
+}
+#highlight-banner.hidden {
+  display: none !important;
+}
+#highlight-banner-close {
+  background: rgba(217, 119, 6, 0.1);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  color: #b45309;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+  transition: all 0.15s;
+  margin-left: 4px;
+}
+#highlight-banner-close:hover {
+  background: rgba(217, 119, 6, 0.25);
+  color: #78350f;
+}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div id="loader"><div class="spin"></div><div class="ltxt">Loading knowledge graph…</div><div class="lsub">Fetching from /api/graph</div></div>
+
+<div id="highlight-banner" class="hidden">
+  <span id="highlight-banner-text"></span>
+  <button id="highlight-banner-close">✕</button>
+</div>
+
+<header id="hdr">
+  <div class="brand" id="home-btn"><div class="brand-ico">🌐</div><div class="brand-name">Archipelago</div><div class="brand-tag">OKF v1.6</div><div class="brand-tag" style="background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);color:#d97706" title="Pilot build: limited AI/ML corpus (~450 concepts); niche topics may be sparse.">PILOT · LIMITED CORPUS</div></div>
+  <div id="nav-tabs">
+    <button class="nav-tab active" id="tab-books" data-view="books">📚 Books</button>
+    <button class="nav-tab" id="tab-concepts" data-view="concepts">🔬 Concepts</button>
+    <button class="nav-tab" id="tab-crossbook" data-view="crossbook">🔗 Cross-Book</button>
+    <button class="nav-tab lib-tab" id="tab-librarian" data-view="librarian">📤 Librarian</button>
+  </div>
+  <button id="back-btn">← Books</button>
+  <div id="book-label"></div>
+  <div id="sw"><span class="sico">⌕</span><input id="srch" type="text" placeholder="Search concepts…" autocomplete="off"/></div>
+</header>
+
+
+<div id="search-results"></div>
+
+<div id="chip-bar" class="hidden">
+  <div class="chip on" data-r="all">All</div>
+  <div class="chip" data-r="requires">Requires</div>
+  <div class="chip" data-r="enables">Enables</div>
+  <div class="chip" data-r="uses">Uses</div>
+  <div class="chip" data-r="extends">Extends</div>
+  <div class="chip" data-r="part_of">Part Of</div>
+  <div class="chip" data-r="contrasts_with">Contrasts</div>
+  <div class="chip" data-r="evaluated_by">Eval By</div>
+</div>
+
+<div id="graph-wrap"><svg id="graph-svg"><defs></defs></svg></div>
+
+<aside id="flashcard">
+  <div class="fc-hero" id="fc-hero">
+    <button class="fc-close" id="fc-close">✕</button>
+    <div id="fc-badges" class="fc-badges"></div>
+    <div id="fc-title" class="fc-title"></div>
+    <div id="fc-summary" class="fc-summary"></div>
+  </div>
+  <div class="fc-body" id="fc-body">
+    <div class="fc-stats">
+      <div class="fc-stat"><div class="fc-stat-label">Degree</div><div id="fc-degree" class="fc-stat-val">—</div></div>
+      <div class="fc-stat"><div class="fc-stat-label">Sources</div><div id="fc-sources" class="fc-stat-val">—</div></div>
+    </div>
+    <div class="okf-section">
+      <div class="okf-title">OKF Extraction Details</div>
+      <div class="okf-group"><div class="okf-lbl">↑ Prerequisites</div><div id="fc-prereqs" class="okf-pills"></div></div>
+      <div class="okf-group"><div class="okf-lbl">↓ Unlocks</div><div id="fc-unlocks" class="okf-pills"></div></div>
+    </div>
+    <div id="fc-tags-sec" style="display:none"><div class="fc-section-title">🏷 Tags</div><div id="fc-tags" class="fc-tags"></div><div class="fc-divider"></div></div>
+    <div id="sec-requires" style="display:none"><div class="fc-section-title" style="color:var(--purple)">↑ Requires <span id="cnt-requires" class="fc-cnt"></span></div><ul id="list-requires" class="edge-list"></ul></div>
+    <div id="sec-enables" style="display:none"><div class="fc-section-title" style="color:var(--green)">↓ Enables <span id="cnt-enables" class="fc-cnt"></span></div><ul id="list-enables" class="edge-list"></ul></div>
+    <div id="sec-uses" style="display:none"><div class="fc-section-title" style="color:var(--blue)">◈ Uses <span id="cnt-uses" class="fc-cnt"></span></div><ul id="list-uses" class="edge-list"></ul></div>
+    <div id="sec-extends" style="display:none"><div class="fc-section-title" style="color:var(--orange)">⤳ Extends <span id="cnt-extends" class="fc-cnt"></span></div><ul id="list-extends" class="edge-list"></ul></div>
+    <div id="sec-part_of" style="display:none"><div class="fc-section-title" style="color:var(--pink)">⊂ Part Of <span id="cnt-part_of" class="fc-cnt"></span></div><ul id="list-part_of" class="edge-list"></ul></div>
+    <div id="sec-contrasts_with" style="display:none"><div class="fc-section-title" style="color:var(--red)">≠ Contrasts <span id="cnt-contrasts_with" class="fc-cnt"></span></div><ul id="list-contrasts_with" class="edge-list"></ul></div>
+    <div id="sec-evaluated_by" style="display:none"><div class="fc-section-title" style="color:var(--yellow)">📊 Eval By <span id="cnt-evaluated_by" class="fc-cnt"></span></div><ul id="list-evaluated_by" class="edge-list"></ul></div>
+    <div id="fc-src-sec" style="display:none"><div class="fc-divider"></div><div class="fc-section-title">📄 Sources</div><div id="fc-src"></div></div>
+  </div>
+</aside>
+
+<div id="tip"><div id="tip-name"></div><div id="tip-type"></div><div id="tip-summ"></div></div>
+<div id="zoom-ctrls"><button class="zb" id="z-in">+</button><button class="zb" id="z-out">−</button><button class="zb" id="z-reset" style="font-size:11px">⊙</button></div>
+<div id="stats-bar">
+  <div class="sb-item"><div class="live-dot"></div>&nbsp;LIVE</div>
+  <div class="sb-item"><strong id="st-n">—</strong>&nbsp;concepts</div>
+  <div class="sb-item"><strong id="st-e">—</strong>&nbsp;edges</div>
+  <div class="sb-item"><strong id="st-view">—</strong></div>
+  <div class="sb-item" style="color:var(--dm);font-size:8px" title="Real OKF data from okf_graph.json">📡 okf_graph.json</div>
+</div>
+
+<!-- ═══ LIBRARIAN OVERLAY PANEL ═══ -->
+<div id="librarian-panel">
+  <div style="max-width:980px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px">
+      <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,rgba(234,88,12,0.12),rgba(124,58,237,0.08));border:1px solid rgba(234,88,12,0.18);display:flex;align-items:center;justify-content:center;font-size:22px;">📚</div>
+      <div>
+        <h1 style="font-size:20px;font-weight:900;color:var(--tx);letter-spacing:-.5px">Librarian Console</h1>
+        <p style="font-size:12px;color:var(--mu);margin-top:2px">Staff only — ingest papers, add concepts &amp; wire edges. Students use Chat (query only).</p>
+      </div>
+    </div>
+    <!-- Librarian token gate -->
+    <div class="lib-card" id="lib-auth-card" style="margin-bottom:16px;max-width:520px">
+      <div class="lib-card-head">
+        <div class="lib-card-icon purple">🔑</div>
+        <div>
+          <div class="lib-card-title">Librarian access</div>
+          <div class="lib-card-sub">Mutating the corpus requires a librarian token (never used on the student chat page).</div>
+        </div>
+      </div>
+      <label class="lib-label" for="lib-token-input">Token</label>
+      <input class="lib-input" id="lib-token-input" type="password" placeholder="ARCHIPELAGO_LIBRARIAN_TOKEN" autocomplete="off">
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="lib-btn primary" id="lib-token-save" type="button">Save token</button>
+        <button class="lib-btn secondary" id="lib-token-clear" type="button">Clear</button>
+      </div>
+      <div id="lib-auth-status" class="lib-status info" style="margin-top:8px">Enter the librarian token to unlock upload / edit.</div>
+    </div>
+    <div class="lib-grid" id="lib-actions-grid">
+
+      <!-- ── CARD 1: PDF Upload ── -->
+      <div class="lib-card">
+        <div class="lib-card-head">
+          <div class="lib-card-icon orange">📄</div>
+          <div><div class="lib-card-title">Ingest a PDF</div><div class="lib-card-sub">Upload a paper or textbook. Archipelago will parse, extract concepts &amp; rebuild the graph.</div></div>
+        </div>
+        <label class="lib-drop" id="lib-drop-zone">
+          <div class="lib-drop-icon">☁️</div>
+          <div class="lib-drop-label" id="lib-drop-label">Drop a PDF here or click to browse</div>
+          <div class="lib-drop-hint">PDF, Markdown, or TXT · max 50 MB</div>
+          <input id="lib-pdf-input" type="file" accept="application/pdf,.pdf,.md,.markdown,.txt,text/markdown,text/plain" style="display:none">
+        </label>
+        <div id="lib-upload-status" class="lib-status"></div>
+        <ol class="lib-stages" id="lib-stages" style="display:none">
+          <li class="lib-stage" data-stage="queued"><span class="lib-dot"></span>Queued</li>
+          <li class="lib-stage" data-stage="parsing"><span class="lib-dot"></span>Parsing pages &amp; provenance</li>
+          <li class="lib-stage" data-stage="extracting"><span class="lib-dot"></span>Extracting concepts</li>
+          <li class="lib-stage" data-stage="canonicalizing"><span class="lib-dot"></span>Canonicalizing nodes</li>
+          <li class="lib-stage" data-stage="validating"><span class="lib-dot"></span>Validating graph &amp; citations</li>
+          <li class="lib-stage" data-stage="complete"><span class="lib-dot"></span>Complete — graph rebuilt</li>
+        </ol>
+        <div class="lib-elapsed" id="lib-elapsed" style="display:none"></div>
+        <button class="lib-btn primary" id="lib-upload-btn" disabled>⬆ Start Ingestion</button>
+        <button class="lib-btn secondary" id="lib-cancel-btn" style="display:none;margin-top:6px">✕ Cancel</button>
+      </div>
+
+      <!-- ── CARD 1b: Documents + Delete ── -->
+      <div class="lib-card">
+        <div class="lib-card-head">
+          <div class="lib-card-icon orange">🗑</div>
+          <div>
+            <div class="lib-card-title">Documents in graph</div>
+            <div class="lib-card-sub">List live documents and unmerge a book/paper (deletes chunks, provenance edges, orphan concepts).</div>
+          </div>
+        </div>
+        <button class="lib-btn secondary" id="lib-docs-refresh" type="button" style="margin-bottom:8px">↻ Refresh list</button>
+        <div id="lib-docs-list" class="lib-status info" style="max-height:220px;overflow:auto;white-space:pre-wrap">Click refresh to load documents.</div>
+        <label class="lib-label" for="lib-delete-id">Document id to delete</label>
+        <input class="lib-input" id="lib-delete-id" type="text" placeholder="e.g. papers/Hu2021_LoRA.pdf" autocomplete="off">
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mu);margin:8px 0">
+          <input type="checkbox" id="lib-delete-pdf"> Also remove file under pdfs/
+        </label>
+        <div id="lib-delete-status" class="lib-status"></div>
+        <button class="lib-btn primary" id="lib-delete-btn" type="button">Delete &amp; unmerge</button>
+      </div>
+
+      <!-- ── CARD 2: Add Concept ── -->
+      <div class="lib-card">
+        <div class="lib-card-head">
+          <div class="lib-card-icon purple">🔬</div>
+          <div><div class="lib-card-title">Add Concept Node</div><div class="lib-card-sub">Manually define a new concept and insert it directly into the graph.</div></div>
+        </div>
+        <label class="lib-label" for="lib-concept-name">Concept Name *</label>
+        <input class="lib-input" id="lib-concept-name" type="text" placeholder="e.g. Agentic System" autocomplete="off">
+        <label class="lib-label" for="lib-concept-type">Type *</label>
+        <select class="lib-select" id="lib-concept-type">
+          <option value="">— choose type —</option>
+          <option value="method">Method</option>
+          <option value="technique">Technique</option>
+          <option value="architecture">Architecture</option>
+          <option value="model">Model</option>
+          <option value="framework">Framework</option>
+          <option value="tool">Tool</option>
+          <option value="theory">Theory</option>
+          <option value="definition">Definition</option>
+          <option value="metric">Metric</option>
+          <option value="dataset">Dataset</option>
+          <option value="result">Result</option>
+          <option value="principle">Principle</option>
+        </select>
+        <label class="lib-label" for="lib-concept-diff">Difficulty *</label>
+        <select class="lib-select" id="lib-concept-diff">
+          <option value="">— choose level —</option>
+          <option value="foundational">Foundational</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+          <option value="expert">Expert</option>
+        </select>
+        <label class="lib-label" for="lib-concept-summary">Summary</label>
+        <textarea class="lib-textarea" id="lib-concept-summary" placeholder="Brief description of this concept…"></textarea>
+        <label class="lib-label" for="lib-concept-tags">Tags (comma-separated)</label>
+        <input class="lib-input" id="lib-concept-tags" type="text" placeholder="e.g. agents, planning, llm">
+        <div id="lib-concept-status" class="lib-status"></div>
+        <button class="lib-btn primary" id="lib-concept-btn">＋ Add Concept</button>
+      </div>
+
+      <!-- ── CARD 3: Add Edge ── -->
+      <div class="lib-card">
+        <div class="lib-card-head">
+          <div class="lib-card-icon green">🔗</div>
+          <div><div class="lib-card-title">Add Graph Edge</div><div class="lib-card-sub">Create a prerequisite, unlock, or related connection between two existing concepts.</div></div>
+        </div>
+        <label class="lib-label" for="lib-edge-from">From Concept *</label>
+        <input class="lib-input" id="lib-edge-from" type="text" placeholder="Source concept name" list="lib-concept-datalist" autocomplete="off">
+        <label class="lib-label" for="lib-edge-relation">Relation *</label>
+        <select class="lib-select" id="lib-edge-relation">
+          <option value="">— choose relation —</option>
+          <option value="requires">↑ requires (prerequisite)</option>
+          <option value="enables">↓ enables (unlocks)</option>
+          <option value="uses">◈ uses</option>
+          <option value="extends">⤳ extends</option>
+          <option value="part_of">⊂ part_of</option>
+          <option value="contrasts_with">≠ contrasts_with</option>
+          <option value="evaluated_by">📊 evaluated_by</option>
+        </select>
+        <label class="lib-label" for="lib-edge-to">To Concept *</label>
+        <input class="lib-input" id="lib-edge-to" type="text" placeholder="Target concept name" list="lib-concept-datalist" autocomplete="off">
+        <datalist id="lib-concept-datalist"></datalist>
+        <div id="lib-edge-status" class="lib-status"></div>
+        <button class="lib-btn primary" id="lib-edge-btn">🔗 Add Edge</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- ═══ END LIBRARIAN PANEL ═══ -->
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+// Escape data-derived (ingested/model) values before interpolating into innerHTML,
+// preventing markup/script injection from graph data. Handles & < > " '.
+function escapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+const BOOKS={
+  'papers/Devlin2018_BERT.pdf':{name:'BERT',full:'Pre-training of Deep Bidirectional Transformers',author:'Devlin et al.',year:2018,color:'#a78bfa',icon:'🧠'},
+  'papers/Edge2024_GraphRAG.pdf':{name:'GraphRAG',full:'Graph-Based Retrieval-Augmented Generation',author:'Edge et al.',year:2024,color:'#10b981',icon:'🕸️'},
+  'papers/Hu2021_LoRA.pdf':{name:'LoRA',full:'Low-Rank Adaptation of Large Language Models',author:'Hu et al.',year:2021,color:'#f97316',icon:'🔧'},
+  'papers/Lewis2020_RAG.pdf':{name:'RAG',full:'Retrieval-Augmented Generation',author:'Lewis et al.',year:2020,color:'#0ea5e9',icon:'📚'},
+  'papers/Vaswani2017_Attention_Is_All_You_Need.pdf':{name:'Attention',full:'Attention Is All You Need',author:'Vaswani et al.',year:2017,color:'#d946ef',icon:'⚡'},
+  'probable.pdf':{name:'Probable',full:'Probabilistic Methods & Soft-Target Fine-Tuning',author:'Research Paper',year:2024,color:'#f59e0b',icon:'🎲'},
+  'web_syllabi/AI_ML_Archipelago_Corpus_Seed.md':{name:'AI/ML Syllabi',full:'AI/ML Archipelago Corpus Seed',author:'Curated',year:2024,color:'#06b6d4',icon:'🗺️'},
+  'textbooks/Deisenroth_Math_For_ML.pdf':{name:'Math for ML',full:'Mathematics for Machine Learning',author:'Deisenroth et al.',year:2020,color:'#84cc16',icon:'📐'}
+};
+const EC={requires:'#a78bfa',enables:'#10b981',uses:'#0ea5e9',extends:'#f97316',part_of:'#d946ef',contrasts_with:'#ef4444',evaluated_by:'#f59e0b'};
+const EW={requires:1.6,enables:1.6,uses:1.2,extends:1.3,part_of:1.1,contrasts_with:1.1,evaluated_by:1.1};
+const TC={method:'#a78bfa',technique:'#0ea5e9',definition:'#c4b5fd',theory:'#f97316',metric:'#f59e0b',result:'#ef4444',dataset:'#818cf8',tool:'#10b981',architecture:'#d946ef',framework:'#14b8a6',model:'#f472b6',principle:'#fbbf24'};
+const EI={requires:'↑',enables:'↓',uses:'◈',extends:'⤳',part_of:'⊂',contrasts_with:'≠',evaluated_by:'📊'};
+
+let allNodes=[],allEdges=[],nodeMap={};
+let currentView='books'; // books | concepts | crossbook
+
+// Parse URL parameter highlighting at startup
+const urlParams = new URLSearchParams(window.location.search);
+const highlightParam = urlParams.get('highlight');
+if (highlightParam) {
+  window._highlightIds = highlightParam.split(',').map(id => id.trim()).filter(Boolean);
+}
+let currentBook=null;
+let simulation=null,svgZoom=null;
+let nSel=null,eSel=null;
+let flashcardOpen=false;
+
+// Starfield
+(()=>{const c=document.getElementById('stars'),ctx=c.getContext('2d');let st=[],raf;
+const rsz=()=>{c.width=innerWidth;c.height=innerHeight;st=Array.from({length:50},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1+.15,a:Math.random()*.3+.04,da:(Math.random()-.5)*.001}));};
+const draw=()=>{if(document.hidden){raf=requestAnimationFrame(draw);return;}ctx.clearRect(0,0,c.width,c.height);
+for(const s of st){s.a+=s.da;if(s.a<.04||s.a>.3)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(110,80,180,${s.a})`;ctx.fill();}raf=requestAnimationFrame(draw);};
+rsz();addEventListener('resize',rsz);raf=requestAnimationFrame(draw);})();
+
+const rid=x=>typeof x==='object'?x.id:x;
+function nR(d){const g=d._d||0;return g>=30?24:g>=15?16:g>=8?11:g>=4?7:g>=1?5:4;}
+function nC(d){return TC[d.concept_type]||'#c4b5fd';}
+function bk(id){return BOOKS[id]||{name:id.split('/').pop().replace('.pdf','').replace('.md',''),color:'#888',icon:'📄',author:'?',year:'',full:id};}
+
+// FETCH — tries local Flask API first, falls back to static json file for Vercel/static hosting
+fetch('/api/graph')
+  .then(r => {
+    if(!r.ok) throw new Error("API not active");
+    return r.json();
+  })
+  .catch(() => {
+    console.log("Flask API unavailable. Fetching static okf_graph.json...");
+    return fetch('./okf_graph.json').then(r => r.json());
+  })
+  .then(data => {
+    document.getElementById('loader').classList.add('gone');
+    setTimeout(() => document.getElementById('loader').style.display='none', 500);
+    processData(data);
+    if (window._highlightIds && window._highlightIds.length > 0) {
+      const presentCount = allNodes.filter(n => window._highlightIds.includes(n.id)).length;
+      if (presentCount > 0) {
+        let docName = '';
+        const docParam = urlParams.get('document');
+        if (docParam) {
+          docName = docParam.split('/').pop().replace('.pdf', '').replace('.md', '');
+        }
+        if (!docName) {
+          for (const id of window._highlightIds) {
+            const node = allNodes.find(n => n.id === id);
+            if (node && node.sources && node.sources.length > 0) {
+              const docId = node.sources[0].doc_id;
+              if (docId) {
+                docName = bk(docId).name;
+                break;
+              }
+            }
+          }
+        }
+        if (!docName) {
+          docName = 'Document';
+        }
+        const banner = document.getElementById('highlight-banner');
+        const bannerText = document.getElementById('highlight-banner-text');
+        bannerText.textContent = `${presentCount} new concepts added from ${docName}`;
+        banner.classList.remove('hidden');
+        const closeBtn = document.getElementById('highlight-banner-close');
+        closeBtn.onclick = () => {
+          banner.classList.add('hidden');
+        };
+      }
+      showConcepts(null);
+    } else {
+      showBooks();
+    }
+  })
+  .catch(e => {
+    document.querySelector('.ltxt').textContent = 'Error: ' + e.message;
+    document.querySelector('.lsub').textContent = 'Ensure okf_graph.json exists in this directory.';
+  });
+
+function processData(data){
+  // Check if raw okf_graph.json was loaded directly (normalize to visual graph format in browser)
+  if (data.visualization && data.edges) {
+    const nodes = data.visualization.nodes;
+    const edges = data.edges.map((e, i) => ({
+      id: e.id || `e${i}`,
+      source: e.from_id,
+      target: e.to_id,
+      relation: e.relation,
+      edge_type: e.edge_type,
+      source_ref: e.source || ""
+    }));
+    data = { nodes, edges };
+  }
+
+  allNodes=data.nodes || [];
+  allEdges=data.edges || [];
+  const deg={};
+  allEdges.forEach(e=>{deg[e.source]=(deg[e.source]||0)+1;deg[e.target]=(deg[e.target]||0)+1;});
+  allNodes.forEach(n=>{n._d=deg[n.id]||0;n._book=(n.sources&&n.sources.length)?n.sources[0].doc_id:'_other_';
+    n._books=new Set((n.sources||[]).map(s=>s.doc_id).filter(Boolean));if(!n._books.size)n._books.add('_other_');});
+  nodeMap={};allNodes.forEach(n=>nodeMap[n.id]=n);
+}
+
+function destroyGraph(){
+  if(simulation){simulation.stop();simulation=null;}
+  const svg=d3.select('#graph-svg');
+  svg.on('.zoom', null);
+  svg.selectAll('g.root').remove();
+  nSel=null;eSel=null;
+}
+
+function setTab(view){
+  currentView=view;
+  document.querySelectorAll('#nav-tabs .nav-tab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));
+}
+
+// ═══ TAB HANDLERS ═══
+document.getElementById('tab-books').onclick=()=>showBooks();
+document.getElementById('tab-concepts').onclick=()=>showConcepts(null);
+document.getElementById('tab-crossbook').onclick=()=>showCrossBook();
+document.getElementById('home-btn').onclick=()=>showBooks();
+document.getElementById('back-btn').onclick=()=>showBooks();
+
+// ═══ 1. BOOK GRAPH ═══
+function showBooks(){
+  setTab('books');currentBook=null;closeFlashcard();destroyGraph();
+  document.getElementById('chip-bar').classList.add('hidden');
+  document.getElementById('back-btn').style.display='none';
+  document.getElementById('book-label').style.display='none';
+
+  // Compute book stats & inter-book edges
+  const bs={};
+  allNodes.forEach(n=>n._books.forEach(b=>{if(b!=='_other_'){bs[b]=bs[b]||{nodes:0,edges:0};bs[b].nodes++;}}));
+  allEdges.forEach(e=>{const sn=nodeMap[e.source],tn=nodeMap[e.target];
+    if(sn&&tn)sn._books.forEach(b=>{if(b!=='_other_' && tn._books.has(b)){bs[b]=bs[b]||{nodes:0,edges:0};bs[b].edges++;}});});
+
+  // Cross-book edge counts — filter out '_other_'
+  const bp={};
+  allEdges.forEach(e=>{const sn=nodeMap[e.source],tn=nodeMap[e.target];
+    if(!sn||!tn)return;
+    sn._books.forEach(sb=>tn._books.forEach(tb=>{
+      if(sb!==tb && sb!=='_other_' && tb!=='_other_'){const k=[sb,tb].sort().join('|');bp[k]=(bp[k]||0)+1;}
+    }));
+  });
+
+  const bNodes=Object.keys(bs).map(id=>{
+    const info=bk(id);return{id,label:info.name,icon:info.icon,color:info.color,
+      author:info.author,year:info.year,full:info.full,nc:bs[id].nodes,ec:bs[id].edges,_d:bs[id].nodes};});
+  const bEdges=Object.entries(bp).map(([k,w])=>{const[s,t]=k.split('|');return{source:s,target:t,weight:w};});
+
+  const svg=d3.select('#graph-svg');const wrap=document.getElementById('graph-wrap');
+  let W=wrap.clientWidth,H=wrap.clientHeight;
+  const root=svg.append('g').attr('class','root');
+
+  svgZoom=d3.zoom().scaleExtent([.3,4]).on('zoom',ev=>root.attr('transform',ev.transform));
+  svg.call(svgZoom).on('dblclick.zoom',null);
+  svg.classed('locked',false);
+
+  const resetView=()=>svg.transition().duration(600)
+    .call(svgZoom.transform,d3.zoomIdentity.translate(W/2,H/2).scale(.85));
+  document.getElementById('z-in').onclick=()=>svg.transition().duration(300).call(svgZoom.scaleBy,1.4);
+  document.getElementById('z-out').onclick=()=>svg.transition().duration(300).call(svgZoom.scaleBy,1/1.4);
+  document.getElementById('z-reset').onclick=resetView;
+
+  const sim=d3.forceSimulation(bNodes)
+    .force('link',d3.forceLink(bEdges).id(d=>d.id).distance(180).strength(.5))
+    .force('charge',d3.forceManyBody().strength(-800))
+    .force('center',d3.forceCenter(0,0))
+    .force('collide',d3.forceCollide(85).strength(.7))
+    .alphaDecay(.03);
+  simulation=sim;
+  let st=setTimeout(()=>sim.stop(),5000);
+
+  // Edges between books
+  const eG=root.append('g');
+  const eS=eG.selectAll('.book-edge').data(bEdges).join('line')
+    .attr('class','book-edge')
+    .attr('stroke','rgba(200,200,255,.15)')
+    .attr('stroke-width',d=>Math.min(Math.max(d.weight/4,1.5),7));
+
+  // Book nodes
+  const nG=root.append('g');
+  const nS=nG.selectAll('.node-g').data(bNodes).join('g').attr('class','node-g')
+    .call(d3.drag().on('start',(e,d)=>{sim.alpha(.3).restart();clearTimeout(st);st=setTimeout(()=>sim.stop(),4000);d.fx=d.x;d.fy=d.y;})
+      .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;}).on('end',(e,d)=>{d.fx=null;d.fy=null;}));
+
+  nS.append('circle').attr('class','node-glow hub-glow').attr('r',d=>40+d.nc*.15).attr('fill',d=>d.color).attr('opacity',.08);
+  nS.append('circle').attr('class','node-core').attr('r',d=>25+d.nc*.12).attr('fill',d=>d.color)
+    .attr('stroke','rgba(255,255,255,.12)').attr('stroke-width',1);
+  nS.append('text').attr('class','book-label').attr('text-anchor','middle').attr('dy',-8).text(d=>`${d.icon} ${d.label}`);
+  nS.append('text').attr('class','book-sub').attr('text-anchor','middle').attr('dy',8).text(d=>`${d.author} ${d.year||''}`);
+  nS.append('text').attr('class','book-count').attr('text-anchor','middle').attr('dy',22).text(d=>`${d.nc} concepts · ${d.ec} edges`);
+
+  const tip=document.getElementById('tip');
+  nS.on('mousemove',(e,d)=>{tip.style.left=(e.clientX+16)+'px';tip.style.top=(e.clientY-10)+'px';
+    document.getElementById('tip-name').textContent=d.label;
+    document.getElementById('tip-type').textContent=d.full;
+    document.getElementById('tip-summ').textContent=`${d.nc} concepts · ${d.ec} internal edges · Click to explore`;
+    tip.classList.add('v');})
+    .on('mouseleave',()=>tip.classList.remove('v'))
+    .on('click',(e,d)=>{e.stopPropagation();showConcepts(d.id);});
+
+  sim.on('tick',()=>{
+    eS.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    nS.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+
+  setTimeout(()=>{W=wrap.clientWidth;H=wrap.clientHeight;resetView();},120);
+  addEventListener('resize',()=>{W=wrap.clientWidth;H=wrap.clientHeight;});
+
+  document.getElementById('st-n').textContent=allNodes.length;
+  document.getElementById('st-e').textContent=allEdges.length;
+  document.getElementById('st-view').textContent='Books Overview';
+}
+
+// ═══ 2. CONCEPTS GRAPH (per-book or all) ═══
+function showConcepts(bookId){
+  setTab('concepts');currentBook=bookId;closeFlashcard();destroyGraph();
+  document.getElementById('chip-bar').classList.remove('hidden');
+
+  if(bookId){
+    const info=bk(bookId);
+    document.getElementById('back-btn').style.display='';
+    document.getElementById('book-label').style.display='';
+    document.getElementById('book-label').textContent=`${info.icon} ${info.name} — ${info.author} ${info.year||''}`;
+    document.getElementById('book-label').style.color=info.color;
+  } else {
+    document.getElementById('back-btn').style.display='none';
+    document.getElementById('book-label').style.display='';
+    document.getElementById('book-label').textContent='🌐 All Concepts';
+    document.getElementById('book-label').style.color='var(--tx2)';
+  }
+
+  let fN,fE;
+  if(bookId){
+    const bids=new Set();
+    const prim=allNodes.filter(n=>{if(n._books.has(bookId)){bids.add(n.id);return true;}return false;});
+    const intE=allEdges.filter(e=>bids.has(e.source)&&bids.has(e.target));
+    const xE=allEdges.filter(e=>{const s=bids.has(e.source),t=bids.has(e.target);return(s&&!t)||(t&&!s);});
+    const gids=new Set();xE.forEach(e=>{if(!bids.has(e.source))gids.add(e.source);if(!bids.has(e.target))gids.add(e.target);});
+    const ghosts=allNodes.filter(n=>gids.has(n.id)).map(n=>({...n,_ghost:true}));
+    fN=[...prim,...ghosts];fE=[...intE,...xE.map(e=>({...e,_external:true}))];
+  } else {fN=[...allNodes];fE=[...allEdges];}
+
+  const nodes=fN.map(n=>({...n}));const edges=fE.map(e=>({...e}));
+  const nm={};nodes.forEach(n=>nm[n.id]=n);
+  buildConceptGraph(nodes,edges,nm,bookId);
+}
+
+function buildConceptGraph(nodes,edges,nm,bookId){
+  const svg=d3.select('#graph-svg');const wrap=document.getElementById('graph-wrap');
+  let W=wrap.clientWidth,H=wrap.clientHeight;
+  const root=svg.append('g').attr('class','root');
+  const isLarge=nodes.length>200;
+
+  svgZoom=d3.zoom().scaleExtent([.03,8]).on('zoom',ev=>{
+    if(!flashcardOpen)root.attr('transform',ev.transform);
+  });
+  svg.call(svgZoom).on('dblclick.zoom',null);
+  svg.classed('locked',false);
+
+  const resetV=()=>svg.transition().duration(600).call(svgZoom.transform,d3.zoomIdentity.translate(W/2,H/2).scale(bookId?.5:.22));
+  document.getElementById('z-in').onclick=()=>{if(!flashcardOpen)svg.transition().duration(300).call(svgZoom.scaleBy,1.4);};
+  document.getElementById('z-out').onclick=()=>{if(!flashcardOpen)svg.transition().duration(300).call(svgZoom.scaleBy,1/1.4);};
+  document.getElementById('z-reset').onclick=resetV;
+
+  const sim=d3.forceSimulation(nodes)
+    .force('link',d3.forceLink(edges).id(d=>d.id).distance(d=>{
+      const s=typeof d.source==='object'?d.source:nm[d.source];const t=typeof d.target==='object'?d.target:nm[d.target];
+      return isLarge?60+(s?._d||0)*1.2+(t?._d||0)*1.2:80+(s?._d||0)*2+(t?._d||0)*2;}).strength(isLarge?.25:.4))
+    .force('charge',d3.forceManyBody().strength(d=>isLarge?-80-d._d*4:-160-d._d*10))
+    .force('center',d3.forceCenter(0,0).strength(.8))
+    .force('collide',d3.forceCollide().radius(d=>nR(d)+(isLarge?8:16)).strength(.5))
+    .alphaDecay(isLarge?.04:.025);
+
+  if(!bookId&&nodes.length>50){
+    const bkIds=[...new Set(nodes.map(n=>n._book))];const ctrs={};
+    bkIds.forEach((b,i)=>{const a=(2*Math.PI*i)/bkIds.length;const r=Math.min(W,H)*.6;ctrs[b]={x:Math.cos(a)*r,y:Math.sin(a)*r};});
+    sim.force('cluster',al=>{nodes.forEach(n=>{const c=ctrs[n._book];if(c){n.vx+=(c.x-n.x)*al*.04;n.vy+=(c.y-n.y)*al*.04;}});});
+  }
+  simulation=sim;
+  let st=setTimeout(()=>sim.stop(),isLarge?5000:7000);
+  function wake(){sim.alpha(.25).restart();clearTimeout(st);st=setTimeout(()=>sim.stop(),5000);}
+
+  // Edges — straight lines, NO markers/triangles
+  const eG=root.append('g');
+  const eS=eG.selectAll('.edge-line').data(edges).join('line')
+    .attr('class',d=>`edge-line e-${d.relation}${d._external?' external':''}`)
+    .attr('stroke',d=>EC[d.relation]||'#666')
+    .attr('stroke-width',d=>d._external?(EW[d.relation]||1)*.7:(EW[d.relation]||1))
+    .attr('stroke-opacity',d=>d._external?.15:.4);
+  eSel=eS;
+
+  // Nodes
+  const nG=root.append('g');
+  const nS=nG.selectAll('.node-g').data(nodes).join('g')
+    .attr('class',d=>d._ghost?'node-g ghost':'node-g')
+    .classed('highlighted-gold', d => window._highlightIds && window._highlightIds.includes(d.id))
+    .call(d3.drag().on('start',(e,d)=>{wake();d.fx=d.x;d.fy=d.y;})
+      .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y;}).on('end',(e,d)=>{d.fx=null;d.fy=null;}));
+  nSel=nS;
+
+  nS.append('circle').attr('class',d=>d._d>=15?'node-glow hub-glow':'node-glow')
+    .attr('r',d=>nR(d)*(d._d>=15?2.2:1.6)).attr('fill',d=>nC(d)).attr('opacity',d=>d._d>=30?.14:d._d>=15?.1:.05);
+  nS.append('circle').attr('class','node-ring').attr('r',d=>nR(d)+8).attr('stroke',d=>nC(d));
+  nS.append('circle').attr('class','node-core').attr('r',d=>nR(d)).attr('fill',d=>nC(d));
+
+  const lt=isLarge?6:2;
+  nS.filter(d=>d._d>=lt||d._ghost).append('text').attr('class','node-label')
+    .attr('dy',d=>nR(d)+11).attr('text-anchor','middle')
+    .text(d=>{const n=d.label||d.id;return n.length>20?n.slice(0,19)+'…':n;});
+  nS.filter(d=>d._ghost).append('text').attr('class','ghost-book-tag')
+    .attr('dy',d=>nR(d)+20).attr('text-anchor','middle').text(d=>bk(d._book).name);
+
+  const tip=document.getElementById('tip');
+  nS.on('mousemove',(e,d)=>{tip.style.left=(e.clientX+18)+'px';tip.style.top=(e.clientY-12)+'px';
+    document.getElementById('tip-name').textContent=d.label||d.id;
+    const gt=d._ghost?` · from ${bk(d._book).name}`:'';
+    document.getElementById('tip-type').textContent=`${d.concept_type||'?'} · ${d.difficulty||'?'} · ${d._d} edges${gt}`;
+    document.getElementById('tip-summ').textContent=d._ghost?`Click to explore in ${bk(d._book).name}`:(d.summary||'');
+    tip.classList.add('v');})
+    .on('mouseleave',()=>tip.classList.remove('v'))
+    .on('click',(e,d)=>{e.stopPropagation();
+      if(d._ghost){showConcepts(d._book);setTimeout(()=>{const g=window._gNM&&window._gNM[d.id];if(g)openFC(g);},500);}
+      else openFC(d);});
+  svg.on('click',()=>{closeFlashcard();clearHL();});
+
+  sim.on('tick',()=>{
+    eS.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    nS.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+
+  setTimeout(()=>{W=wrap.clientWidth;H=wrap.clientHeight;resetV();},120);
+  addEventListener('resize',()=>{W=wrap.clientWidth;H=wrap.clientHeight;});
+
+  if (window._highlightIds && window._highlightIds.length > 0) {
+    setTimeout(() => {
+      if (simulation !== sim) return;
+      const curW = wrap.clientWidth;
+      const curH = wrap.clientHeight;
+      const highlightedNodes = nodes.filter(d => window._highlightIds.includes(d.id));
+      if (highlightedNodes.length > 0) {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        highlightedNodes.forEach(d => {
+          const r = nR(d) + 40;
+          if (d.x - r < minX) minX = d.x - r;
+          if (d.x + r > maxX) maxX = d.x + r;
+          if (d.y - r < minY) minY = d.y - r;
+          if (d.y + r > maxY) maxY = d.y + r;
+        });
+
+        const dx = maxX - minX;
+        const dy = maxY - minY;
+        const cx = (minX + maxX) / 2;
+        const cy = (minY + maxY) / 2;
+
+        const viewportPadding = 100;
+        const availableW = curW - viewportPadding * 2;
+        const availableH = curH - viewportPadding * 2;
+
+        const boxW = dx > 0 ? dx : 120;
+        const boxH = dy > 0 ? dy : 120;
+
+        let scale = Math.min(availableW / boxW, availableH / boxH);
+        scale = Math.min(Math.max(scale, 0.15), 2.0);
+
+        const tx = curW / 2 - scale * cx;
+        const ty = curH / 2 - scale * cy;
+
+        const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+        svg.transition().duration(1200).call(svgZoom.transform, transform);
+      }
+    }, 800);
+  }
+
+  // Chips
+  document.querySelectorAll('.chip').forEach(ch=>{
+    ch.onclick=()=>{const r=ch.dataset.r;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+      ch.classList.add('on');eS.style('display',r==='all'?null:l=>l.relation===r?null:'none');};});
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  document.querySelector('.chip[data-r=all]').classList.add('on');
+
+  function hlNode(id){const conn=new Set([id]);edges.forEach(l=>{const s=rid(l.source),t=rid(l.target);
+    if(s===id||t===id){conn.add(s);conn.add(t);}});
+    nS.classed('dim',nd=>!conn.has(nd.id)).classed('sel',nd=>nd.id===id);
+    eS.classed('dim',l=>!(rid(l.source)===id||rid(l.target)===id)).classed('hl',l=>rid(l.source)===id||rid(l.target)===id);}
+  function clearHL(){if(nSel)nSel.classed('dim',false).classed('sel',false);if(eSel)eSel.classed('dim',false).classed('hl',false);}
+  window._hlNode=hlNode;window._clearHL=clearHL;window._gNM=nm;window._gEdges=edges;
+
+  document.getElementById('st-n').textContent=nodes.length;
+  document.getElementById('st-e').textContent=edges.length;
+  document.getElementById('st-view').textContent=bookId?bk(bookId).name:'All Concepts';
+  document.getElementById('srch').placeholder=`Search ${nodes.length} concepts…`;
+}
+
+// ═══ 3. CROSS-BOOK GRAPH ═══
+function showCrossBook(){
+  setTab('crossbook');currentBook=null;closeFlashcard();destroyGraph();
+  document.getElementById('chip-bar').classList.remove('hidden');
+  document.getElementById('back-btn').style.display='none';
+  document.getElementById('book-label').style.display='';
+  document.getElementById('book-label').textContent='🔗 Cross-Book Connections';
+  document.getElementById('book-label').style.color='var(--cyan)';
+
+  // Find concepts with edges crossing book boundaries
+  const crossEdges=allEdges.filter(e=>{
+    const sn=nodeMap[e.source],tn=nodeMap[e.target];
+    if(!sn||!tn)return false;
+    return sn._book!==tn._book;
+  });
+  const crossIds=new Set();
+  crossEdges.forEach(e=>{crossIds.add(e.source);crossIds.add(e.target);});
+  const crossNodes=allNodes.filter(n=>crossIds.has(n.id));
+
+  const nodes=crossNodes.map(n=>({...n}));const edges=crossEdges.map(e=>({...e}));
+  const nm={};nodes.forEach(n=>nm[n.id]=n);
+  buildConceptGraph(nodes,edges,nm,null);
+
+  document.getElementById('st-n').textContent=nodes.length;
+  document.getElementById('st-e').textContent=edges.length;
+  document.getElementById('st-view').textContent='Cross-Book';
+}
+
+// ═══ FLASHCARD ═══
+function openFC(d){
+  flashcardOpen=true;
+  // Disable zoom while flashcard is open
+  d3.select('#graph-svg').on('.zoom',null);
+
+  const panel=document.getElementById('flashcard');
+  const gc=TC[d.concept_type]||'#a78bfa';
+  document.getElementById('fc-hero').style.background=`linear-gradient(180deg,${gc}08 0%,transparent 100%)`;
+  panel.style.borderColor=`${gc}25`;
+  document.getElementById('fc-badges').innerHTML=`<div class="badge bd-${escapeHtml(d.difficulty||'intermediate')}">${escapeHtml(d.difficulty||'?')}</div><div class="badge bd-type" style="background:${gc}0d;color:${gc};border:1px solid ${gc}20">${escapeHtml(d.concept_type||'?')}</div>`;
+  document.getElementById('fc-title').textContent=d.label||d.id;
+  document.getElementById('fc-summary').textContent=d.summary||'No summary extracted by the model.';
+  document.getElementById('fc-degree').textContent=(d._d||d.degree||0)+' edges';
+  document.getElementById('fc-sources').textContent=(d.source_count||d.sources?.length||0)+' papers';
+
+  const prereqs=d.prerequisites||[];const unlocks=d.unlocks||[];
+  document.getElementById('fc-prereqs').innerHTML=prereqs.length?prereqs.map(p=>`<span class="okf-pill prereq" data-name="${escapeHtml(p)}">↑ ${escapeHtml(p)}</span>`).join(''):'<span class="okf-empty">none extracted</span>';
+  document.getElementById('fc-unlocks').innerHTML=unlocks.length?unlocks.map(u=>`<span class="okf-pill unlock" data-name="${escapeHtml(u)}">↓ ${escapeHtml(u)}</span>`).join(''):'<span class="okf-empty">none extracted</span>';
+  document.querySelectorAll('.okf-pill').forEach(p=>{p.onclick=()=>{const nm2=window._gNM||nodeMap;const name=p.dataset.name.toLowerCase();
+    const f=Object.values(nm2).find(n=>(n.label||n.id).toLowerCase().includes(name));if(f)openFC(f);};});
+
+  const tags=d.tags||[];
+  if(tags.length){document.getElementById('fc-tags').innerHTML=tags.map(t=>`<span class="fc-tag">${escapeHtml(t)}</span>`).join('');document.getElementById('fc-tags-sec').style.display='';}
+  else document.getElementById('fc-tags-sec').style.display='none';
+
+  const gE=window._gEdges||allEdges;
+  const cats={requires:[],enables:[],uses:[],extends:[],part_of:[],contrasts_with:[],evaluated_by:[]};
+  gE.forEach(l=>{const s=rid(l.source),t=rid(l.target),r=l.relation;if(!cats[r])return;
+    const gNM=window._gNM||nodeMap;
+    if(s===d.id){const n=gNM[t];if(n)cats[r].push({node:n,dir:'out',rel:r});}
+    if(t===d.id){const n=gNM[s];if(n)cats[r].push({node:n,dir:'in',rel:r});}});
+
+  Object.keys(cats).forEach(rel=>{const items=cats[rel];const sec=document.getElementById('sec-'+rel);
+    const list=document.getElementById('list-'+rel);const cnt=document.getElementById('cnt-'+rel);
+    cnt.textContent=items.length;list.innerHTML='';
+    if(!items.length){sec.style.display='none';return;}
+    items.slice(0,12).forEach(({node,dir,rel:r})=>{if(!node)return;
+      const li=document.createElement('li');li.className='edge-item';
+      li.innerHTML=`<span class="edge-arrow" style="color:${EC[r]||'#888'}">${EI[r]||'·'}</span><span class="edge-name">${escapeHtml(node.label||node.id)}</span><span class="edge-rel" style="color:${EC[r]||'#888'}">${dir==='out'?'→':'←'}${escapeHtml(r)}</span>`;
+      li.onclick=ev=>{ev.stopPropagation();openFC(node);};list.appendChild(li);});
+    sec.style.display='';});
+
+  const srcs=d.sources||[];
+  if(srcs.length){document.getElementById('fc-src').innerHTML=srcs.map(s=>{const p=(s.text_passage||'').trim();
+    const h=p?`<div class="src-highlight">${escapeHtml(p)}</div>`:'';
+    return`<div class="src-box"><span class="doc">${escapeHtml((s.doc_id||'').split('/').pop())}</span> · ${escapeHtml(s.chunk_id||'')} · p${escapeHtml(s.page_number||'?')}<br><span style="color:#44447a;font-size:8.5px">${escapeHtml(s.section_title||'')}</span>${h}</div>`;}).join('');
+    document.getElementById('fc-src-sec').style.display='';}
+  else document.getElementById('fc-src-sec').style.display='none';
+
+  panel.classList.add('open');
+  if(window._hlNode)window._hlNode(d.id);
+}
+
+function closeFlashcard(){
+  flashcardOpen=false;
+  document.getElementById('flashcard').classList.remove('open');
+  // Re-enable zoom
+  if(svgZoom){const svg=d3.select('#graph-svg');svg.call(svgZoom);}
+}
+document.getElementById('fc-close').onclick=()=>{closeFlashcard();if(window._clearHL)window._clearHL();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeFlashcard();if(window._clearHL)window._clearHL();}});
+
+
+// ═══ SEARCH ═══
+const srchI=document.getElementById('srch'),srchR=document.getElementById('search-results');
+srchI.addEventListener('input',function(){const q=this.value.trim().toLowerCase();
+  if(!q||q.length<2){srchR.classList.remove('show');return;}
+  const matches=allNodes.filter(n=>(n.label||n.id).toLowerCase().includes(q)||(n.summary||'').toLowerCase().includes(q)).slice(0,8);
+  if(!matches.length){srchR.classList.remove('show');return;}
+  srchR.innerHTML=matches.map(n=>{const c=TC[n.concept_type]||'#888';
+    return`<div class="sr-item" data-id="${escapeHtml(n.id)}"><div class="sr-dot" style="background:${c};box-shadow:0 0 6px ${c}50"></div><div class="sr-name">${escapeHtml(n.label||n.id)}</div><div class="sr-meta">${escapeHtml(n.concept_type||'?')} · ${escapeHtml(n._d)} edges</div></div>`;}).join('');
+  const rect=document.getElementById('sw').getBoundingClientRect();
+  srchR.style.top=(rect.bottom+4)+'px';srchR.style.left=rect.left+'px';srchR.style.width=rect.width+'px';
+  srchR.classList.add('show');
+  srchR.querySelectorAll('.sr-item').forEach(item=>{item.onclick=()=>{const node=nodeMap[item.dataset.id];if(!node)return;
+    srchR.classList.remove('show');srchI.value='';
+    const bookId=[...node._books][0];showConcepts(bookId);
+    setTimeout(()=>{const gn=window._gNM&&window._gNM[node.id];if(gn)openFC(gn);},500);};});});
+srchI.addEventListener('blur',()=>{setTimeout(()=>srchR.classList.remove('show'),200);});
+
+// ═══ LIBRARIAN TAB (staff only — students use Chat for queries) ═══
+(function(){
+  // The inference server (which owns /api/ingest and /api/manual/*) runs on port 5051.
+  const INFER_HOST = `${location.protocol}//${location.hostname}:5051`;
+  const TOKEN_KEY = 'archipelago_librarian_token';
+
+  const panel   = document.getElementById('librarian-panel');
+  const graphW  = document.getElementById('graph-wrap');
+  const chipBar = document.getElementById('chip-bar');
+  const statsBar= document.getElementById('stats-bar');
+  const flashC  = document.getElementById('flashcard');
+  const actionsGrid = document.getElementById('lib-actions-grid');
+  const authStatus = document.getElementById('lib-auth-status');
+  const tokenInput = document.getElementById('lib-token-input');
+
+  function getLibrarianToken() {
+    return (sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY) || '').trim();
+  }
+  function setLibrarianToken(tok) {
+    const t = (tok || '').trim();
+    if (t) {
+      sessionStorage.setItem(TOKEN_KEY, t);
+      localStorage.setItem(TOKEN_KEY, t);
+    } else {
+      sessionStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(TOKEN_KEY);
+    }
+  }
+  function librarianHeaders(extra) {
+    const h = Object.assign({}, extra || {});
+    const tok = getLibrarianToken();
+    if (tok) {
+      h['Authorization'] = `Bearer ${tok}`;
+      h['X-Librarian-Token'] = tok;
+    }
+    return h;
+  }
+  function refreshAuthUI() {
+    const tok = getLibrarianToken();
+    const unlocked = !!tok;
+    if (actionsGrid) {
+      actionsGrid.style.opacity = unlocked ? '1' : '0.45';
+      actionsGrid.style.pointerEvents = unlocked ? 'auto' : 'none';
+    }
+    if (authStatus) {
+      authStatus.textContent = unlocked
+        ? 'Librarian token saved — upload & graph edits unlocked for this browser.'
+        : 'Enter the librarian token to unlock upload / edit. Student chat never sees this.';
+      authStatus.className = `lib-status ${unlocked ? 'ok' : 'info'}`;
+    }
+    if (tokenInput && tok && !tokenInput.value) tokenInput.placeholder = '•••••••• (saved)';
+  }
+  document.getElementById('lib-token-save')?.addEventListener('click', () => {
+    setLibrarianToken(tokenInput?.value || '');
+    refreshAuthUI();
+  });
+  document.getElementById('lib-token-clear')?.addEventListener('click', () => {
+    setLibrarianToken('');
+    if (tokenInput) tokenInput.value = '';
+    refreshAuthUI();
+  });
+  refreshAuthUI();
+
+  // Show/hide librarian overlay
+  function openLibrarian() {
+    panel.classList.add('open');
+    if(graphW)  graphW.style.visibility='hidden';
+    if(chipBar) chipBar.style.visibility='hidden';
+    if(statsBar)statsBar.style.visibility='hidden';
+    if(flashC)  flashC.classList.remove('open');
+    document.getElementById('srch').parentElement.style.display='none';
+    document.getElementById('back-btn').style.display='none';
+    document.getElementById('book-label').style.display='none';
+    populateConceptDatalist();
+    refreshAuthUI();
+  }
+  function closeLibrarian() {
+    panel.classList.remove('open');
+    if(graphW)  graphW.style.visibility='';
+    if(chipBar) chipBar.style.visibility='';
+    if(statsBar)statsBar.style.visibility='';
+    document.getElementById('srch').parentElement.style.display='';
+  }
+
+  document.getElementById('tab-librarian').onclick = () => {
+    document.querySelectorAll('#nav-tabs .nav-tab').forEach(t=>t.classList.toggle('active', t===document.getElementById('tab-librarian')));
+    openLibrarian();
+  };
+  // Clicking other tabs closes librarian
+  ['tab-books','tab-concepts','tab-crossbook'].forEach(id => {
+    const orig = document.getElementById(id).onclick;
+    document.getElementById(id).addEventListener('click', closeLibrarian);
+  });
+  document.getElementById('home-btn').addEventListener('click', closeLibrarian);
+
+  // ── Populate concept datalist for edge form ──
+  function populateConceptDatalist() {
+    const dl = document.getElementById('lib-concept-datalist');
+    dl.innerHTML = allNodes.map(n => `<option value="${escapeHtml(n.label||n.id)}"></option>`).join('');
+  }
+
+  // ── PDF Upload ──
+  let pdfFile = null;
+  let pollTimer = null;
+  const dropZone  = document.getElementById('lib-drop-zone');
+  const pdfInput  = document.getElementById('lib-pdf-input');
+  const dropLabel = document.getElementById('lib-drop-label');
+  const uploadBtn = document.getElementById('lib-upload-btn');
+  const cancelBtn = document.getElementById('lib-cancel-btn');
+  const uploadStatus = document.getElementById('lib-upload-status');
+  const stagesEl = document.getElementById('lib-stages');
+  const elapsedEl= document.getElementById('lib-elapsed');
+
+  function setUploadStatus(msg, type) {
+    uploadStatus.textContent = msg;
+    uploadStatus.className = `lib-status ${type || 'info'}`;
+  }
+  function resetStages() {
+    stagesEl.style.display='none';
+    stagesEl.querySelectorAll('.lib-stage').forEach(s=>{ s.removeAttribute('data-state'); });
+    elapsedEl.style.display='none';
+    elapsedEl.textContent='';
+  }
+  function setStage(name, state) {
+    stagesEl.style.display='block';
+    const all = [...stagesEl.querySelectorAll('.lib-stage')];
+    const idx = all.findIndex(s=>s.dataset.stage===name);
+    all.forEach((s,i) => {
+      if(i < idx) s.dataset.state='done';
+      else if(i===idx) s.dataset.state=state;
+      else s.removeAttribute('data-state');
+    });
+  }
+
+  dropZone.addEventListener('click', () => pdfInput.click());
+  pdfInput.addEventListener('change', () => {
+    const f = pdfInput.files[0];
+    if(f && isAllowedUpload(f)){ pdfFile=f; dropLabel.textContent=f.name; uploadBtn.disabled=false; }
+    else if(f){ setUploadStatus('Supported: PDF, Markdown (.md), plain text (.txt).','err'); }
+  });
+  ['dragenter','dragover'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('drag-over'); }));
+  ['dragleave','drop'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('drag-over'); }));
+  function isAllowedUpload(f){
+    if(!f) return false;
+    const n = (f.name||'').toLowerCase();
+    return n.endsWith('.pdf') || n.endsWith('.md') || n.endsWith('.markdown') || n.endsWith('.txt')
+      || f.type==='application/pdf' || f.type==='text/markdown' || f.type==='text/plain';
+  }
+  dropZone.addEventListener('drop', e => {
+    const f = [...e.dataTransfer.files].find(isAllowedUpload);
+    if(!f){setUploadStatus('Supported: PDF, Markdown (.md), plain text (.txt).','err');return;}
+    pdfFile=f; dropLabel.textContent=f.name; uploadBtn.disabled=false;
+    const dt=new DataTransfer(); dt.items.add(f); pdfInput.files=dt.files;
+  });
+
+  let jobStarted = null;
+  function tickElapsed() {
+    if(!jobStarted) return;
+    const s = Math.floor((Date.now()-jobStarted)/1000);
+    elapsedEl.textContent = `Elapsed: ${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    elapsedEl.style.display='block';
+  }
+
+  async function pollJob(jobId) {
+    try {
+      const r = await fetch(`${INFER_HOST}/api/ingest/${encodeURIComponent(jobId)}`, {
+        headers: librarianHeaders({Accept:'application/json'})
+      });
+      if(!r.ok) throw new Error(`Poll failed (${r.status})`);
+      const j = await r.json();
+      const status = (j.status||'').toLowerCase();
+      if(status==='complete'||status==='completed'){
+        setStage('complete','done');
+        setUploadStatus('✓ Ingestion complete! Reload the graph to see new concepts.','ok');
+        cancelBtn.style.display='none';
+        uploadBtn.disabled=false;
+        clearInterval(pollTimer);
+        return;
+      }
+      if(status==='error'||status==='failed'){
+        setUploadStatus(`Ingestion failed: ${j.error||j.message||'unknown error'}`, 'err');
+        cancelBtn.style.display='none';
+        uploadBtn.disabled=false;
+        clearInterval(pollTimer);
+        return;
+      }
+      const stageMap = {queued:'queued',parsing:'parsing',extracting:'extracting',
+        canonicalizing:'canonicalizing',validating:'validating'};
+      const s = stageMap[status] || 'queued';
+      setStage(s, 'active');
+      setUploadStatus(`In progress — ${status}…`, 'info');
+    } catch(err) {
+      setUploadStatus(`Poll error: ${err.message}`, 'err');
+    }
+    tickElapsed();
+  }
+
+  uploadBtn.addEventListener('click', async () => {
+    if(!pdfFile) return;
+    if(!getLibrarianToken()){
+      setUploadStatus('Save a librarian token first (top of this panel). Students cannot upload.','err');
+      return;
+    }
+    uploadBtn.disabled=true;
+    cancelBtn.style.display='block';
+    resetStages();
+    jobStarted = Date.now();
+    setStage('queued','active');
+    setUploadStatus('Submitting to ingestion service…','info');
+    try {
+      const fd = new FormData(); fd.append('file', pdfFile);
+      const r = await fetch(`${INFER_HOST}/api/ingest`, {
+        method:'POST',
+        headers: librarianHeaders(),
+        body:fd
+      });
+      if(r.status===401) throw new Error('Unauthorized — check librarian token');
+      if(!r.ok) throw new Error(`Upload rejected (${r.status})`);
+      const j = await r.json();
+      const jobId = j.job_id || j.id;
+      if(!jobId) throw new Error('No job ID returned by ingestion service.');
+      setUploadStatus(`Job started (${jobId.slice(0,8)}…) — polling for progress…`, 'info');
+      pollTimer = setInterval(() => pollJob(jobId), 2200);
+    } catch(err) {
+      setUploadStatus(`Error: ${err.message}`, 'err');
+      cancelBtn.style.display='none';
+      uploadBtn.disabled=false;
+      resetStages();
+    }
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    clearInterval(pollTimer);
+    cancelBtn.style.display='none';
+    uploadBtn.disabled=false;
+    setUploadStatus('Cancelled.','err');
+    resetStages();
+  });
+
+  // ── Document list + delete / unmerge ──
+  const docsListEl = document.getElementById('lib-docs-list');
+  const deleteStatus = document.getElementById('lib-delete-status');
+  async function refreshDocList(){
+    if(!docsListEl) return;
+    docsListEl.textContent = 'Loading…';
+    try {
+      const r = await fetch(`${INFER_HOST}/api/documents`, {headers: librarianHeaders({Accept:'application/json'})});
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      const j = await r.json();
+      const docs = j.documents || [];
+      if(!docs.length){ docsListEl.textContent = 'No documents in graph.'; return; }
+      docsListEl.innerHTML = docs.map(d => {
+        const id = escapeHtml(d.id||'');
+        const title = escapeHtml(d.title||d.id||'');
+        const n = d.chunk_count!=null ? d.chunk_count : '?';
+        return `<div style="margin:4px 0;padding:6px 8px;border:1px solid rgba(255,255,255,.08);border-radius:8px;cursor:pointer" data-doc-id="${id}">
+          <div style="font-weight:700;font-size:12px;color:var(--tx)">${title}</div>
+          <div style="font-size:11px;color:var(--mu)">${id} · ${n} chunks</div>
+        </div>`;
+      }).join('');
+      docsListEl.querySelectorAll('[data-doc-id]').forEach(el => {
+        el.addEventListener('click', () => {
+          const inp = document.getElementById('lib-delete-id');
+          if(inp) inp.value = el.getAttribute('data-doc-id') || '';
+        });
+      });
+    } catch(err) {
+      docsListEl.textContent = `Failed to list documents: ${err.message}`;
+    }
+  }
+  document.getElementById('lib-docs-refresh')?.addEventListener('click', () => {
+    if(!getLibrarianToken()){
+      if(docsListEl) docsListEl.textContent = 'Save a librarian token first.';
+      return;
+    }
+    refreshDocList();
+  });
+  document.getElementById('lib-delete-btn')?.addEventListener('click', async () => {
+    const docId = (document.getElementById('lib-delete-id')?.value || '').trim();
+    if(!docId){
+      if(deleteStatus){ deleteStatus.textContent='Enter a document id.'; deleteStatus.className='lib-status err'; }
+      return;
+    }
+    if(!getLibrarianToken()){
+      if(deleteStatus){ deleteStatus.textContent='Save a librarian token first.'; deleteStatus.className='lib-status err'; }
+      return;
+    }
+    if(!confirm(`Delete and unmerge "${docId}" from the live graph?`)) return;
+    if(deleteStatus){ deleteStatus.textContent='Deleting…'; deleteStatus.className='lib-status info'; }
+    try {
+      const rmPdf = document.getElementById('lib-delete-pdf')?.checked ? '1' : '0';
+      const url = `${INFER_HOST}/api/documents/${encodeURIComponent(docId)}?remove_pdf=${rmPdf}`;
+      const r = await fetch(url, {method:'DELETE', headers: librarianHeaders({Accept:'application/json'})});
+      const j = await r.json().catch(()=>({}));
+      if(!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      if(deleteStatus){
+        deleteStatus.textContent = `✓ Deleted ${j.doc_id||docId}: chunks=${j.chunks_deleted||0}, edges=${j.edges_deleted||0}, concepts_removed=${j.concepts_deleted||0}`;
+        deleteStatus.className = 'lib-status ok';
+      }
+      refreshDocList();
+    } catch(err) {
+      if(deleteStatus){ deleteStatus.textContent=`Error: ${err.message}`; deleteStatus.className='lib-status err'; }
+    }
+  });
+
+  // ── Add Concept ──
+  document.getElementById('lib-concept-btn').addEventListener('click', async () => {
+    const name = document.getElementById('lib-concept-name').value.trim();
+    const type = document.getElementById('lib-concept-type').value;
+    const diff = document.getElementById('lib-concept-diff').value;
+    const summary = document.getElementById('lib-concept-summary').value.trim();
+    const tags = document.getElementById('lib-concept-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+    const statusEl = document.getElementById('lib-concept-status');
+    if(!name||!type||!diff){
+      statusEl.textContent='Name, type and difficulty are required.'; statusEl.className='lib-status err'; return;
+    }
+    if(!getLibrarianToken()){
+      statusEl.textContent='Save a librarian token first.'; statusEl.className='lib-status err'; return;
+    }
+    statusEl.textContent='Adding concept…'; statusEl.className='lib-status info';
+    try {
+      const r = await fetch(`${INFER_HOST}/api/manual/concept`, {
+        method:'POST',
+        headers: librarianHeaders({'Content-Type':'application/json'}),
+        body: JSON.stringify({name, concept_type:type, difficulty:diff, summary, tags})
+      });
+      const j = await r.json();
+      if(!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      statusEl.textContent=`✓ Concept "${name}" added (ID: ${j.id||j.concept_id||'—'}).`;
+      statusEl.className='lib-status ok';
+      document.getElementById('lib-concept-name').value='';
+      document.getElementById('lib-concept-summary').value='';
+      document.getElementById('lib-concept-tags').value='';
+    } catch(err){
+      statusEl.textContent=`Error: ${err.message}`; statusEl.className='lib-status err';
+    }
+  });
+
+  // ── Add Edge ──
+  document.getElementById('lib-edge-btn').addEventListener('click', async () => {
+    const from = document.getElementById('lib-edge-from').value.trim();
+    const to   = document.getElementById('lib-edge-to').value.trim();
+    const rel  = document.getElementById('lib-edge-relation').value;
+    const statusEl = document.getElementById('lib-edge-status');
+    if(!from||!to||!rel){
+      statusEl.textContent='All three fields are required.'; statusEl.className='lib-status err'; return;
+    }
+    if(!getLibrarianToken()){
+      statusEl.textContent='Save a librarian token first.'; statusEl.className='lib-status err'; return;
+    }
+    statusEl.textContent='Adding edge…'; statusEl.className='lib-status info';
+    try {
+      const r = await fetch(`${INFER_HOST}/api/manual/edge`, {
+        method:'POST',
+        headers: librarianHeaders({'Content-Type':'application/json'}),
+        body: JSON.stringify({from_concept:from, to_concept:to, relation:rel})
+      });
+      const j = await r.json();
+      if(!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      statusEl.textContent=`✓ Edge "${from}" → [${rel}] → "${to}" added.`;
+      statusEl.className='lib-status ok';
+      document.getElementById('lib-edge-from').value='';
+      document.getElementById('lib-edge-to').value='';
+    } catch(err){
+      statusEl.textContent=`Error: ${err.message}`; statusEl.className='lib-status err';
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+{
+  "structural_audit_summary": {
+    "self_edges": 0,
+    "cycles": 0,
+    "orphan_count": 4,
+    "orphan_percentage": 0.00881057268722467,
+    "edge_provenance_issues": 0,
+    "connected_components_count": 5,
+    "concept_count": 454,
+    "min_concepts_target": 80
+  },
+  "gold": {
+    "gold_lora.json": {
+      "concept_comparison": {
+        "precision": 0.028761061946902654,
+        "recall": 0.65,
+        "f1": 0.05508474576271186,
+        "true_positives": 13,
+        "false_positives": 439,
+        "false_negatives": 7,
+        "matched_pairs": [
+          [
+            "adam optimizer",
+            "adam optimizer"
+          ],
+          [
+            "adapter layers",
+            "adapter layers"
+          ],
+          [
+            "fine-tuning",
+            "fine-tuning"
+          ],
+          [
+            "low-rank adaptation",
+            "low-rank adaptation"
+          ],
+          [
+            "low-rank matrix",
+            "low-rank matrix"
+          ],
+          [
+            "singular value decomposition",
+            "singular value decomposition"
+          ],
+          [
+            "matrix",
+            "weight matrix reparameterization"
+          ],
+          [
+            "general optimization",
+            "vram optimization"
+          ],
+          [
+            "subspace",
+            "subspace similarity"
+          ],
+          [
+            "rank",
+            "rank decomposition matrices"
+          ],
+          [
+            "parameter",
+            "parameter-efficient fine-tuning"
+          ],
+          [
+            "inference",
+            "inference latency"
+          ],
+          [
+            "gradient",
+            "gradient update"
+          ]
+        ],
+        "normalization": "canonical_v2"
+      },
+      "edge_comparison": {
+        "directed": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "true_positives": 0,
+          "false_positives": 2022,
+          "false_negatives": 21
+        },
+        "undirected": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "true_positives": 0,
+          "false_positives": 1755,
+          "false_negatives": 21
+        },
+        "direction_accuracy": 1.0
+      }
+    },
+    "gold_attention.json": {
+      "concept_comparison": {
+        "precision": 0.03761061946902655,
+        "recall": 0.68,
+        "f1": 0.07127882599580714,
+        "true_positives": 17,
+        "false_positives": 435,
+        "false_negatives": 8,
+        "matched_pairs": [
+          [
+            "adam optimizer",
+            "adam optimizer"
+          ],
+          [
+            "attention head",
+            "attention heads"
+          ],
+          [
+            "attention mechanism",
+            "attention mechanism"
+          ],
+          [
+            "beam search",
+            "beam search"
+          ],
+          [
+            "layer normalization",
+            "layer normalization"
+          ],
+          [
+            "linear transformation",
+            "linear transformation"
+          ],
+          [
+            "multi-head attention",
+            "multi-head attention"
+          ],
+          [
+            "recurrent neural network",
+            "recurrent neural networks"
+          ],
+          [
+            "self-attention",
+            "self-attention"
+          ],
+          [
+            "transformer decoder",
+            "transformer decoder"
+          ],
+          [
+            "transformer encoder self-attention",
+            "transformer encoder"
+          ],
+          [
+            "function",
+            "softmax function"
+          ],
+          [
+            "embeddings",
+            "sinusoidal embeddings"
+          ],
+          [
+            "sequence",
+            "sequence-to-sequence models"
+          ],
+          [
+            "vector",
+            "query, key, and value vectors"
+          ],
+          [
+            "fully connected feed-forward network",
+            "feed-forward networks"
+          ],
+          [
+            "neural network",
+            "convolutional neural networks"
+          ]
+        ],
+        "normalization": "canonical_v2"
+      },
+      "edge_comparison": {
+        "directed": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "true_positives": 0,
+          "false_positives": 2022,
+          "false_negatives": 26
+        },
+        "undirected": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "true_positives": 0,
+          "false_positives": 1755,
+          "false_negatives": 26
+        },
+        "direction_accuracy": 1.0
+      }
+    },
+    "gold_curriculum.json": {
+      "concept_comparison": {
+        "precision": 0.028761061946902654,
+        "recall": 0.9285714285714286,
+        "f1": 0.05579399141630901,
+        "true_positives": 13,
+        "false_positives": 439,
+        "false_negatives": 1,
+        "matched_pairs": [
+          [
+            "attention mechanism",
+            "attention mechanism"
+          ],
+          [
+            "bert",
+            "bert"
+          ],
+          [
+            "fine-tuning",
+            "fine-tuning"
+          ],
+          [
+            "knowledge graph",
+            "knowledge graph"
+          ],
+          [
+            "low-rank adaptation",
+            "low-rank adaptation"
+          ],
+          [
+            "multi-head attention",
+            "multi-head attention"
+          ],
+          [
+            "retrieval-augmented generation",
+            "retrieval-augmented generation"
+          ],
+          [
+            "self-attention",
+            "self-attention"
+          ],
+          [
+            "transformer encoder self-attention",
+            "transformer encoder"
+          ],
+          [
+            "parameter",
+            "parameter-efficient fine-tuning"
+          ],
+          [
+            "rag",
+            "graph rag"
+          ],
+          [
+            "retrieval",
+            "dense retrieval"
+          ],
+          [
+            "masked language model",
+            "masked language modeling"
+          ]
+        ],
+        "normalization": "canonical_v2"
+      },
+      "edge_comparison": {
+        "directed": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "true_positives": 0,
+          "false_positives": 2022,
+          "false_negatives": 8
+        },
+        "undirected": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "true_positives": 0,
+          "false_positives": 1755,
+          "false_negatives": 8
+        },
+        "direction_accuracy": 1.0
+      }
+    }
+  },
+  "gate_failures": []
+}

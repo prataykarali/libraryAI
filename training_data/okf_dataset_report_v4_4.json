@@ -1,0 +1,94 @@
+{
+  "seed": 42,
+  "policy": {
+    "max_math_frac": 0.4,
+    "target_empty_frac": 0.22,
+    "min_lora_train": 40,
+    "max_train": 900,
+    "note": "LoRA boost uses oversampling of existing LoRA chunks; for true diversity, re-extract more Hu2021 chunks into pairs."
+  },
+  "before": {
+    "train": {
+      "n": 500,
+      "empty": 66,
+      "empty_pct": 13.2,
+      "math": 364,
+      "math_pct": 72.8,
+      "lora": 6,
+      "lora_pct": 1.2,
+      "papers": 103,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 364,
+        "papers/Devlin2018_BERT.pdf": 43,
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf": 25,
+        "probable.pdf": 18,
+        "papers/Lewis2020_RAG.pdf": 18,
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md": 15,
+        "papers/Edge2024_GraphRAG.pdf": 11,
+        "papers/Hu2021_LoRA.pdf": 6
+      }
+    },
+    "test": {
+      "n": 197,
+      "empty": 24,
+      "empty_pct": 12.18,
+      "math": 120,
+      "math_pct": 60.91,
+      "lora": 35,
+      "lora_pct": 17.77,
+      "papers": 72,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 120,
+        "papers/Hu2021_LoRA.pdf": 35,
+        "papers/Edge2024_GraphRAG.pdf": 28,
+        "papers/Lewis2020_RAG.pdf": 9,
+        "probable.pdf": 5
+      }
+    }
+  },
+  "after": {
+    "train": {
+      "n": 700,
+      "empty": 154,
+      "empty_pct": 22.0,
+      "math": 226,
+      "math_pct": 32.29,
+      "lora": 97,
+      "lora_pct": 13.86,
+      "papers": 307,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 226,
+        "papers/Hu2021_LoRA.pdf": 97,
+        "papers/Devlin2018_BERT.pdf": 90,
+        "synthetic/hard_negatives.md": 88,
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf": 54,
+        "papers/Lewis2020_RAG.pdf": 46,
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md": 43,
+        "probable.pdf": 36,
+        "papers/Edge2024_GraphRAG.pdf": 20
+      }
+    },
+    "test": {
+      "n": 197,
+      "empty": 24,
+      "empty_pct": 12.18,
+      "math": 120,
+      "math_pct": 60.91,
+      "lora": 35,
+      "lora_pct": 17.77,
+      "papers": 72,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 120,
+        "papers/Hu2021_LoRA.pdf": 35,
+        "papers/Edge2024_GraphRAG.pdf": 28,
+        "papers/Lewis2020_RAG.pdf": 9,
+        "probable.pdf": 5
+      }
+    }
+  },
+  "outputs": {
+    "train": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_train_pairs_v4_4.jsonl",
+    "test": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v4_4.jsonl",
+    "aliases": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_name_aliases_v4_4.json"
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "concepts": {
+    "concept_a": {
+      "name": "Concept A",
+      "concept_type": "definition",
+      "difficulty": "foundational",
+      "summary": "Summary A",
+      "sources": []
+    },
+    "concept_b": {
+      "name": "Concept B",
+      "concept_type": "definition",
+      "difficulty": "intermediate",
+      "summary": "Summary B",
+      "sources": []
+    }
+  },
+  "edges": [
+    {
+      "from_id": "concept_a",
+      "from_name": "Concept A",
+      "relation": "requires",
+      "to_id": "concept_b",
+      "to_name": "Concept B",
+      "source": ":",
+      "edge_type": "REQUIRES"
+    }
+  ],
+  "stats": {
+    "total_concepts": 2,
+    "total_edges": 1,
+    "requires_edges": 1,
+    "unlocks_edges": 0,
+    "related_edges": 0
+  },
+  "visualization": {
+    "nodes": [
+      {
+        "id": "concept_a",
+        "label": "Concept A",
+        "concept_type": "definition",
+        "difficulty": "foundational",
+        "summary": "Summary A",
+        "tags": [],
+        "sources": [
+          {
+            "doc_id": "",
+            "source_category": "unknown",
+            "chunk_id": "",
+            "page_number": 0,
+            "section_title": "",
+            "text_passage": ""
+          }
+        ],
+        "source_categories": [
+          "unknown"
+        ],
+        "sections": [],
+        "prerequisites": [
+          "Concept B"
+        ],
+        "unlocks": [],
+        "related": [],
+        "degree": 1,
+        "source_count": 1
+      },
+      {
+        "id": "concept_b",
+        "label": "Concept B",
+        "concept_type": "definition",
+        "difficulty": "intermediate",
+        "summary": "Summary B",
+        "tags": [],
+        "sources": [
+          {
+            "doc_id": "",
+            "source_category": "unknown",
+            "chunk_id": "",
+            "page_number": 0,
+            "section_title": "",
+            "text_passage": ""
+          }
+        ],
+        "source_categories": [
+          "unknown"
+        ],
+        "sections": [],
+        "prerequisites": [
+          "Concept A"
+        ],
+        "unlocks": [],
+        "related": [],
+        "degree": 1,
+        "source_count": 1
+      }
+    ],
+    "links": [
+      {
+        "id": "edge_00001",
+        "source": "concept_a",
+        "target": "concept_b",
+        "source_label": "Concept A",
+        "target_label": "Concept B",
+        "edge_type": "REQUIRES",
+        "relation": "requires",
+        "source_ref": ":"
+      }
+    ],
+    "clusters": {
+      "by_type": {
+        "definition": 2
+      },
+      "by_difficulty": {
+        "foundational": 1,
+        "intermediate": 1
+      },
+      "by_source_category": {
+        "unknown": 2
+      }
+    },
+    "stats": {
+      "node_count": 2,
+      "link_count": 1,
+      "max_degree": 1
+    }
+  },
+  "graph_rag_index": {
+    "version": "okf-graphrag-v1",
+    "concepts": {
+      "concept_a": {
+        "name": "Concept A",
+        "summary": "Summary A",
+        "concept_type": "definition",
+        "difficulty": "foundational",
+        "requires": [
+          "Concept B"
+        ],
+        "unlocks": [],
+        "related": [],
+        "sources": [
+          {
+            "doc_id": "",
+            "source_category": "unknown",
+            "chunk_id": "",
+            "page_number": 0,
+            "section_title": "",
+            "text_passage": ""
+          }
+        ],
+        "retrieval_terms": [
+          "Concept A",
+          "Concept B",
+          "definition",
+          "foundational"
+        ],
+        "retrieval_text": "Concept A | Concept B | definition | foundational"
+      },
+      "concept_b": {
+        "name": "Concept B",
+        "summary": "Summary B",
+        "concept_type": "definition",
+        "difficulty": "intermediate",
+        "requires": [],
+        "unlocks": [],
+        "related": [],
+        "sources": [
+          {
+            "doc_id": "",
+            "source_category": "unknown",
+            "chunk_id": "",
+            "page_number": 0,
+            "section_title": "",
+            "text_passage": ""
+          }
+        ],
+        "retrieval_terms": [
+          "Concept B",
+          "definition",
+          "intermediate"
+        ],
+        "retrieval_text": "Concept B | definition | intermediate"
+      }
+    },
+    "stats": {
+      "total_concepts": 2,
+      "total_links": 1
+    }
+  }
+}

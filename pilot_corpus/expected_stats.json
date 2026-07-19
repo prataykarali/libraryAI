@@ -1,0 +1,25 @@
+{
+  "department": "CS/ML",
+  "corpus_name": "archipelago_cs_ml_pilot",
+  "default_documents": [
+    "Vaswani2017_Attention_Is_All_You_Need.pdf",
+    "Devlin2018_BERT.pdf",
+    "Hu2021_LoRA.pdf",
+    "Lewis2020_RAG.pdf",
+    "Edge2024_GraphRAG.pdf",
+    "AI_ML_Archipelago_Corpus_Seed.md"
+  ],
+  "optional_documents": [
+    "Deisenroth_Math_For_ML.pdf"
+  ],
+  "targets": {
+    "min_concepts": 80,
+    "max_concepts": 160,
+    "min_edges": 80,
+    "max_edges": 150,
+    "max_orphan_percentage": 0.6,
+    "max_self_loops": 0,
+    "max_placeholder_nodes": 0
+  },
+  "notes": "Targets reflect a full pilot re-ingest with relation layer. Thin placeholder graphs (e.g. 3 concepts) fail readiness until rebuild."
+}

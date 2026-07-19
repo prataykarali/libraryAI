@@ -27,7 +27,7 @@ from okf.config import (
     infer_source_category,
 )
 
-# Local PyTorch model configuration (aura-qwen fine-tuned)
+# Local PyTorch model configuration (lib-qwen v5 by default; see okf.config)
 LOCAL_MODEL = None
 LOCAL_TOKENIZER = None
 LOCAL_MODE = _local_path.exists()
@@ -115,7 +115,10 @@ def _normalize_related(value) -> list:
 
 
 def normalize_okf_item(data: dict, doc_id: str, chunk_id: str,
-                       page_number: int, section_title: str) -> dict | None:
+                       page_number: int, section_title: str,
+                       doc_hash: str = None, page_count: int = None,
+                       doc_title: str = None, edition: str = None,
+                       page_label_map: dict = None) -> dict | None:
     """Validate and normalize one OKF concept object with provenance."""
     if not isinstance(data, dict):
         return None
@@ -154,7 +157,7 @@ def normalize_okf_item(data: dict, doc_id: str, chunk_id: str,
     unlocks = [u for u in _string_list(data.get("unlocks")) if u.lower() != name_lower]
     tags = [t.lower().replace(" ", "-") for t in _string_list(data.get("tags"))]
 
-    return {
+    result = {
         "concept_name": concept_name,
         "concept_type": ctype,
         "difficulty": difficulty,
@@ -169,6 +172,19 @@ def normalize_okf_item(data: dict, doc_id: str, chunk_id: str,
         "page_number": page_number,
         "section_title": section_title,
     }
+    # Add document-level citation metadata
+    if doc_hash is not None:
+        result["doc_hash"] = doc_hash
+    if page_count is not None:
+        result["page_count"] = page_count
+    if doc_title is not None:
+        result["doc_title"] = doc_title
+    if edition is not None:
+        result["edition"] = edition
+    if page_label_map is not None:
+        result["page_label_map"] = page_label_map
+
+    return result
 
 
 def load_local_model():
@@ -177,9 +193,16 @@ def load_local_model():
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    local_path = BASE_DIR.parent / "aura-qwen"
-    if not local_path.exists():
+    # Prefer live config resolution (OKF_LOCAL_MODEL / lib-qwen / aura-qwen).
+    try:
+        from okf.config import resolve_local_model_path
+        local_path = resolve_local_model_path()
+    except Exception:
         local_path = _local_path
+    if not local_path.exists():
+        local_path = BASE_DIR.parent / "lib-qwen"
+    if not local_path.exists():
+        local_path = BASE_DIR.parent / "aura-qwen"
 
     print(f"  Loading local model from {local_path}...")
     try:
@@ -192,7 +215,7 @@ def load_local_model():
             device_map="auto",
             trust_remote_code=True,
         )
-        print("  ✓ Local model loaded successfully!")
+        print(f"  ✓ Local model loaded successfully from {local_path}!")
         LOCAL_MODE = True
     except Exception as exc:
         print(f"  Error loading local model: {exc}")
@@ -200,7 +223,7 @@ def load_local_model():
         LOCAL_MODE = False
 
 
-def _generate_local(prompt: str, max_new_tokens: int = 512) -> str:
+def _generate_local(prompt: str, max_new_tokens: int = 2048) -> str:
     """One local-model generation with the same chat templating as extraction."""
     import torch
     messages = [{"role": "user", "content": prompt}]
@@ -226,7 +249,10 @@ def _generate_local(prompt: str, max_new_tokens: int = 512) -> str:
 
 
 def extract_okf_v15(text: str, doc_id: str = "", chunk_id: str = "",
-                    page_number: int = 0, section_title: str = "") -> list:
+                    page_number: int = 0, section_title: str = "",
+                    doc_hash: str = None, page_count: int = None,
+                    doc_title: str = None, edition: str = None,
+                    page_label_map: dict = None) -> list:
     """Extract OKF v1.6 concepts from a text chunk using Ollama or local model.
 
     We never send a whole page/book: the chunk is already section/paragraph
@@ -300,7 +326,8 @@ def extract_okf_v15(text: str, doc_id: str = "", chunk_id: str = "",
 
             normalized = [
                 item for item in (
-                    normalize_okf_item(x, doc_id, chunk_id, page_number, section_title)
+                    normalize_okf_item(x, doc_id, chunk_id, page_number, section_title,
+                                       doc_hash, page_count, doc_title, edition, page_label_map)
                     for x in data[:5]
                 )
                 if item
@@ -335,6 +362,14 @@ def extract_chunks_with_model(chunks: list) -> tuple[list, int]:
     for i, chunk in enumerate(chunks):
         progress = f"[{i+1}/{len(chunks)}]"
         section = chunk.get("section_title", "?")[:40]
+        # Skip bibliography / references chunks entirely (page-14 LoRA noise)
+        try:
+            from okf.cleanup_parts.directionality import is_bibliography_section
+            if is_bibliography_section(chunk.get("section_title") or ""):
+                print(f"  Skipping bibliography chunk {chunk.get('chunk_id')}: {section}")
+                continue
+        except Exception:
+            pass
         print(f"  {progress} {chunk['doc_id']} | {section} (p.{chunk['page_number']})", end="")
         sys.stdout.flush()
 
@@ -344,7 +379,12 @@ def extract_chunks_with_model(chunks: list) -> tuple[list, int]:
             doc_id=chunk["doc_id"],
             chunk_id=chunk["chunk_id"],
             page_number=chunk["page_number"],
-            section_title=chunk["section_title"]
+            section_title=chunk["section_title"],
+            doc_hash=chunk.get("doc_hash"),
+            page_count=chunk.get("page_count"),
+            doc_title=chunk.get("doc_title"),
+            edition=chunk.get("edition"),
+            page_label_map=chunk.get("page_label_map"),
         )
         elapsed = time.time() - start_time
 

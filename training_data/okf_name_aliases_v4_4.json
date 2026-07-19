@@ -1,0 +1,153 @@
+{
+  "Retrieval-Augmented Generation": [
+    "Retrieval-Augmented Generation",
+    "rag",
+    "retrieval augmented generation",
+    "retrieval-augmented generation",
+    "generative language model",
+    "retrieval augmented"
+  ],
+  "Self-Attention": [
+    "Self-Attention",
+    "self attention",
+    "self-attention"
+  ],
+  "Graph RAG": [
+    "Graph RAG",
+    "graph rag",
+    "graphrag"
+  ],
+  "Pre-Training": [
+    "Pre-Training",
+    "pre training",
+    "pre-training",
+    "pretraining"
+  ],
+  "BERT": [
+    "BERT",
+    "bert"
+  ],
+  "Vector RAG": [
+    "Vector RAG",
+    "vector rag"
+  ],
+  "Scaled Dot-Product Attention": [
+    "Scaled Dot-Product Attention",
+    "scaled dot product attention",
+    "scaled dot-product attention"
+  ],
+  "Fine-Tuning": [
+    "Fine-Tuning",
+    "fine tuning",
+    "fine-tuning",
+    "finetuning"
+  ],
+  "Low-Rank Adaptation": [
+    "Low-Rank Adaptation",
+    "lora",
+    "low rank adaptation",
+    "low-rank adaptation",
+    "adapter layers",
+    "peft"
+  ],
+  "Multi-Head Attention": [
+    "Multi-Head Attention",
+    "multi head attention",
+    "multi-head attention"
+  ],
+  "Principal Component Analysis": [
+    "Principal Component Analysis",
+    "pca",
+    "principal component analysis"
+  ],
+  "Bidirectional Transformer": [
+    "Bidirectional Transformer",
+    "bert",
+    "bidirectional transformer",
+    "deep neural network"
+  ],
+  "Dimensionality Reduction": [
+    "Dimensionality Reduction",
+    "dimensionality estimation",
+    "high-dimensional data",
+    "high dimensional data"
+  ],
+  "Linear Mapping": [
+    "Linear Mapping",
+    "linear algebra",
+    "matrix decomposition",
+    "linear transformation"
+  ],
+  "Neural Network": [
+    "Neural Network",
+    "deep neural network",
+    "inference latency"
+  ],
+  "Open-domain Qa": [
+    "Open-domain Qa",
+    "open-domain qa",
+    "open domain qa"
+  ],
+  "GPT": [
+    "GPT",
+    "gpt",
+    "gpt-3",
+    "language model"
+  ],
+  "Orthogonal Projection": [
+    "Orthogonal Projection",
+    "projection",
+    "endomorphism"
+  ],
+  "Vector Space": [
+    "Vector Space",
+    "vector"
+  ],
+  "Linear Equation": [
+    "Linear Equation"
+  ],
+  "Determinant": [
+    "Determinant",
+    "matrix multiplication"
+  ],
+  "Gradient": [
+    "Gradient",
+    "gradient descent",
+    "partial derivative",
+    "derivative"
+  ],
+  "Calculus": [
+    "Calculus",
+    "partial derivative",
+    "derivative"
+  ],
+  "Parameter": [
+    "Parameter"
+  ],
+  "Matrix Decomposition": [
+    "Matrix Decomposition"
+  ],
+  "Transformer": [
+    "Transformer",
+    "attention mechanism",
+    "attention head size",
+    "sequence length"
+  ],
+  "Parametric Memory": [
+    "Parametric Memory",
+    "non-parametric memory",
+    "nonparametric memory"
+  ],
+  "Bayesian Inference": [
+    "Bayesian Inference",
+    "bayesian linear regression"
+  ],
+  "Eigenvalue": [
+    "Eigenvalue",
+    "eigenvalue decomposition"
+  ],
+  "Linear Regression": [
+    "Linear Regression",
+    "bayesian linear regression"
+  ]
+}

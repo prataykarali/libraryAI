@@ -7,7 +7,7 @@ from pathlib import Path
 
 import ollama
 
-MODEL_NAME = "qwen3.5:0.8b"
+MODEL_NAME = os.environ.get("OKF_MODEL_NAME", "qwen3.5:0.8b")
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_FILE = BASE_DIR / "models" / "qwen3.5-0.8b.gguf"
 
@@ -30,6 +30,8 @@ Return ONLY valid JSON with these exact fields:
 - summary: A brief 1-2 sentence summary of the concept (string)
 - prerequisites: List of concepts/skills needed BEFORE learning this (list of strings)
 - unlocks: List of concepts/topics that can be learned AFTER this (list of strings)
+
+CRITICAL EXTRACTION RULE: Do NOT extract commercial products, companies, cloud providers, software brands, or datasets (e.g., AWS, OpenAI, ChatGPT, HuggingFace, Wikipedia) as Teachable Concepts. Only extract fundamental mathematical, statistical, or theoretical AI/ML concepts that have academic depth.
 
 Text to extract from:
 {text}

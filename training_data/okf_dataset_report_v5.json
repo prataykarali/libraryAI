@@ -1,0 +1,265 @@
+{
+  "version": "v5",
+  "seed": 42,
+  "final_ok": true,
+  "final_issues": [],
+  "policy": {
+    "prompt": "EXTRACTION_PROMPT_V15 exact",
+    "max_math_frac": 0.38,
+    "target_empty_frac": 0.2,
+    "max_multiplicity": 2,
+    "sources": [
+      "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_train_pairs_v4_2.jsonl.v4_2.bak",
+      "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v4_3.jsonl"
+    ]
+  },
+  "train": {
+    "n": 519,
+    "unique_chunks": 385,
+    "empty": 72,
+    "empty_pct": 13.87,
+    "math": 197,
+    "math_pct": 37.96,
+    "lora_rows": 60,
+    "lora_unique": 31,
+    "papers": 257,
+    "prod_v15_prompt_pct": 100.0,
+    "mean_instr_len": 3722.1,
+    "docs_top": [
+      [
+        "textbooks/Deisenroth_Math_For_ML.pdf",
+        197
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        70
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        60
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        58
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        35
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        34
+      ],
+      [
+        "probable.pdf",
+        28
+      ],
+      [
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md",
+        24
+      ],
+      [
+        "synthetic/hard_negatives.md",
+        12
+      ],
+      [
+        "synthetic/hard_neg_v5.md",
+        1
+      ]
+    ]
+  },
+  "test": {
+    "n": 60,
+    "unique_chunks": 60,
+    "empty": 17,
+    "empty_pct": 28.33,
+    "math": 25,
+    "math_pct": 41.67,
+    "lora_rows": 8,
+    "lora_unique": 8,
+    "papers": 26,
+    "prod_v15_prompt_pct": 100.0,
+    "mean_instr_len": 3743.9,
+    "docs_top": [
+      [
+        "textbooks/Deisenroth_Math_For_ML.pdf",
+        25
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        8
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        6
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        6
+      ],
+      [
+        "probable.pdf",
+        4
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        3
+      ],
+      [
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md",
+        3
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        3
+      ],
+      [
+        "synthetic/hard_neg_v5.md",
+        1
+      ],
+      [
+        "synthetic/hard_negatives.md",
+        1
+      ]
+    ]
+  },
+  "filter_stats": {
+    "kept": 1283
+  },
+  "loop_history": [
+    {
+      "iter": 1,
+      "ok": true,
+      "issues": [],
+      "train": {
+        "n": 519,
+        "unique_chunks": 385,
+        "empty": 72,
+        "empty_pct": 13.87,
+        "math": 197,
+        "math_pct": 37.96,
+        "lora_rows": 60,
+        "lora_unique": 31,
+        "papers": 257,
+        "prod_v15_prompt_pct": 100.0,
+        "mean_instr_len": 3722.1,
+        "docs_top": [
+          [
+            "textbooks/Deisenroth_Math_For_ML.pdf",
+            197
+          ],
+          [
+            "papers/Devlin2018_BERT.pdf",
+            70
+          ],
+          [
+            "papers/Hu2021_LoRA.pdf",
+            60
+          ],
+          [
+            "papers/Edge2024_GraphRAG.pdf",
+            58
+          ],
+          [
+            "papers/Lewis2020_RAG.pdf",
+            35
+          ],
+          [
+            "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+            34
+          ],
+          [
+            "probable.pdf",
+            28
+          ],
+          [
+            "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md",
+            24
+          ],
+          [
+            "synthetic/hard_negatives.md",
+            12
+          ],
+          [
+            "synthetic/hard_neg_v5.md",
+            1
+          ]
+        ]
+      },
+      "test": {
+        "n": 60,
+        "unique_chunks": 60,
+        "empty": 17,
+        "empty_pct": 28.33,
+        "math": 25,
+        "math_pct": 41.67,
+        "lora_rows": 8,
+        "lora_unique": 8,
+        "papers": 26,
+        "prod_v15_prompt_pct": 100.0,
+        "mean_instr_len": 3743.9,
+        "docs_top": [
+          [
+            "textbooks/Deisenroth_Math_For_ML.pdf",
+            25
+          ],
+          [
+            "papers/Hu2021_LoRA.pdf",
+            8
+          ],
+          [
+            "papers/Lewis2020_RAG.pdf",
+            6
+          ],
+          [
+            "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+            6
+          ],
+          [
+            "probable.pdf",
+            4
+          ],
+          [
+            "papers/Devlin2018_BERT.pdf",
+            3
+          ],
+          [
+            "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md",
+            3
+          ],
+          [
+            "papers/Edge2024_GraphRAG.pdf",
+            3
+          ],
+          [
+            "synthetic/hard_neg_v5.md",
+            1
+          ],
+          [
+            "synthetic/hard_negatives.md",
+            1
+          ]
+        ]
+      },
+      "filter": {
+        "kept": 1283
+      }
+    }
+  ],
+  "outputs": {
+    "train": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_train_pairs_v5.jsonl",
+    "test": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v5.jsonl",
+    "aliases": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_name_aliases_v5.json"
+  },
+  "diagnosis_summary": {
+    "lib_qwen_worsened": true,
+    "root_causes": [
+      "empty-collapse from v4.4 synthetic empty spam (22%)",
+      "train/serve prompt mismatch (short vs EXTRACTION_PROMPT_V15)",
+      "16x LoRA weak-table oversampling",
+      "catastrophic forgetting of non-empty extraction on aura continue-tune"
+    ],
+    "keep_ingestion_model": "aura-qwen",
+    "retrain_on": "okf_train_pairs_v5.jsonl with production prompt"
+  }
+}

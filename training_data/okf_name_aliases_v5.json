@@ -1,0 +1,52 @@
+{
+  "Low-Rank Adaptation": [
+    "Low-Rank Adaptation",
+    "lora",
+    "low rank adaptation",
+    "low-rank adaptation"
+  ],
+  "Fine-Tuning": [
+    "Fine-Tuning",
+    "fine tuning",
+    "fine-tuning"
+  ],
+  "Self-Attention": [
+    "Self-Attention",
+    "self attention",
+    "self-attention"
+  ],
+  "Graph RAG": [
+    "Graph RAG",
+    "graph rag",
+    "graphrag"
+  ],
+  "Vector RAG": [
+    "Vector RAG",
+    "vector rag"
+  ],
+  "Retrieval-Augmented Generation": [
+    "Retrieval-Augmented Generation",
+    "rag",
+    "retrieval augmented generation",
+    "retrieval-augmented generation"
+  ],
+  "BERT": [
+    "BERT",
+    "bert"
+  ],
+  "Multi-Head Attention": [
+    "Multi-Head Attention",
+    "multi head attention",
+    "multi-head attention"
+  ],
+  "Pre-Training": [
+    "Pre-Training",
+    "pre training",
+    "pre-training"
+  ],
+  "Principal Component Analysis": [
+    "Principal Component Analysis",
+    "pca",
+    "principal component analysis"
+  ]
+}

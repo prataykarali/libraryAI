@@ -12,10 +12,31 @@ MODEL_NAME = os.environ.get("OKF_MODEL_NAME", "qwen3.5:0.8b")
 BASE_DIR = Path(__file__).resolve().parent.parent
 MAX_RETRIES = 1
 
-# Local PyTorch model configuration (aura-qwen fine-tuned)
-_local_path = BASE_DIR.parent / "aura-qwen"
-if not _local_path.exists():
-    _local_path = Path("/home/pratay-karali/Desktop/libraryAI/aura-qwen")
+# Local PyTorch model configuration for extraction.
+# Preference order:
+#   1. OKF_LOCAL_MODEL env (absolute or relative path)
+#   2. lib-qwen (v5 fine-tuned extractor, parent of app root)
+#   3. aura-qwen (legacy default)
+#   4. absolute fallback under the libraryAI workspace
+def resolve_local_model_path() -> Path:
+    env = os.environ.get("OKF_LOCAL_MODEL", "").strip()
+    if env:
+        p = Path(env).expanduser()
+        if not p.is_absolute():
+            p = (BASE_DIR / p).resolve()
+        return p
+    parent = BASE_DIR.parent
+    for name in ("lib-qwen", "aura-qwen"):
+        candidate = parent / name
+        if candidate.exists():
+            return candidate
+    fallback = Path("/home/pratay-karali/Desktop/libraryAI/lib-qwen")
+    if fallback.exists():
+        return fallback
+    return parent / "lib-qwen"
+
+
+_local_path = resolve_local_model_path()
 
 # Optional UNIFORM page cap applied to every PDF (not per-file). None = read the
 # whole document. Override with the --max-pages CLI flag for quick test runs on
@@ -45,10 +66,12 @@ Each object MUST have exactly these keys:
 
 Rules:
 - Only concepts actually explained in the text. No authors, citations, section titles, or table numbers.
+- DO NOT extract named entities, pop culture references, test datasets, or experiment subjects (e.g., 'Taylor Swift', 'Wikipedia', 'Mughal Empire'). ONLY extract algorithmic, mathematical, or architectural concepts.
 - ALWAYS try to fill prerequisites and unlocks - they are the whole point of the graph.
 - A concept must NEVER appear in its own prerequisites or unlocks (no self-loops).
 - Keep names stable across documents so the same concept merges into one node.
 - If the text has no real teachable concept, return [].
+- Basic mathematical or statistical concepts (e.g., Linear Regression, Matrix Inverse) must usually be PREREQUISITES, not UNLOCKS for advanced architectures.
 
 EXAMPLE
 Text: "The scientific method is a procedure for acquiring knowledge: it formulates questions, tests hypotheses through repeatable experiments, and revises theories based on evidence. Peer review then validates the findings before publication."

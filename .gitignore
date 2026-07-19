@@ -10,8 +10,10 @@ __pycache__/
 *.pyo
 *.pyd
 
-# KuzuDB Database folders
+# KuzuDB generated database artifacts (Kuzu may create either a file or a folder)
+okf_graph.db
 okf_graph.db/
+tmp_kuzu_test.db
 tmp_kuzu_test.db/
 
 # Local LLM Models (GGUF, etc.)
@@ -29,3 +31,32 @@ mock_graph.json
 # IDE settings
 .vscode/
 .idea/
+
+# Runtime logs and pidfiles (scripts/ops/serve.sh)
+logs/
+
+# Corpus documents — copyrighted/third-party; streamed from canonical public
+# sources at runtime (see REMOTE_PDF_SOURCES in routes_misc.py)
+pdfs/
+
+# Shared-chat snapshots (private user conversations)
+shares/
+
+# Runtime state
+ingest_logs/
+jobs/
+work_queue.json
+
+# Generated graph exports / scratch outputs
+_graph_edges.json
+_graph_nodes.json
+graph_data.js
+graph_data_export.json
+graph_output.txt
+okf_full_relationships.json
+okf_relationships.json
+*.bak*
+okf_results.json.bak5-pre-domain-scrub
+
+# Office lock files
+.~lock.*#

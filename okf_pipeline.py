@@ -58,6 +58,8 @@ from okf.cleanup import (
     prune_unresolved_references,
 )
 from okf import extraction as _extraction_state
+from okf import config as _config_state
+from okf import pipeline as _pipeline_state
 from okf.extraction import (
     _extract_json_payload,
     _generate_local,
@@ -101,6 +103,10 @@ class _OkfPipelineShim(ModuleType):
     writes keeps `okf_pipeline.LOCAL_MODEL` (and monkeypatching it) live."""
 
     _LIVE_STATE = ("LOCAL_MODEL", "LOCAL_TOKENIZER", "LOCAL_MODE")
+    # Legacy tests and callers patch ``okf_pipeline.extract_okf_v15``.  The
+    # implementation lives in ``okf.extraction`` now, and the extraction loop
+    # resolves that function there at runtime, so keep that patch seam live.
+    _LIVE_FUNCTIONS = ("extract_okf_v15", "load_local_model")
 
     def __getattr__(self, name):
         if name in _OkfPipelineShim._LIVE_STATE:
@@ -110,6 +116,19 @@ class _OkfPipelineShim(ModuleType):
     def __setattr__(self, name, value):
         if name in _OkfPipelineShim._LIVE_STATE:
             setattr(_extraction_state, name, value)
+        elif name in _OkfPipelineShim._LIVE_FUNCTIONS:
+            setattr(_extraction_state, name, value)
+            if name == "load_local_model":
+                setattr(_pipeline_state, name, value)
+            super().__setattr__(name, value)
+        elif name == "BASE_DIR":
+            # The package split left orchestration holding its own imported
+            # BASE_DIR.  Keep the legacy module's patch point authoritative so
+            # embedding callers and tests can safely redirect every artifact
+            # (JSON, graph DB and UI export) into a sandbox.
+            setattr(_config_state, name, value)
+            setattr(_pipeline_state, name, value)
+            super().__setattr__(name, value)
         else:
             super().__setattr__(name, value)
 
@@ -137,8 +156,9 @@ if __name__ == "__main__":
     args = [a for a in args if a != "--ollama"]
     local_mode = LOCAL_MODE and not ollama_mode
 
-    # --local is accepted explicitly (LOCAL_MODE already defaults it on when the
-    # aura-qwen folder exists); strip it so it isn't mistaken for a path.
+    # --local is accepted explicitly (LOCAL_MODE already defaults it on when a
+    # local model folder exists, e.g. lib-qwen / aura-qwen); strip it so it
+    # isn't mistaken for a path.
     args = [a for a in args if a != "--local"]
 
     # Optional uniform page cap: --max-pages N  (applies to every PDF)
@@ -182,10 +202,33 @@ if __name__ == "__main__":
             args = [x for x in args if x != a]
             break
 
+    # --evaluate <gold_path> or --evaluate=<gold_path>
+    evaluate_gold_path = None
+    for i, a in enumerate(list(args)):
+        if a == "--evaluate" and i + 1 < len(args):
+            evaluate_gold_path = args[i + 1]
+            args = [x for j, x in enumerate(args) if j not in (i, i + 1)]
+            break
+        if a.startswith("--evaluate="):
+            evaluate_gold_path = a.split("=", 1)[1]
+            args = [x for x in args if x != a]
+            break
+
     if relations_only:
         run_relations_only()
     elif add_path is not None:
-        add_document(add_path, limit=chunk_limit)
+        add_document(add_path, limit=chunk_limit, evaluate_gold_path=evaluate_gold_path)
+    elif evaluate_gold_path and not args:
+        import os
+        import kuzu
+        from okf.evaluate import evaluate_pipeline, print_report
+        db_path = str(BASE_DIR / "okf_graph.db")
+        if os.path.exists(db_path):
+            db = kuzu.Database(db_path)
+            report = evaluate_pipeline(db, evaluate_gold_path)
+            print_report(report)
+        else:
+            print(f"ERROR: Database not found at {db_path}. Run the pipeline first.")
     else:
         input_path = args[0] if args else None
-        run_pipeline(input_path, resume=resume_mode, local=local_mode)
+        run_pipeline(input_path, resume=resume_mode, local=local_mode, evaluate_gold_path=evaluate_gold_path)

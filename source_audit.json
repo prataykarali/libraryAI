@@ -1,0 +1,4573 @@
+{
+  "audit_summary": {
+    "documents_audited": 7,
+    "total_concepts_extracted_across_sampled_pages": 126,
+    "flag_counts": {
+      "low_source_match": 106,
+      "no_relations": 57,
+      "name_too_long": 11
+    },
+    "low_match_examples": [
+      [
+        "papers/Devlin2018_BERT.pdf",
+        14,
+        "Ablation Results",
+        [
+          "low_source_match"
+        ],
+        69
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        14,
+        "Experimental Design",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        74
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        3,
+        "Fine-Tuning Strategy",
+        [
+          "low_source_match"
+        ],
+        68
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        3,
+        "Model Size Comparison (BERTBASE vs GPT)",
+        [
+          "name_too_long",
+          "low_source_match"
+        ],
+        67
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        4,
+        "Multi-Head Attention",
+        [
+          "low_source_match"
+        ],
+        68
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        8,
+        "Left-to-Right (LTR) Model Architecture",
+        [
+          "low_source_match"
+        ],
+        70
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        8,
+        "Pre-training Data Consistency",
+        [
+          "low_source_match"
+        ],
+        71
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        8,
+        "BiLSTM Model",
+        [
+          "low_source_match"
+        ],
+        67
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        13,
+        "Label Encoding (IsNext)",
+        [
+          "low_source_match"
+        ],
+        64
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        13,
+        "Label Encoding (NotNext)",
+        [
+          "low_source_match"
+        ],
+        64
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        13,
+        "Attention Mechanism",
+        [
+          "low_source_match"
+        ],
+        68
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        5,
+        "Fine-Tuning Loss Function",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        67
+      ],
+      [
+        "papers/Devlin2018_BERT.pdf",
+        5,
+        "Softmax Function",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        62
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        6,
+        "Task Completion",
+        [
+          "low_source_match"
+        ],
+        73
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        7,
+        "Task Definition",
+        [
+          "low_source_match"
+        ],
+        67
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        7,
+        "Policy Changes",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        71
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        4,
+        "Search Engine",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        69
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        11,
+        "Domain Generalization",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        71
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        11,
+        "Corpus Analysis",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        67
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        12,
+        "Contributor Name",
+        [
+          "low_source_match"
+        ],
+        69
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        12,
+        "Author Name",
+        [
+          "low_source_match"
+        ],
+        64
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        12,
+        "Author Name (Title Case)",
+        [
+          "low_source_match"
+        ],
+        64
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        12,
+        "Author Name (Title Case)",
+        [
+          "low_source_match"
+        ],
+        64
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Attention Mechanism",
+        [
+          "low_source_match"
+        ],
+        63
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Positional Encoding",
+        [
+          "low_source_match"
+        ],
+        63
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "BERT Model Architecture",
+        [
+          "low_source_match"
+        ],
+        70
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "BERT Encoder Layer",
+        [
+          "low_source_match"
+        ],
+        61
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "BERT Decoder Layer",
+        [
+          "low_source_match"
+        ],
+        61
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Attention Mechanism",
+        [
+          "low_source_match"
+        ],
+        63
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Gradient Descent (Optimization)",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        69
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Gradient Scaling (α)",
+        [
+          "low_source_match"
+        ],
+        69
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Weight Initialization (Gaussian)",
+        [
+          "low_source_match"
+        ],
+        57
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Coordinate-wise Summation",
+        [
+          "low_source_match"
+        ],
+        54
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Adaptive Methods (e.g., MLP)",
+        [
+          "low_source_match"
+        ],
+        62
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "VRAM Usage Reduction",
+        [
+          "low_source_match"
+        ],
+        60
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Checkpoint Size Reduction",
+        [
+          "low_source_match"
+        ],
+        60
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Task Swapping at Runtime",
+        [
+          "low_source_match"
+        ],
+        54
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Gradient Calculation Avoidance",
+        [
+          "low_source_match"
+        ],
+        60
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "DeBERTa XXL (1.5B)",
+        [
+          "low_source_match"
+        ],
+        73
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        1,
+        "Su- superGLUE",
+        [
+          "low_source_match"
+        ],
+        58
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Frobenius Norm",
+        [
+          "low_source_match"
+        ],
+        57
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Feature Amplification",
+        [
+          "low_source_match"
+        ],
+        57
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Attention Mechanism",
+        [
+          "low_source_match"
+        ],
+        68
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Rank-Deficient Matrix",
+        [
+          "low_source_match"
+        ],
+        65
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Semantic Similarity",
+        [
+          "low_source_match"
+        ],
+        74
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Multilingual Evaluation",
+        [
+          "low_source_match"
+        ],
+        61
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Evaluation Frameworks",
+        [
+          "low_source_match"
+        ],
+        57
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Crosslingual Models",
+        [
+          "low_source_match"
+        ],
+        65
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Kernel Methods",
+        [
+          "low_source_match"
+        ],
+        71
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        10,
+        "Attention Mechanism",
+        [
+          "low_source_match"
+        ],
+        68
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        9,
+        "Parameter Budget Management",
+        [
+          "low_source_match"
+        ],
+        74
+      ],
+      [
+        "papers/Hu2021_LoRA.pdf",
+        9,
+        "Attention Mechanism",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        68
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        2,
+        "Retrieval Mechanism",
+        [
+          "low_source_match"
+        ],
+        71
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        2,
+        "Training Procedure",
+        [
+          "low_source_match"
+        ],
+        72
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        6,
+        "Classification Model",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        70
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        8,
+        "RAG Model Performance Metrics",
+        [
+          "low_source_match"
+        ],
+        69
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        8,
+        "Query Mismatch Impact",
+        [
+          "low_source_match"
+        ],
+        57
+      ],
+      [
+        "papers/Lewis2020_RAG.pdf",
+        10,
+        "Reviewer Feedback",
+        [
+          "low_source_match"
+        ],
+        71
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        6,
+        "Relative Positioning Mechanism",
+        [
+          "low_source_match"
+        ],
+        70
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        6,
+        "Path Length in Networks",
+        [
+          "low_source_match"
+        ],
+        70
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        6,
+        "Parallelization in Transformers",
+        [
+          "low_source_match"
+        ],
+        61
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        4,
+        "Concatenation of Projected Vectors",
+        [
+          "low_source_match"
+        ],
+        65
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        8,
+        "Attention Mechanism",
+        [
+          "low_source_match"
+        ],
+        68
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        1,
+        "Parallelizable Transformer Architecture",
+        [
+          "low_source_match"
+        ],
+        69
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        3,
+        "Vector Space",
+        [
+          "no_relations",
+          "low_source_match"
+        ],
+        67
+      ],
+      [
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf",
+        7,
+        "Linear Learning Rate Ramp-up",
+        [
+          "low_source_match"
+        ],
+        70
+      ],
+      [
+        "probable.pdf",
+        5,
+        "Evaluation Metrics",
+        [
+          "low_source_match"
+        ],
+        72
+      ],
+      [
+        "probable.pdf",
+        5,
+        "Monte Carlo Sampling Strategy",
+        [
+          "low_source_match"
+        ],
+        72
+      ],
+      [
+        "probable.pdf",
+        5,
+        "Prompt Format Consistency",
+        [
+          "low_source_match"
+        ],
+        64
+      ],
+      [
+        "probable.pdf",
+        7,
+        "GSM8K Score Regression",
+        [
+          "low_source_match"
+        ],
+        55
+      ],
+      [
+        "probable.pdf",
+        15,
+        "Soft-Cross-Evaluation",
+        [
+          "low_source_match"
+        ],
+        63
+      ],
+      [
+        "probable.pdf",
+        15,
+        "Prefix Trie Construction",
+        [
+          "low_source_match"
+        ],
+        67
+      ],
+      [
+        "probable.pdf",
+        15,
+        "Target Distribution Discretization",
+        [
+          "low_source_match"
+        ],
+        71
+      ],
+      [
+        "probable.pdf",
+        15,
+        "Soft-Cross-Evaluation Frameworks",
+        [
+          "low_source_match"
+        ],
+        57
+      ],
+      [
+        "probable.pdf",
+        15,
+        "Prefix Mass Update Rule",
+        [
+          "low_source_match"
+        ],
+        61
+      ],
+      [
+        "probable.pdf",
+        15,
+        "Softmax Function",
+        [
+          "low_source_match"
+        ],
+        56
+      ],
+      [
+        "probable.pdf",
+        15,
+        "KL Divergence Loss Function",
+        [
+          "low_source_match"
+        ],
+        56
+      ],
+      [
+        "probable.pdf",
+        15,
+        "Tokenization Process",
+        [
+          "low_source_match"
+        ],
+        60
+      ],
+      [
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md",
+        0,
+        "Attention Mechanism",
+        [
+          "low_source_match"
+        ],
+        58
+      ],
+      [
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md",
+        0,
+        "Positional Encoding",
+        [
+          "low_source_match"
+        ],
+        68
+      ]
+    ]
+  },
+  "per_source": {
+    "papers/Devlin2018_BERT.pdf": {
+      "total_concepts": 85,
+      "pages_sampled": [
+        14,
+        3,
+        4,
+        8,
+        9,
+        13,
+        5,
+        7
+      ],
+      "pages": {
+        "14": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "BERT",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_052"
+            },
+            {
+              "concept": "GPT (Generative Pre-trained Transformer)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_052"
+            },
+            {
+              "concept": "OpenAI GPT",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_052"
+            },
+            {
+              "concept": "ELMo (Embedding-based Model)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_052"
+            },
+            {
+              "concept": "Fine-tuning",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_052"
+            },
+            {
+              "concept": "Ablation Experiment",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_053"
+            },
+            {
+              "concept": "Ablation Results",
+              "type": "result",
+              "match_score": 69,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_053"
+            },
+            {
+              "concept": "Bidirectionality",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_053"
+            },
+            {
+              "concept": "Pre-training Tasks",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_053"
+            },
+            {
+              "concept": "Experimental Design",
+              "type": "method",
+              "match_score": 74,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_053"
+            },
+            {
+              "concept": "Fine-tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_054"
+            },
+            {
+              "concept": "Output Layer",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_054"
+            },
+            {
+              "concept": "Task-level Tasks",
+              "type": "definition",
+              "match_score": 80,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_054"
+            },
+            {
+              "concept": "Input Embeddings",
+              "type": "technique",
+              "match_score": 94,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_054"
+            },
+            {
+              "concept": "Classification Output",
+              "type": "result",
+              "match_score": 90,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_054"
+            },
+            {
+              "concept": "Multi-Genre Natural Language Inference",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_055"
+            },
+            {
+              "concept": "Question Answering Dataset (Stanford)",
+              "type": "dataset",
+              "match_score": 96,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_055"
+            },
+            {
+              "concept": "Quora Question Pairs (Binary)",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_055"
+            },
+            {
+              "concept": "BERT (Bert Model)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 14,
+              "chunk_id": "chunk_055"
+            },
+            {
+              "concept": "E[CLS] Token",
+              "type": "technique",
+              "match_score": 80,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 14,
+              "chunk_id": "chunk_055"
+            }
+          ],
+          "text_preview": "BERT (Ours) Trm Trm Trm Trm Trm Trm ... ... Trm Trm Trm Trm Trm Trm ... ... OpenAI GPT Lstm ELMo Lstm Lstm Lstm Lstm Lstm Lstm Lstm Lstm Lstm Lstm Lstm  T1 T2  TN ... ... ... ... ...  E1 E2  EN ...  T1 T2 TN ...  E1 E2  EN ...  T1 T2  TN ...  E1 E2  EN ... Figure 3: Differences in pre-training model architectures. BERT uses a bidirectional Transformer. OpenAI GPT uses a left-to-right Transformer. ELMo uses the concatenation of independently trained left-to-right and right-to- left LSTMs to generate features for downstream tasks. Among the three, only BERT representations are jointly conditioned on both left and right context in all layers. In addition to the architecture differences, BERT an"
+        },
+        "3": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Transformer Encoder",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Self-Attention Head",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Fine-Tuning Strategy",
+              "type": "method",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 3,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Downstream Task",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Labeled Data",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Bidirectional Self-Attention",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Constrained Self-Attention (Leftward Attention)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Model Size Comparison (BERTBASE vs GPT)",
+              "type": "metric",
+              "match_score": 67,
+              "flags": [
+                "name_too_long",
+                "low_source_match"
+              ],
+              "page": 3,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Feed-Forward/Filter Size (4H)",
+              "type": "technique",
+              "match_score": 91,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Input Representation (Sentence/Sequence)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_011"
+            }
+          ],
+          "text_preview": "word based only on its context. Unlike left-to- right language model pre-training, the MLM ob- jective enables the representation to fuse the left and the right context, which allows us to pre- train a deep bidirectional Transformer. In addi- tion to the masked language model, we also use a “next sentence prediction” task that jointly pre- trains text-pair representations. The contributions of our paper are as follows: • We demonstrate the importance of bidirectional pre-training for language representations. Un- like Radford et al. (2018), which uses unidirec- tional language models for pre-training, BERT uses masked language models to enable pre- trained deep bidirectional representations."
+        },
+        "4": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Bidirectional Language Model",
+              "type": "method",
+              "match_score": 82,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Masked Language Modeling (LM)",
+              "type": "technique",
+              "match_score": 83,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Conditional Language Models (CLMs)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Multi-Head Attention",
+              "type": "technique",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Next Sentence Prediction",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Next Sentence Prediction (NSP)",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Sentence Sequence",
+              "type": "dataset",
+              "match_score": 88,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Sentence Embeddings (Segment)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Sentence Embeddings (Position)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_015"
+            }
+          ],
+          "text_preview": "BERT BERT E[CLS] E1  E[SEP] ... EN E1’ ... EM’ C T1 T[SEP] ... TN T1’ ... TM’ [CLS] Tok 1  [SEP] ... Tok N Tok 1 ... TokM Question Paragraph Start/End Span BERT E[CLS] E1  E[SEP] ... EN E1’ ... EM’ C T1 T[SEP] ... TN T1’ ... TM’ [CLS] Tok 1  [SEP] ... Tok N Tok 1 ... TokM Masked Sentence A Masked Sentence B Pre-training Fine-Tuning NSP Mask LM Mask LM Unlabeled Sentence A and B Pair  SQuAD Question Answer Pair NER MNLI Figure 1: Overall pre-training and ﬁne-tuning procedures for BERT. Apart from output layers, the same architec- tures are used in both pre-training and ﬁne-tuning. The same pre-trained model parameters are used to initialize models for different down-stream tasks. During ﬁne-t"
+        },
+        "8": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Masked Language Modeling",
+              "type": "method",
+              "match_score": 83,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Next Sentence Prediction (NSP)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Bidirectional Representation Learning",
+              "type": "technique",
+              "match_score": 78,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Left-to-Right (LTR) Model Architecture",
+              "type": "technique",
+              "match_score": 70,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Pre-training Data Consistency",
+              "type": "technique",
+              "match_score": 71,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Bidirectional Model",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "ELMo Model",
+              "type": "method",
+              "match_score": 80,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "GLUE Task",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "BiLSTM Model",
+              "type": "method",
+              "match_score": 67,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Transformer Architecture",
+              "type": "method",
+              "match_score": 75,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            }
+          ],
+          "text_preview": "System Dev Test EM F1 EM F1 Top Leaderboard Systems (Dec 10th, 2018) Human - - 82.3 91.2 #1 Ensemble - nlnet - - 86.0 91.7 #2 Ensemble - QANet - - 84.5 90.5 Published BiDAF+ELMo (Single) - 85.6 - 85.8 R.M. Reader (Ensemble) 81.2 87.9 82.3 88.5 Ours BERTBASE (Single) 80.8 88.5 - - BERTLARGE (Single) 84.1 90.9 - - BERTLARGE (Ensemble) 85.8 91.8 - - BERTLARGE (Sgl.+TriviaQA) 84.2 91.1 85.1 91.8 BERTLARGE (Ens.+TriviaQA) 86.2 92.2 87.4 93.2 Table 2: SQuAD 1.1 results. The BERT ensemble is 7x systems which use different pre-training check- points and ﬁne-tuning seeds. System Dev Test EM F1 EM F1 Top Leaderboard Systems (Dec 10th, 2018) Human 86.3 89.0 86.9 89.5 #1 Single - MIR-MRC (F-Net) - - 74."
+        },
+        "9": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Fine-tuning approach",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "Feature-based approach",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "Hyperparameter Dev Set Accuracy",
+              "type": "metric",
+              "match_score": 84,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 9,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "Table 6: Ablation over BERT model size",
+              "type": "result",
+              "match_score": 97,
+              "flags": [
+                "name_too_long"
+              ],
+              "page": 9,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "System Dev F1 Test F1",
+              "type": "metric",
+              "match_score": 95,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 9,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "BERT",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Fine-Tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Embeddings",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "BiLSTM",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Transformer",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_034"
+            }
+          ],
+          "text_preview": "Dev Set Tasks MNLI-m QNLI MRPC SST-2 SQuAD (Acc) (Acc) (Acc) (Acc) (F1) BERTBASE 84.4 88.4 86.7 92.7 88.5 No NSP 83.9 84.9 86.5 92.6 87.9 LTR & No NSP 82.1 84.3 77.5 92.1 77.8 + BiLSTM 82.1 84.1 75.7 91.6 84.9 Table 5: Ablation over the pre-training tasks using the BERTBASE architecture. “No NSP” is trained without the next sentence prediction task. “LTR & No NSP” is trained as a left-to-right LM without the next sentence prediction, like OpenAI GPT. “+ BiLSTM” adds a ran- domly initialized BiLSTM on top of the “LTR + No NSP” model during ﬁne-tuning. ablation studies can be found in Appendix C. 5.1 Effect of Pre-training Tasks We demonstrate the importance of the deep bidi- rectionality of B"
+        },
+        "13": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Masking",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 13,
+              "chunk_id": "chunk_047"
+            },
+            {
+              "concept": "Label Prediction",
+              "type": "method",
+              "match_score": 81,
+              "flags": [],
+              "page": 13,
+              "chunk_id": "chunk_047"
+            },
+            {
+              "concept": "Input Representation",
+              "type": "technique",
+              "match_score": 80,
+              "flags": [],
+              "page": 13,
+              "chunk_id": "chunk_047"
+            },
+            {
+              "concept": "Label Encoding (IsNext)",
+              "type": "technique",
+              "match_score": 64,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 13,
+              "chunk_id": "chunk_047"
+            },
+            {
+              "concept": "Label Encoding (NotNext)",
+              "type": "technique",
+              "match_score": 64,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 13,
+              "chunk_id": "chunk_047"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 13,
+              "chunk_id": "chunk_049"
+            },
+            {
+              "concept": "Pre-training",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 13,
+              "chunk_id": "chunk_049"
+            },
+            {
+              "concept": "Training Steps",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 13,
+              "chunk_id": "chunk_049"
+            },
+            {
+              "concept": "Positional Embeddings",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 13,
+              "chunk_id": "chunk_049"
+            },
+            {
+              "concept": "Sequence Length",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 13,
+              "chunk_id": "chunk_049"
+            }
+          ],
+          "text_preview": "for natural language understanding. In Proceedings of the 2018 EMNLP Workshop BlackboxNLP: An- alyzing and Interpreting Neural Networks for NLP, pages 353–355. Wei Wang, Ming Yan, and Chen Wu. 2018b. Multi- granularity hierarchical attention fusion networks for reading comprehension and question answering. In Proceedings of the 56th Annual Meeting of the As- sociation for Computational Linguistics (Volume 1: Long Papers). Association for Computational Lin- guistics. Alex Warstadt, Amanpreet Singh, and Samuel R Bow- man. 2018. Neural network acceptability judg- ments. arXiv preprint arXiv:1805.12471. Adina Williams, Nikita Nangia, and Samuel R Bow- man. 2018. A broad-coverage challenge corpus"
+        },
+        "5": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "GLUE Benchmark",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "Fine-Tuning Loss Function",
+              "type": "method",
+              "match_score": 67,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "CLS Token",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "Classification Layer Weights",
+              "type": "method",
+              "match_score": 93,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "Softmax Function",
+              "type": "method",
+              "match_score": 62,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_019"
+            }
+          ],
+          "text_preview": "Input/Output Representations To make BERT handle a variety of down-stream tasks, our input representation is able to unambiguously represent both a single sentence and a pair of sentences (e.g., ⟨Question, Answer ⟩) in one token sequence. Throughout this work, a “sentence” can be an arbi- trary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the in- put token sequence to BERT, which may be a sin- gle sentence or two sentences packed together. We use WordPiece embeddings (Wu et al., 2016) with a 30,000 token vocabulary. The ﬁrst token of every sequence is always a special clas- siﬁcation token ([CLS]). The ﬁnal hidden state corresponding to this toke"
+        },
+        "7": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "BERTBASE",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Next Sentence Prediction (NSP)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "LTR & No NSP",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "BiLSTM",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Ablation Study",
+              "type": "method",
+              "match_score": 93,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 7,
+              "chunk_id": "chunk_028"
+            }
+          ],
+          "text_preview": "System MNLI-(m/mm) QQP QNLI SST-2 CoLA STS-B MRPC RTE Average 392k 363k 108k 67k 8.5k 5.7k 3.5k 2.5k - Pre-OpenAI SOTA 80.6/80.1 66.1 82.3 93.2 35.0 81.0 86.0 61.7 74.0 BiLSTM+ELMo+Attn 76.4/76.1 64.8 79.8 90.4 36.0 73.3 84.9 56.8 71.0 OpenAI GPT 82.1/81.4 70.3 87.4 91.3 45.4 80.0 82.3 56.0 75.1 BERTBASE 84.6/83.4 71.2 90.5 93.5 52.1 85.8 88.9 66.4 79.6 BERTLARGE 86.7/85.9 72.1 92.7 94.9 60.5 86.5 89.3 70.1 82.1 Table 1: GLUE Test results, scored by the evaluation server (https://gluebenchmark.com/leaderboard). The number below each task denotes the number of training examples. The “Average” column is slightly different than the ofﬁcial GLUE score, since we exclude the problematic WNLI set.8"
+        }
+      }
+    },
+    "papers/Edge2024_GraphRAG.pdf": {
+      "total_concepts": 50,
+      "pages_sampled": [
+        6,
+        7,
+        1,
+        4,
+        5,
+        8,
+        11,
+        12
+      ],
+      "pages": {
+        "6": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Community Summary",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_022"
+            },
+            {
+              "concept": "Community Level",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_022"
+            },
+            {
+              "concept": "Global Answer",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_022"
+            },
+            {
+              "concept": "Score Evaluation",
+              "type": "metric",
+              "match_score": 81,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_022"
+            },
+            {
+              "concept": "Token Size Limit",
+              "type": "technique",
+              "match_score": 75,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_022"
+            },
+            {
+              "concept": "RAG System",
+              "type": "tool",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "High-Level Understanding",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "Corpus-Specific Questions",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "Persona Generation",
+              "type": "technique",
+              "match_score": 83,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "Task Completion",
+              "type": "technique",
+              "match_score": 73,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_023"
+            }
+          ],
+          "text_preview": "NeoChip’s (NC) shares surged in their first week of trading on the NewTech Ex- change. However, market analysts caution that the chipmaker’s public debut may not reflect trends for other technology IPOs. NeoChip, previously a private entity, was acquired by Quantum Systems in 2016. The innovative semiconductor firm specializes in low-power processors for wearables and IoT devices. The LLM is prompted such that it extracts the following: • The entity NeoChip, with description “NeoChip is a publicly traded company specializing in low-power processors for wearables and IoT devices.” • The entity Quantum Systems, with description “Quantum Systems is a firm that previ- ously owned NeoChip.” • A r"
+        },
+        "7": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Corpus Description",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "User Persona",
+              "type": "technique",
+              "match_score": 75,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "Task Definition",
+              "type": "technique",
+              "match_score": 67,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 7,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "High-Level Question",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "Question Generation Procedure",
+              "type": "method",
+              "match_score": 76,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "Tech Policy",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_027"
+            },
+            {
+              "concept": "Privacy Laws",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_027"
+            },
+            {
+              "concept": "Health Literacy",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_027"
+            },
+            {
+              "concept": "Collaboration Between Tech Companies & Governments",
+              "type": "technique",
+              "match_score": 92,
+              "flags": [
+                "no_relations",
+                "name_too_long"
+              ],
+              "page": 7,
+              "chunk_id": "chunk_027"
+            },
+            {
+              "concept": "Policy Changes",
+              "type": "method",
+              "match_score": 71,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 7,
+              "chunk_id": "chunk_027"
+            }
+          ],
+          "text_preview": "Each level of this hierarchy provides a community partition that covers the nodes of the graph in a mutually exclusive, collectively exhaustive way, enabling divide-and-conquer global summarization. An illustration of such hierarchical partitioning on an example dataset can be found in Appendix B. 3.1.5 Graph Communities →Community Summaries The next step creates report-like summaries of each community in the community hierarchy, using a method designed to scale to very large datasets. These summaries are independently useful as a way to understand the global structure and semantics of the dataset, and may themselves be used to make sense of a corpus in the absence of a specific query. For e"
+        },
+        "1": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Graph-based approach",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "Entity Knowledge Graph",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "Community Summary Generation",
+              "type": "technique",
+              "match_score": 75,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "Typical RAG Systems",
+              "type": "method",
+              "match_score": 95,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "Query-Focused Summarization (QFS)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            }
+          ],
+          "text_preview": "From Local to Global: A GraphRAG Approach to Query-Focused Summarization Darren Edge1† Ha Trinh1† Newman Cheng2 Joshua Bradley2 Alex Chao3 Apurva Mody3 Steven Truitt2 Dasha Metropolitansky1 Robert Osazuwa Ness1 Jonathan Larson1 1Microsoft Research 2Microsoft Strategic Missions and Technologies 3Microsoft Office of the CTO {daedge,trinhha,newmancheng,joshbradley,achao,moapurva, steventruitt,dasham,robertness,jolarso}@microsoft.com †These authors contributed equally to this work Abstract The use of retrieval-augmented generation (RAG) to retrieve relevant informa- tion from an external knowledge source enables large language models (LLMs) to answer questions over private and/or previously unse"
+        },
+        "4": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "GraphRAG",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Pipeline Design Parameters",
+              "type": "technique",
+              "match_score": 77,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Graph Structure",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Search Engine",
+              "type": "method",
+              "match_score": 69,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Implementation Details",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_014"
+            }
+          ],
+          "text_preview": "GraphRAG builds upon prior work on advanced RAG strategies. GraphRAG leverages summaries over large sections of the data source as a form of ”self-memory” (described in Cheng et al. 2024), which are later used to answer queries as in Mao et al. 2020). These summaries are generated in parallel and iteratively aggregated into global summaries, similar to prior techniques (Feng et al., 2023; Gao et al., 2023; Khattab et al., 2022; Shao et al., 2023; Su et al., 2020; Trivedi et al., 2022; Wang et al., 2024). In particular, GraphRAG is similar to other approaches that use hierarchical indexing to create summaries (similar to Kim et al. 2023; Sarthi et al. 2024). GraphRAG contrasts with these appr"
+        },
+        "5": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "LLM",
+              "type": "tool",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Abstractive Summarization",
+              "type": "method",
+              "match_score": 96,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Entity Extraction",
+              "type": "method",
+              "match_score": 76,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Relationship Detection",
+              "type": "method",
+              "match_score": 77,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Claim Extraction",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            }
+          ],
+          "text_preview": "Source Documents Text Chunks text extraction and chunking Entities & Relationships domain-tailored summarization Knowledge Graph domain-tailored summarization Graph Communities community detection Community Summaries domain-tailored summarization Community Answers query-focused summarization Global Answer query-focused summarization Indexing Time Query Time Pipeline Stage Figure 1: Graph RAG pipeline using an LLM-derived graph index of source document text. This graph index spans nodes (e.g., entities), edges (e.g., relationships), and covariates (e.g., claims) that have been detected, extracted, and summarized by LLM prompts tailored to the domain of the dataset. Community detection (e.g., "
+        },
+        "8": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "GraphRAG",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Map-Reduce Approach",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Vector RAG Semantic Search Approach",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Text Summarization Method",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Community Level",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            }
+          ],
+          "text_preview": "Algorithm 1: Prompting Procedure for Question Generation 1: Input: Description of a corpus, number of users K, number of tasks per user N, number of questions per (user, task) combination M. 2: Output: A set of K ∗N ∗M high-level questions requiring global understanding of the corpus. 3: procedure GENERATEQUESTIONS 4: Based on the corpus description, prompt the LLM to: 1. Describe personas of K potential users of the dataset. 2. For each user, identify N tasks relevant to the user. 3. Specific to each user & task pair, generate M high-level questions that: • Require understanding of the entire corpus. • Do not require retrieval of specific low-level facts. 5: Collect the generated questions "
+        },
+        "11": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Sensemaking Questions",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 11,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Fabrication Rates",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 11,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "SelfCheckGPT (Manakul et al., 2023)",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 11,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Domain Generalization",
+              "type": "theory",
+              "match_score": 71,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 11,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Corpus Analysis",
+              "type": "method",
+              "match_score": 67,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 11,
+              "chunk_id": "chunk_041"
+            }
+          ],
+          "text_preview": "Podcast transcripts 50 17 28 25 22 21 83 50 50 48 43 44 72 50 50 53 50 49 75 52 47 50 52 50 78 57 50 48 50 52 79 56 51 50 48 50 SS TS C0 C1 C2 C3 SS TS C0 C1 C2 C3 Comprehensiveness 50 18 23 25 19 19 82 50 50 50 43 46 77 50 50 50 46 44 75 50 50 50 44 45 81 57 54 56 50 48 81 54 56 55 52 50 SS TS C0 C1 C2 C3 SS TS C0 C1 C2 C3 Diversity 50 42 57 52 49 51 58 50 59 55 52 51 43 41 50 49 47 48 48 45 51 50 49 50 51 48 53 51 50 51 49 49 52 50 49 50 SS TS C0 C1 C2 C3 SS TS C0 C1 C2 C3 Empowerment 50 56 65 60 60 60 44 50 55 52 51 52 35 45 50 47 48 48 40 48 53 50 50 50 40 49 52 50 50 50 40 48 52 50 50 50 SS TS C0 C1 C2 C3 SS TS C0 C1 C2 C3 Directness News articles 50 20 28 25 21 21 80 50 44 41 38 36 72 "
+        },
+        "12": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Contributors",
+              "type": "dataset",
+              "match_score": 75,
+              "flags": [],
+              "page": 12,
+              "chunk_id": "chunk_045"
+            },
+            {
+              "concept": "Contributor Name",
+              "type": "method",
+              "match_score": 69,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 12,
+              "chunk_id": "chunk_045"
+            },
+            {
+              "concept": "Author Name",
+              "type": "method",
+              "match_score": 64,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 12,
+              "chunk_id": "chunk_045"
+            },
+            {
+              "concept": "Author Name (Title Case)",
+              "type": "method",
+              "match_score": 64,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 12,
+              "chunk_id": "chunk_045"
+            },
+            {
+              "concept": "Author Name (Title Case)",
+              "type": "method",
+              "match_score": 64,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 12,
+              "chunk_id": "chunk_045"
+            }
+          ],
+          "text_preview": "Table 3: Average number of extracted claims, reported by condition and dataset type. Bolded values represent the highest score in each column. Condition Average Number of Claims News Articles Podcast Transcripts C0 34.18 32.21 C1 32.50 32.20 C2 31.62 32.46 C3 33.14 32.28 TS 32.89 31.39 SS 25.23 26.50 5.2 Experiment 2 Table 3 shows the results for the average number of extracted claims (i.e., the claim-based measure of comprehensiveness) per condition. For both the News and Podcast datasets, all global search conditions (C0-C3) and source text summarization (TS) had greater comprehensiveness than vector RAG (SS). The differences were statistically significant (p<.05) in all cases. These findi"
+        }
+      }
+    },
+    "papers/Hu2021_LoRA.pdf": {
+      "total_concepts": 85,
+      "pages_sampled": [
+        1,
+        10,
+        8,
+        9
+      ],
+      "pages": {
+        "1": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 63,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "Positional Encoding",
+              "type": "technique",
+              "match_score": 63,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "BERT Model Architecture",
+              "type": "method",
+              "match_score": 70,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "BERT Encoder Layer",
+              "type": "method",
+              "match_score": 61,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "BERT Decoder Layer",
+              "type": "method",
+              "match_score": 61,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "LoRA",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "Fine-tuning",
+              "type": "method",
+              "match_score": 90,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 63,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "Rank-Decomposition Matrices",
+              "type": "technique",
+              "match_score": 96,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "PyTorch Models",
+              "type": "dataset",
+              "match_score": 93,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_002"
+            },
+            {
+              "concept": "LoRA",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_005"
+            },
+            {
+              "concept": "Adaptive Optimizer (Adam)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_005"
+            },
+            {
+              "concept": "Low-Rank Matrices (LoRA)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_005"
+            },
+            {
+              "concept": "Self-Attention Module",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_005"
+            },
+            {
+              "concept": "Gradient Descent (Optimization)",
+              "type": "method",
+              "match_score": 69,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_005"
+            },
+            {
+              "concept": "Conditional Language Modeling",
+              "type": "method",
+              "match_score": 76,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Pre-trained Autoregressive Model PΦ(y|x)",
+              "type": "definition",
+              "match_score": 82,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Training Dataset Z = {(xi, yi)}i=1,..,N",
+              "type": "dataset",
+              "match_score": 83,
+              "flags": [
+                "name_too_long"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Gradient Update ∆Φ = Φ0 + ΔΦ",
+              "type": "method",
+              "match_score": 84,
+              "flags": [
+                "name_too_long"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Multi-Task Learning (ML)",
+              "type": "method",
+              "match_score": 83,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Low-Rank Decomposition",
+              "type": "technique",
+              "match_score": 90,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Gradient Scaling (α)",
+              "type": "method",
+              "match_score": 69,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Intrinsic Rank Reduction",
+              "type": "theory",
+              "match_score": 79,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Weight Initialization (Gaussian)",
+              "type": "technique",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Coordinate-wise Summation",
+              "type": "technique",
+              "match_score": 54,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "LoRA",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "LoRA Rank r",
+              "type": "metric",
+              "match_score": 82,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Full Fine-tuning",
+              "type": "method",
+              "match_score": 87,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Transformer",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Adaptive Methods (e.g., MLP)",
+              "type": "result",
+              "match_score": 62,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "LoRA",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "VRAM Usage Reduction",
+              "type": "metric",
+              "match_score": 60,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Checkpoint Size Reduction",
+              "type": "metric",
+              "match_score": 60,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Task Swapping at Runtime",
+              "type": "technique",
+              "match_score": 54,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Gradient Calculation Avoidance",
+              "type": "technique",
+              "match_score": 60,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "LoRA",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "DeBERTa XXL (1.5B)",
+              "type": "dataset",
+              "match_score": 73,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "Transformer (Self-Attention)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "GLUE",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "Su- superGLUE",
+              "type": "metric",
+              "match_score": 58,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_021"
+            }
+          ],
+          "text_preview": "LORA: LOW-RANK ADAPTATION OF LARGE LAN- GUAGE MODELS Edward Hu∗ Yelong Shen∗ Phillip Wallis Zeyuan Allen-Zhu Yuanzhi Li Shean Wang Lu Wang Weizhu Chen Microsoft Corporation {edwardhu, yeshe, phwallis, zeyuana, yuanzhil, swang, luw, wzchen}@microsoft.com yuanzhil@andrew.cmu.edu (Version 2) ABSTRACT An important paradigm of natural language processing consists of large-scale pre- training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full ﬁne-tuning, which retrains all model parameters, becomes less feasible. Using GPT-3 175B as an example – deploying indepen- dent instances of ﬁne-tuned models, each with 175B parameters, is prohibitively "
+        },
+        "10": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "LoRA",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Rank r",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Validation Accuracy",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Wq and Wv",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "Standard Deviation Across Random Seeds",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_029"
+            },
+            {
+              "concept": "LoRA Update Matrix",
+              "type": "method",
+              "match_score": 78,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Low-Rank Adaptation Matrix (LoRA)",
+              "type": "tool",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Grassmann Distance",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Singular Value Decomposition (SVD)",
+              "type": "technique",
+              "match_score": 96,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Low-Rank Adaptation (LR)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Subspace Similarity",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_032"
+            },
+            {
+              "concept": "Intrinsic Rank",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_032"
+            },
+            {
+              "concept": "Singular Value Direction",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_032"
+            },
+            {
+              "concept": "Random Gaussian Matrices",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_032"
+            },
+            {
+              "concept": "Correlates With",
+              "type": "technique",
+              "match_score": 93,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_032"
+            },
+            {
+              "concept": "Frobenius Norm",
+              "type": "metric",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "Left/Right Singular Vectors",
+              "type": "technique",
+              "match_score": 77,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "Rank Adaptation Matrix",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "Feature Amplification",
+              "type": "result",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "Low-Rank Adaptation Matrix",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_033"
+            },
+            {
+              "concept": "LoRA",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Fine-Tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Rank-Deficient Matrix",
+              "type": "technique",
+              "match_score": 65,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Transformer Language Models",
+              "type": "method",
+              "match_score": 93,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_034"
+            },
+            {
+              "concept": "Semantic Similarity",
+              "type": "metric",
+              "match_score": 74,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_036"
+            },
+            {
+              "concept": "Multilingual Evaluation",
+              "type": "method",
+              "match_score": 61,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_036"
+            },
+            {
+              "concept": "Evaluation Frameworks",
+              "type": "method",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_036"
+            },
+            {
+              "concept": "Crosslingual Models",
+              "type": "method",
+              "match_score": 65,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_036"
+            },
+            {
+              "concept": "Text Comparison",
+              "type": "technique",
+              "match_score": 80,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_036"
+            },
+            {
+              "concept": "RDF Data",
+              "type": "dataset",
+              "match_score": 75,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "Neural Networks",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "Kernel Methods",
+              "type": "method",
+              "match_score": 71,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "Transformer Model",
+              "type": "method",
+              "match_score": 82,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            }
+          ],
+          "text_preview": "guage models trained on a large amount of text – where ﬁne-tuning on task-speciﬁc data after pre- training on general domain data provides a signiﬁcant performance gain compared to training on task-speciﬁc data directly. Training larger Transformers generally results in better performance and remains an active research direction. GPT-3 (Brown et al., 2020) is the largest single Transformer language model trained to-date with 175B parameters. Prompt Engineering and Fine-Tuning. While GPT-3 175B can adapt its behavior with just a few additional training examples, the result depends heavily on the input prompt (Brown et al., 2020). This necessitates an empirical art of composing and formatting "
+        },
+        "8": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "LoRA",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "PrefixEmbed",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "PrefixLayer",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "Adapter(H)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "GPT-3",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_023"
+            }
+          ],
+          "text_preview": "Model & Method # Trainable E2E NLG Challenge Parameters BLEU NIST MET ROUGE-L CIDEr GPT-2 M (FT)* 354.92M 68.2 8.62 46.2 71.0 2.47 GPT-2 M (AdapterL)* 0.37M 66.3 8.41 45.0 69.8 2.40 GPT-2 M (AdapterL)* 11.09M 68.9 8.71 46.1 71.3 2.47 GPT-2 M (AdapterH) 11.09M 67.3±.6 8.50±.07 46.0±.2 70.7±.2 2.44±.01 GPT-2 M (FTTop2)* 25.19M 68.1 8.59 46.0 70.8 2.41 GPT-2 M (PreLayer)* 0.35M 69.7 8.81 46.1 71.4 2.49 GPT-2 M (LoRA) 0.35M 70.4±.1 8.85±.02 46.8±.2 71.8±.1 2.53±.02 GPT-2 L (FT)* 774.03M 68.5 8.78 46.0 69.9 2.45 GPT-2 L (AdapterL) 0.88M 69.1±.1 8.68±.03 46.3±.0 71.4±.2 2.49±.0 GPT-2 L (AdapterL) 23.00M 68.9±.3 8.70±.04 46.1±.1 71.3±.2 2.45±.02 GPT-2 L (PreLayer)* 0.77M 70.3 8.85 46.2 71.7 2.47 GP"
+        },
+        "9": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "LoRA Adapter",
+              "type": "method",
+              "match_score": 75,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Parameter Budget Management",
+              "type": "technique",
+              "match_score": 74,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 9,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Self-Attention Module",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 9,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 68,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 9,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Parameter Budget (r)",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 9,
+              "chunk_id": "chunk_028"
+            }
+          ],
+          "text_preview": "Model&Method # Trainable WikiSQL MNLI-m SAMSum Parameters Acc. (%) Acc. (%) R1/R2/RL GPT-3 (FT) 175,255.8M 73.8 89.5 52.0/28.0/44.5 GPT-3 (BitFit) 14.2M 71.3 91.0 51.3/27.4/43.5 GPT-3 (PreEmbed) 3.2M 63.1 88.6 48.3/24.2/40.5 GPT-3 (PreLayer) 20.2M 70.1 89.5 50.8/27.3/43.5 GPT-3 (AdapterH) 7.1M 71.9 89.8 53.0/28.9/44.8 GPT-3 (AdapterH) 40.1M 73.2 91.5 53.2/29.0/45.1 GPT-3 (LoRA) 4.7M 73.4 91.7 53.8/29.8/45.9 GPT-3 (LoRA) 37.7M 74.0 91.6 53.4/29.2/45.1 Table 4: Performance of different adaptation methods on GPT-3 175B. We report the logical form validation accuracy on WikiSQL, validation accuracy on MultiNLI-matched, and Rouge-1/2/L on SAMSum. LoRA performs better than prior approaches, includ"
+        }
+      }
+    },
+    "papers/Lewis2020_RAG.pdf": {
+      "total_concepts": 35,
+      "pages_sampled": [
+        1,
+        2,
+        5,
+        6,
+        7,
+        8,
+        10
+      ],
+      "pages": {
+        "1": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "RAG Model",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "Knowledge Intensive NLP Tasks",
+              "type": "metric",
+              "match_score": 97,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "Explicit Non-Parametric Memory",
+              "type": "technique",
+              "match_score": 97,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "Pre-trained Neural Retriever",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "State-of-the-art (SOTA) RAG Models",
+              "type": "result",
+              "match_score": 75,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            }
+          ],
+          "text_preview": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks Patrick Lewis†‡, Ethan Perez⋆, Aleksandra Piktus†, Fabio Petroni†, Vladimir Karpukhin†, Naman Goyal†, Heinrich Küttler†, Mike Lewis†, Wen-tau Yih†, Tim Rocktäschel†‡, Sebastian Riedel†‡, Douwe Kiela† †Facebook AI Research; ‡University College London; ⋆New York University; plewis@fb.com Abstract Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when ﬁne-tuned on down- stream NLP tasks. However, their ability to access and precisely manipulate knowl- edge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task"
+        },
+        "2": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Retrieval Mechanism",
+              "type": "method",
+              "match_score": 71,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Generator Component",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Latent Variable",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Training Procedure",
+              "type": "method",
+              "match_score": 72,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Decoding Procedure",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            }
+          ],
+          "text_preview": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks Patrick Lewis†‡, Ethan Perez⋆, Aleksandra Piktus†, Fabio Petroni†, Vladimir Karpukhin†, Naman Goyal†, Heinrich Küttler†, Mike Lewis†, Wen-tau Yih†, Tim Rocktäschel†‡, Sebastian Riedel†‡, Douwe Kiela† †Facebook AI Research; ‡University College London; ⋆New York University; plewis@fb.com Abstract Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when ﬁne-tuned on down- stream NLP tasks. However, their ability to access and precisely manipulate knowl- edge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task"
+        },
+        "5": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Re-ranking",
+              "type": "technique",
+              "match_score": 78,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Open-book Retrieval Approach",
+              "type": "method",
+              "match_score": 81,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Salient Span Masking Pre-training",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "DPR Retriever",
+              "type": "method",
+              "match_score": 92,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "T5-comparable Split for TQA",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_018"
+            }
+          ],
+          "text_preview": "minimize the negative marginal log-likelihood of each target, P j −log p(yj|xj) using stochastic gradient descent with Adam [28]. Updating the document encoder BERTd during training is costly as it requires the document index to be periodically updated as REALM does during pre-training [20]. We do not ﬁnd this step necessary for strong performance, and keep the document encoder (and index) ﬁxed, only ﬁne-tuning the query encoder BERTq and the BART generator. 2.5 Decoding At test time, RAG-Sequence and RAG-Token require different ways to approximate arg maxy p(y|x). RAG-Token The RAG-Token model can be seen as a standard, autoregressive seq2seq genera- tor with transition probability: p′ θ(yi"
+        },
+        "6": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Gold Context",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "Classification Model",
+              "type": "method",
+              "match_score": 70,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "Test Scores",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "Best Model Without Gold Access Underlined",
+              "type": "result",
+              "match_score": 100,
+              "flags": [
+                "name_too_long"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_019"
+            },
+            {
+              "concept": "Fever-3",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_019"
+            }
+          ],
+          "text_preview": "MSMARCO as an open-domain abstractive QA task. MSMARCO has some questions that cannot be answered in a way that matches the reference answer without access to the gold passages, such as “What is the weather in Volcano, CA?” so performance will be lower without using gold passages. We also note that some MSMARCO questions cannot be answered using Wikipedia alone. Here, RAG can rely on parametric knowledge to generate reasonable responses. 3.3 Jeopardy Question Generation To evaluate RAG’s generation abilities in a non-QA setting, we study open-domain question gen- eration. Rather than use questions from standard open-domain QA tasks, which typically consist of short, simple questions, we prop"
+        },
+        "7": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "BOS (Begin of Sentence)",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_025"
+            },
+            {
+              "concept": "RAG-Token (Retrieval-Augmented Generation)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_025"
+            },
+            {
+              "concept": "RAG-T (Retrieve, Generate)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_025"
+            },
+            {
+              "concept": "RAG-S (Retrieve, Summarize)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_025"
+            },
+            {
+              "concept": "RAG-Token",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_025"
+            }
+          ],
+          "text_preview": "Table 1: Open-Domain QA Test Scores. For TQA, left column uses the standard test set for Open- Domain QA, right column uses the TQA-Wiki test set. See Appendix D for further details. Model NQ TQA WQ CT Closed Book T5-11B [52] 34.5 - /50.1 37.4 - T5-11B+SSM[52] 36.6 - /60.5 44.7 - Open Book REALM [20] 40.4 - / - 40.7 46.8 DPR [26] 41.5 57.9/ - 41.1 50.6 RAG-Token 44.1 55.2/66.1 45.5 50.0 RAG-Seq. 44.5 56.8/68.0 45.2 52.2 Table 2: Generation and classiﬁcation Test Scores. MS-MARCO SotA is [4], FEVER-3 is [68] and FEVER-2 is [57] *Uses gold context/evidence. Best model without gold access underlined. Model Jeopardy MSMARCO FVR3 FVR2 B-1 QB-1 R-L B-1 Label Acc. SotA - - 49.8* 49.9* 76.8 92.2* BA"
+        },
+        "8": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Query Template",
+              "type": "tool",
+              "match_score": 79,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Retrieved Documents Count",
+              "type": "metric",
+              "match_score": 84,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Document Retrieval Mechanism",
+              "type": "technique",
+              "match_score": 79,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "RAG Model Performance Metrics",
+              "type": "metric",
+              "match_score": 69,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            },
+            {
+              "concept": "Query Mismatch Impact",
+              "type": "metric",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_030"
+            }
+          ],
+          "text_preview": "Document 1: his works are considered classics of American literature ... His wartime experiences formed the basis for his novel ”A Farewell to Arms” (1929) ... Document 2: ... artists of the 1920s ”Lost Generation” expatriate community. His debut novel, ”The Sun Also Rises”, was published in 1926. BOS ” The Sun Also R ises ” is a novel by this authorof ” A Fare well to Arms” Doc 1 Doc 2 Doc 3 Doc 4 Doc 5 Figure 2: RAG-Token document posterior p(zi|x, yi, y−i) for each generated token for input “Hem- ingway\" for Jeopardy generation with 5 retrieved documents. The posterior for document 1 is high when generating “A Farewell to Arms\" and for document 2 when generating “The Sun Also Rises\". Tabl"
+        },
+        "10": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "HuggingFace",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "Reviewer Feedback",
+              "type": "method",
+              "match_score": 71,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "RAG Models",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "FAIR PhD Program",
+              "type": "theory",
+              "match_score": 94,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            },
+            {
+              "concept": "NSF Graduate Research Fellowship",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_037"
+            }
+          ],
+          "text_preview": "General-Purpose Architectures for NLP Prior work on general-purpose architectures for NLP tasks has shown great success without the use of retrieval. A single, pre-trained language model has been shown to achieve strong performance on various classiﬁcation tasks in the GLUE bench- marks [60, 61] after ﬁne-tuning [49, 8]. GPT-2 [50] later showed that a single, left-to-right, pre-trained language model could achieve strong performance across both discriminative and generative tasks. For further improvement, BART [32] and T5 [51, 52] propose a single, pre-trained encoder-decoder model that leverages bi-directional attention to achieve stronger performance on discriminative and generative tasks."
+        }
+      }
+    },
+    "papers/Vaswani2017_Attention_Is_All_You_Need.pdf": {
+      "total_concepts": 68,
+      "pages_sampled": [
+        6,
+        4,
+        5,
+        8,
+        1,
+        2,
+        3,
+        7
+      ],
+      "pages": {
+        "6": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Positional Encoding",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Sine and Cosine Functions",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Sequence Length Extrapolation",
+              "type": "technique",
+              "match_score": 76,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Relative Positioning Mechanism",
+              "type": "method",
+              "match_score": 70,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Self-Attention",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_016"
+            },
+            {
+              "concept": "Path Length in Networks",
+              "type": "metric",
+              "match_score": 70,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_016"
+            },
+            {
+              "concept": "Computational Complexity per Layer",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_016"
+            },
+            {
+              "concept": "Parallelization in Transformers",
+              "type": "technique",
+              "match_score": 61,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 6,
+              "chunk_id": "chunk_016"
+            },
+            {
+              "concept": "Sequence Transduction Encoder/Decoder",
+              "type": "dataset",
+              "match_score": 89,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_016"
+            },
+            {
+              "concept": "Attention Heads",
+              "type": "method",
+              "match_score": 93,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Syntactic Structure",
+              "type": "theory",
+              "match_score": 79,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Semantic Structure",
+              "type": "theory",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Interpretable Models",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Model Training Regime",
+              "type": "method",
+              "match_score": 81,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            }
+          ],
+          "text_preview": "output values. These are concatenated and once again projected, resulting in the final values, as depicted in Figure 2. Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With a single attention head, averaging inhibits this. MultiHead(Q, K, V ) = Concat(head1, ..., headh)W O where headi = Attention(QW Q i , KW K i , V W V i ) Where the projections are parameter matrices W Q i ∈Rdmodel×dk, W K i ∈Rdmodel×dk, W V i ∈Rdmodel×dv and W O ∈Rhdv×dmodel. In this work we employ h = 8 parallel attention layers, or heads. For each of these we use dk = dv = dmodel/h = 64. Due to the reduced dimension of each head, the t"
+        },
+        "4": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Scaled Dot-Product Attention",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Softmax Function",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Dot Product (Matrix)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Embedding Matrix (QKT)",
+              "type": "technique",
+              "match_score": 75,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Softmax Function (Gradient)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Multi-Head Attention",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Linear Projection (W Q, W K, W V)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [
+                "name_too_long"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Parallel Attention Layers (h)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Dot Product (q · k)",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 4,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Concatenation of Projected Vectors",
+              "type": "technique",
+              "match_score": 65,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 4,
+              "chunk_id": "chunk_011"
+            }
+          ],
+          "text_preview": "Figure 1: The Transformer - model architecture. The Transformer follows this overall architecture using stacked self-attention and point-wise, fully connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1, respectively. 3.1 Encoder and Decoder Stacks Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position- wise fully connected feed-forward network. We employ a residual connection [11] around each of the two sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is LayerNorm(x + Sublayer"
+        },
+        "5": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Multi-Head Attention",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Self-Attention Layers",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Attention Mechanism (Self)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Multi-Head Attention (Self)",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_012"
+            },
+            {
+              "concept": "Fully Connected Feed-Forward Network",
+              "type": "method",
+              "match_score": 97,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "ReLU Activation Function",
+              "type": "technique",
+              "match_score": 75,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Encoder Layer",
+              "type": "method",
+              "match_score": 92,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Decoder Layer",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Linear Transformation",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_013"
+            }
+          ],
+          "text_preview": "Scaled Dot-Product Attention Multi-Head Attention Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several attention layers running in parallel. of the values, where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key. 3.2.1 Scaled Dot-Product Attention We call our particular attention \"Scaled Dot-Product Attention\" (Figure 2). The input consists of queries and keys of dimension dk, and values of dimension dv. We compute the dot products of the query with all keys, divide each by √dk, and apply a softmax function to obtain the weights on the values. In practice, we compute the attention funct"
+        },
+        "8": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Transformer (big)",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "Base Models",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "WMT 2014 English-to-French Task",
+              "type": "dataset",
+              "match_score": 93,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "Beam Search",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_024"
+            },
+            {
+              "concept": "Floating Point Operations",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_025"
+            },
+            {
+              "concept": "Model Architectures",
+              "type": "dataset",
+              "match_score": 95,
+              "flags": [],
+              "page": 8,
+              "chunk_id": "chunk_025"
+            },
+            {
+              "concept": "Training Costs",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 8,
+              "chunk_id": "chunk_025"
+            }
+          ],
+          "text_preview": "length n is smaller than the representation dimensionality d, which is most often the case with sentence representations used by state-of-the-art models in machine translations, such as word-piece [38] and byte-pair [31] representations. To improve computational performance for tasks involving very long sequences, self-attention could be restricted to considering only a neighborhood of size r in the input sequence centered around the respective output position. This would increase the maximum path length to O(n/r). We plan to investigate this approach further in future work. A single convolutional layer with kernel width k < n does not connect all pairs of input and output positions. Doing s"
+        },
+        "1": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "Parallelizable Model",
+              "type": "result",
+              "match_score": 80,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "Single-Model State-of-the-Art BLEU Score",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "English Constituency Parsing Model",
+              "type": "result",
+              "match_score": 88,
+              "flags": [],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            },
+            {
+              "concept": "Parallelizable Transformer Architecture",
+              "type": "method",
+              "match_score": 69,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 1,
+              "chunk_id": "chunk_001"
+            }
+          ],
+          "text_preview": "Provided proper attribution is provided, Google hereby grants permission to reproduce the tables and figures in this paper solely for use in journalistic or scholarly works. Attention Is All You Need Ashish Vaswani∗ Google Brain avaswani@google.com Noam Shazeer∗ Google Brain noam@google.com Niki Parmar∗ Google Research nikip@google.com Jakob Uszkoreit∗ Google Research usz@google.com Llion Jones∗ Google Research llion@google.com Aidan N. Gomez∗† University of Toronto aidan@cs.toronto.edu Łukasz Kaiser∗ Google Brain lukaszkaiser@google.com Illia Polosukhin∗‡ illia.polosukhin@gmail.com Abstract The dominant sequence transduction models are based on complex recurrent or convolutional neural netw"
+        },
+        "2": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_004"
+            },
+            {
+              "concept": "Parallelization",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_004"
+            },
+            {
+              "concept": "State-of-the-Art (SOTA)",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_004"
+            },
+            {
+              "concept": "Input and Output Dependencies",
+              "type": "definition",
+              "match_score": 76,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_004"
+            },
+            {
+              "concept": "Global Dependencies",
+              "type": "definition",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_004"
+            }
+          ],
+          "text_preview": "Provided proper attribution is provided, Google hereby grants permission to reproduce the tables and figures in this paper solely for use in journalistic or scholarly works. Attention Is All You Need Ashish Vaswani∗ Google Brain avaswani@google.com Noam Shazeer∗ Google Brain noam@google.com Niki Parmar∗ Google Research nikip@google.com Jakob Uszkoreit∗ Google Research usz@google.com Llion Jones∗ Google Research llion@google.com Aidan N. Gomez∗† University of Toronto aidan@cs.toronto.edu Łukasz Kaiser∗ Google Brain lukaszkaiser@google.com Illia Polosukhin∗‡ illia.polosukhin@gmail.com Abstract The dominant sequence transduction models are based on complex recurrent or convolutional neural netw"
+        },
+        "3": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Query",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Key-Value Pair",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 3,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Scaled Dot-Product Attention",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 3,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Multi-Head Attention",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 3,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Vector Space",
+              "type": "metric",
+              "match_score": 67,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 3,
+              "chunk_id": "chunk_009"
+            }
+          ],
+          "text_preview": "1 Introduction Recurrent neural networks, long short-term memory [13] and gated recurrent [7] neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation [35, 2, 5]. Numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures [38, 24, 15]. Recurrent models typically factor computation along the symbol positions of the input and output sequences. Aligning the positions to steps in computation time, they generate a sequence of hidden states ht, as a function of the previous hidden state ht−1 and the input"
+        },
+        "7": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Adam Optimizer",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "Warmup Steps",
+              "type": "metric",
+              "match_score": 92,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "Inverse Square Root Decay",
+              "type": "technique",
+              "match_score": 80,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "Linear Learning Rate Ramp-up",
+              "type": "technique",
+              "match_score": 70,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 7,
+              "chunk_id": "chunk_021"
+            },
+            {
+              "concept": "Step Number Decay",
+              "type": "technique",
+              "match_score": 76,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_021"
+            }
+          ],
+          "text_preview": "Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention. Layer Type Complexity per Layer Sequential Maximum Path Length Operations Self-Attention O(n2 · d) O(1) O(1) Recurrent O(n · d2) O(n) O(n) Convolutional O(k · n · d2) O(1) O(logk(n)) Self-Attention (restricted) O(r · n · d) O(1) O(n/r) 3.5 Positional Encoding Since our model contains no recurrence and no convolution, in order for the model to make use of the order of the sequence, we must inject some informatio"
+        }
+      }
+    },
+    "probable.pdf": {
+      "total_concepts": 45,
+      "pages_sampled": [
+        5,
+        7,
+        15,
+        2,
+        6,
+        10
+      ],
+      "pages": {
+        "5": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Evaluation Metrics",
+              "type": "metric",
+              "match_score": 72,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Monte Carlo Sampling Strategy",
+              "type": "technique",
+              "match_score": 72,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Wasserstein-1 Distance Metric",
+              "type": "metric",
+              "match_score": 79,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Prompt Format Consistency",
+              "type": "technique",
+              "match_score": 64,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 5,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "High-Resolution Evaluation Output Space",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "W1",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "SSOT",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Open-ended random-generation requests",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "Fine-tuning broadens stochastic support",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_015"
+            },
+            {
+              "concept": "String Seed of Thought (SSOT)",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 5,
+              "chunk_id": "chunk_015"
+            }
+          ],
+          "text_preview": "evenly spaced grid points, compute bin masses from CDF differences between adjacent midpoints, and assign outside-interval tail mass to the edge bins. In the final training runs, both methods use five-decimal canonical outputs; soft-target fine-tuning caps Y at 1001 bins, while hard-target fine-tuning uses 16384 bins, following the ablations in Appendix E. Soft-target fine-tuning. For each canonical output yi ∈Y , we take its induced mass PY (yi), tokenize it, append EOS, and insert the resulting token sequence into a prefix trie. For a given trie prefix p (a partial token sequence), we normalize the remaining mass over all continuations consistent with p to obtain a target distribution over"
+        },
+        "7": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Soft-Target Fine-Tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_020"
+            },
+            {
+              "concept": "Stochastic Support Expansion",
+              "type": "metric",
+              "match_score": 79,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_020"
+            },
+            {
+              "concept": "NoveltyBench",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_020"
+            },
+            {
+              "concept": "Hard-Target Fine-Tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_020"
+            },
+            {
+              "concept": "Stochastic Support Expansion (Metric)",
+              "type": "metric",
+              "match_score": 79,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_020"
+            },
+            {
+              "concept": "Answer-Position Balance",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "Capability Retention",
+              "type": "metric",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "MCQ Transfer",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "Soft-Target Fine-Tuning",
+              "type": "technique",
+              "match_score": 100,
+              "flags": [],
+              "page": 7,
+              "chunk_id": "chunk_023"
+            },
+            {
+              "concept": "GSM8K Score Regression",
+              "type": "metric",
+              "match_score": 55,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 7,
+              "chunk_id": "chunk_023"
+            }
+          ],
+          "text_preview": "elements, medical concepts, and landmarks. Prompt wording varies across formulations such as \"Think of,\" \"Choose,\" \"Name,\" and \"Pick,\" while consistently enforcing a strict output contract (\"Output ONLY the answer\"); the full prompt set is given in Appendix C.3. For each prompt, we collect 100 independent samples and measure two quantities: the top-90% support size, i.e., the number of first-step next tokens required to cover 90% of the model’s probability mass, and the unique-output fraction, i.e., the fraction of distinct samples after normalization. NoveltyBench. We also evaluate open-ended generative breadth on NoveltyBench [Zhang et al., 2025] using its curated and WildChat splits (100 "
+        },
+        "15": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Soft-Cross-Evaluation",
+              "type": "method",
+              "match_score": 63,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Prompt Conditioning",
+              "type": "technique",
+              "match_score": 79,
+              "flags": [],
+              "page": 15,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Prefix Trie Construction",
+              "type": "technique",
+              "match_score": 67,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Target Distribution Discretization",
+              "type": "technique",
+              "match_score": 71,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Soft-Cross-Evaluation Frameworks",
+              "type": "method",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_041"
+            },
+            {
+              "concept": "Prefix Mass",
+              "type": "metric",
+              "match_score": 91,
+              "flags": [],
+              "page": 15,
+              "chunk_id": "chunk_042"
+            },
+            {
+              "concept": "Prefix Mass Update Rule",
+              "type": "method",
+              "match_score": 61,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_042"
+            },
+            {
+              "concept": "Softmax Function",
+              "type": "method",
+              "match_score": 56,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_042"
+            },
+            {
+              "concept": "KL Divergence Loss Function",
+              "type": "metric",
+              "match_score": 56,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_042"
+            },
+            {
+              "concept": "Tokenization Process",
+              "type": "technique",
+              "match_score": 60,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 15,
+              "chunk_id": "chunk_042"
+            }
+          ],
+          "text_preview": "Jiancong Xiao, Ziniu Li, Xingyu Xie, Emily Getzen, Cong Fang, Qi Long, and Weijie J. Su. On the algorithmic bias of aligning large language models with RLHF: Preference collapse and matching regularization. Journal of the American Statistical Association, 120(552):2154–2164, 2025a. doi: 10.1080/01621459.2025.2555067. URL https://doi.org/10.1080/01621459.2025. 2555067. Tim Z. Xiao, Johannes Zenn, Zhen Liu, Weiyang Liu, Robert Bamler, and Bernhard Schölkopf. Flipping against all odds: Reducing LLM coin flip bias via verbalized rejection sampling, 2025b. URL https://arxiv.org/abs/2506.09998. An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao, Chengen Hua"
+        },
+        "2": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Soft Targeting",
+              "type": "method",
+              "match_score": 86,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Calibration-Aware Training",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Probabilistic Distribution Shapes",
+              "type": "theory",
+              "match_score": 76,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Diffuse Distributions Over Valid Outputs",
+              "type": "result",
+              "match_score": 98,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Sequence-Level Targets for LLMs",
+              "type": "technique",
+              "match_score": 80,
+              "flags": [],
+              "page": 2,
+              "chunk_id": "chunk_006"
+            }
+          ],
+          "text_preview": "Probabilistic Calibration Is a Trainable Capability in Language Models Davide Baldelli1,2,3,4,∗Sruthi Kuriakose6 Maryam Hashemzadeh1,2,5 Amal Zouaq2,3,4 Sarath Chandar1,2,4 1Chandar Research Lab 2Mila – Quebec AI Institute 3LAMA-WeST Lab 4Polytechnique Montréal 5Université de Montréal 6Independent researcher Abstract Language models are increasingly used in settings where outputs must satisfy user-specified randomness constraints, yet their generation probabilities are often poorly calibrated to those targets. We study whether this capability can be improved directly through fine-tuning. Concretely, we fine-tune language models on synthetic prompts that require sampling from mathematical dis"
+        },
+        "6": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Structured Sampling",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Calibration Fine-Tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Hard-Target Fine-Tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Soft-Target Fine-Tuning",
+              "type": "method",
+              "match_score": 100,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            },
+            {
+              "concept": "Held-Out OOD Examples",
+              "type": "technique",
+              "match_score": 95,
+              "flags": [],
+              "page": 6,
+              "chunk_id": "chunk_018"
+            }
+          ],
+          "text_preview": "TruncNorm, Chi, and Weibull), which let us test transfer to unseen distribution types. The full benchmark, parameter ranges, and train/test splits are listed in Appendix Table 5. For each seen training family, we discretize the parameter space on a fixed grid, yielding 1988 prompt configurations across all families. Each prompt is paired with a canonical output space derived from the corresponding target distribution: discrete families use truncated integer support, while continuous families are quantized over a bounded interval at fixed decimal precision. In the final training runs, both methods use five-decimal canonical outputs; soft-target fine-tuning caps the output space at 1001 bins, "
+        },
+        "10": {
+          "format": "pdf",
+          "concepts": [
+            {
+              "concept": "Canada CIFAR AI Chairs program",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [],
+              "page": 10,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Canada Research Chair in Lifelong Machine Learning",
+              "type": "dataset",
+              "match_score": 98,
+              "flags": [
+                "name_too_long"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Mila Quebec AI Institute",
+              "type": "dataset",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "NSERC Discovery Grant",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_028"
+            },
+            {
+              "concept": "Computational resources provided by Mila Quebec AI Institute",
+              "type": "method",
+              "match_score": 100,
+              "flags": [
+                "no_relations",
+                "name_too_long"
+              ],
+              "page": 10,
+              "chunk_id": "chunk_028"
+            }
+          ],
+          "text_preview": "TruthfulQA is nearly flat. The clearest systematic cost is GSM8K, where strict and flexible scoring regress substantially. Appendix D.7 provides a deeper task-level breakdown. PALOMA perplexity. PALOMA gives a more favorable language-modeling view. Under the selected training budgets, soft-target fine-tuning gives the best aggregate perplexity for all Qwen and Gemma models, while hard-target fine-tuning gives the clearest gains for GPT-OSS-20B and Llama- 3.2-3B-it. This argues against the simple interpretation that Calibration Fine-Tuning merely flattens token probabilities across the vocabulary. For a deeper analysis of PALOMA, see Appendix D.8. Hyperparameter ablations. Appendix E reports "
+        }
+      }
+    },
+    "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md": {
+      "total_concepts": 36,
+      "pages_sampled": [
+        0
+      ],
+      "pages": {
+        "0": {
+          "format": "md",
+          "concepts": [
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 58,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Positional Encoding",
+              "type": "technique",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Soft Attention",
+              "type": "technique",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "BERT",
+              "type": "result",
+              "match_score": 100,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "GPT-style Language Models",
+              "type": "result",
+              "match_score": 75,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_006"
+            },
+            {
+              "concept": "Mixture-of-Experts",
+              "type": "technique",
+              "match_score": 44,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_007"
+            },
+            {
+              "concept": "Model Architecture Choices",
+              "type": "method",
+              "match_score": 54,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_007"
+            },
+            {
+              "concept": "Training Data Decisions",
+              "type": "method",
+              "match_score": 65,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_007"
+            },
+            {
+              "concept": "Model Scaling Concept",
+              "type": "method",
+              "match_score": 67,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_007"
+            },
+            {
+              "concept": "Open Technical Evaluation",
+              "type": "method",
+              "match_score": 52,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_007"
+            },
+            {
+              "concept": "Graph Convolutional Networks",
+              "type": "method",
+              "match_score": 86,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Attention Mechanism",
+              "type": "method",
+              "match_score": 58,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Graph Transformer-style Architectures",
+              "type": "technique",
+              "match_score": 53,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Graph Attention Networks (GAT)",
+              "type": "technique",
+              "match_score": 62,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Graph Neural Networks (GNN)",
+              "type": "method",
+              "match_score": 81,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_009"
+            },
+            {
+              "concept": "Microsoft GraphRAG",
+              "type": "tool",
+              "match_score": 56,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Entity Extraction",
+              "type": "method",
+              "match_score": 76,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Graph Indexing",
+              "type": "method",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Global Sensemaking",
+              "type": "result",
+              "match_score": 61,
+              "flags": [
+                "no_relations",
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_010"
+            },
+            {
+              "concept": "Generative Adversarial Nets",
+              "type": "method",
+              "match_score": 63,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Auto-Encoding Variational Bayes",
+              "type": "method",
+              "match_score": 57,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Denoising Diffusion Probabilistic Models",
+              "type": "method",
+              "match_score": 72,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "High-Resolution Image Synthesis with Latent Diffusion Models",
+              "type": "method",
+              "match_score": 51,
+              "flags": [
+                "name_too_long",
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Training Language Models to Follow Instructions with Human Feedback",
+              "type": "method",
+              "match_score": 54,
+              "flags": [
+                "name_too_long",
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_011"
+            },
+            {
+              "concept": "Chain-of-Thought Prompting",
+              "type": "method",
+              "match_score": 50,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Tree of Thoughts (ToT)",
+              "type": "technique",
+              "match_score": 62,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "ReAct (Reason and Act)",
+              "type": "method",
+              "match_score": 80,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Constitutional AI (AI Feedback)",
+              "type": "method",
+              "match_score": 65,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Large Language Models (LLMs)",
+              "type": "dataset",
+              "match_score": 81,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_013"
+            },
+            {
+              "concept": "Transformer",
+              "type": "tool",
+              "match_score": 64,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Recurrent Neural Network (RNN)",
+              "type": "method",
+              "match_score": 75,
+              "flags": [],
+              "page": 0,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Positional Encoding",
+              "type": "technique",
+              "match_score": 68,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Deep Learning AI Course (DLAI)",
+              "type": "method",
+              "match_score": 74,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Feature Visualization (Distill.pub)",
+              "type": "technique",
+              "match_score": 62,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_014"
+            },
+            {
+              "concept": "Yao2022_ReAct",
+              "type": "method",
+              "match_score": 42,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_017"
+            },
+            {
+              "concept": "Bai2022_Constitutional_AI",
+              "type": "method",
+              "match_score": 52,
+              "flags": [
+                "low_source_match"
+              ],
+              "page": 0,
+              "chunk_id": "chunk_017"
+            }
+          ],
+          "text_preview": "# AI/ML Concept Topology Seed for Archipelago  This seed document captures a curated 60-source AI and machine learning corpus for testing Archipelago's cross-document prerequisite and application extraction. It is intended as an ingestible manifest until the source PDFs, open lecture notes, and web pages are saved into the matching `pdfs/textbooks/`, `pdfs/papers/`, and `pdfs/web_syllabi/` folders. The topology is ordered from mathematical prerequisites through classical machine learning, deep learning, modern language models, retrieval-augmented generation, graph methods, alignment, and agentic workflows.  ## Core Textbooks and Academic Syllabi  The textbook layer forms the prerequisite bac"
+        }
+      }
+    }
+  }
+}

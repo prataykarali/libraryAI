@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archipelago — Live Knowledge Operations</title>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#090514',
+                        panelBg: 'rgba(15, 10, 25, 0.6)',
+                        accentPurple: '#8b5cf6',
+                        accentPink: '#ec4899',
+                        accentCyan: '#06b6d4',
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Marked.js (Markdown renderer) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Prism.js (Syntax highlighting) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+    <style>
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Glassmorphism utility */
+        .glass {
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-light {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Animations */
+        @keyframes blob-bounce {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+        .animate-blob {
+            animation: blob-bounce 15s infinite alternate ease-in-out;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+
+        /* Typing indicator styling */
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            margin-right: 4px;
+            animation: typing 1.4s infinite both;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: .2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: .4s;
+        }
+        @keyframes typing {
+            0%, 100% { transform: translateY(0px); opacity: 0.4; }
+            28% { transform: translateY(-4px); opacity: 0.4; }
+            44% { transform: translateY(0px); opacity: 1; }
+        }
+
+        /* Markdown customization within chat bubbles */
+        .chat-bubble p {
+            margin-bottom: 0.75rem;
+        }
+        .chat-bubble p:last-child {
+            margin-bottom: 0;
+        }
+        .chat-bubble ul, .chat-bubble ol {
+            margin-left: 1.25rem;
+            margin-bottom: 0.75rem;
+            list-style-type: disc;
+        }
+        .chat-bubble code {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.125rem 0.25rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        .chat-bubble pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .chat-bubble pre {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            overflow-x: auto;
+        }
+
+        /* Pulse glowing effect */
+        .pulse-glow {
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: .28;
+            background-image: linear-gradient(rgba(196, 160, 255, .055) 1px, transparent 1px), linear-gradient(90deg, rgba(196, 160, 255, .055) 1px, transparent 1px);
+            background-size: 32px 32px;
+            mask-image: linear-gradient(to bottom, black, transparent 76%);
+        }
+        .ops-card { background: linear-gradient(145deg, rgba(31, 19, 48, .92), rgba(10, 6, 20, .78)); border: 1px solid rgba(196, 160, 255, .14); }
+        .evidence-rail { border-left: 2px solid rgba(251, 191, 36, .9); box-shadow: -9px 0 26px rgba(251, 191, 36, .08); }
+        .job-stage[data-state="active"] { border-color: rgba(196, 160, 255, .5); background: rgba(139, 92, 246, .12); color: #f5f3ff; }
+        .job-stage[data-state="complete"] { border-color: rgba(52, 211, 153, .38); color: #d1fae5; }
+        .job-stage[data-state="failed"] { border-color: rgba(251, 113, 133, .5); color: #fecdd3; }
+        .job-stage[data-state="queued"] { color: #9ca3af; }
+        .job-stage[data-state="active"] .stage-dot { background: #c4a0ff; box-shadow: 0 0 13px #8b5cf6; animation: pulse 1.4s infinite; }
+        .job-stage[data-state="complete"] .stage-dot { background: #34d399; }
+        .job-stage[data-state="failed"] .stage-dot { background: #fb7185; }
+        .job-stage[data-state="queued"] .stage-dot { background: #4b5563; }
+        .upload-drop.drag-over { border-color: #fbbf24; background: rgba(251, 191, 36, .08); }
+        .trace-details summary::-webkit-details-marker { display: none; }
+        .trace-details summary { list-style: none; }
+        .new-evidence {
+            border-color: rgba(251, 191, 36, 0.4) !important;
+            background: rgba(251, 191, 36, 0.08) !important;
+        }
+        .new-evidence:hover {
+            border-color: rgba(251, 191, 36, 0.7) !important;
+            background: rgba(251, 191, 36, 0.15) !important;
+        }
+        @media (max-width: 1100px) {
+            #pipeline-panel { width: 330px; }
+        }
+        @media (max-width: 767px) {
+            body { overflow: auto; }
+            #app-body { overflow: visible; flex-direction: column; }
+            #pipeline-panel { width: 100%; max-height: none; border-left: 0; border-top: 1px solid rgba(255,255,255,.1); }
+            main { min-height: 68vh; }
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-100 font-sans h-full overflow-hidden relative">
+
+    <!-- Glowing cosmic background blobs -->
+    <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-accentPurple opacity-20 filter blur-[120px] animate-blob -z-10"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-accentPink opacity-20 filter blur-[120px] animate-blob animation-delay-2000 -z-10"></div>
+    <div class="absolute top-[30%] right-[20%] w-[40%] h-[40%] rounded-full bg-accentCyan opacity-10 filter blur-[120px] animate-blob animation-delay-4000 -z-10"></div>
+
+    <!-- Main Layout Container -->
+    <div class="flex flex-col h-full">
+
+        <!-- Top Header -->
+        <header class="min-h-16 flex items-center justify-between px-4 md:px-6 py-3 glass border-b border-white/10 z-10 gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-accentPurple to-accentPink flex items-center justify-center shadow-lg shadow-accentPurple/30">
+                    <i class="fa-solid fa-mountain-sun text-white text-sm"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-white via-gray-200 to-accentPurple bg-clip-text text-transparent tracking-tight">Archipelago</h1>
+                    <p class="text-[10px] text-gray-400 font-medium uppercase tracking-widest mt-[-2px]">Knowledge Companion</p>
+                </div>
+                <span class="ml-1 px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-[10px] font-semibold uppercase tracking-wider" title="Pilot build: answers are grounded in a limited AI/ML corpus (~450 concepts). Niche topics may be sparse.">Pilot · limited corpus</span>
+            </div>
+
+            <!-- Server Status & Artifact State -->
+            <div class="flex items-center gap-2 md:gap-4">
+                <div id="connection-status" class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs">
+                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse" id="status-dot"></span>
+                    <span class="text-gray-400 font-medium" id="status-text">Checking server...</span>
+                </div>
+                <div class="hidden sm:flex flex-col leading-tight border-l border-white/10 pl-3">
+                    <span class="text-[9px] uppercase tracking-[.16em] text-gray-500">Graph artifact</span>
+                    <span id="artifact-version" class="text-[11px] font-semibold text-amber-200">Not reported</span>
+                </div>
+                
+                <button id="share-chat-btn" onclick="shareChat()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accentCyan/15 hover:bg-accentCyan/25 border border-accentCyan/30 hover:border-accentCyan/50 text-xs text-accentCyan font-semibold transition-all duration-350" title="Copy a shareable link to this conversation">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span class="hidden md:inline">Share</span>
+                </button>
+                <button id="toggle-pipeline-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accentPurple/20 hover:bg-accentPurple/30 border border-accentPurple/30 hover:border-accentPurple/50 text-xs text-accentPurple font-semibold transition-all duration-350">
+                    <i class="fa-solid fa-route"></i>
+                    <span>Pipeline Breakdown</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dynamic Body Area (Sidebar | Chat | Pipeline) -->
+        <div id="app-body" class="flex flex-1 overflow-hidden">
+
+            <!-- Left Panel: Settings & Current Concept -->
+            <aside class="w-80 border-r border-white/10 glass hidden lg:flex flex-col p-5 overflow-y-auto gap-6 shrink-0">
+<!-- Student study workspace (query only — no upload) -->
+<section class="ops-card rounded-2xl p-4 evidence-rail" aria-labelledby="corpus-heading">
+<button id="new-chat-btn" class="w-full mb-3 py-2 px-3 rounded-lg bg-accentPink/15 border border-accentPink/30 text-accentPink text-xs font-bold hover:bg-accentPink/25 transition-all flex items-center justify-center gap-2">
+<i class="fa-solid fa-plus"></i>
+<span>New Chat</span>
+</button>
+<div class="flex items-start justify-between gap-3">
+                        <div>
+                            <p class="text-[10px] font-bold tracking-[.16em] uppercase text-amber-300">Student chat</p>
+                            <h2 id="corpus-heading" class="mt-1 text-sm font-bold text-white">Ask the library</h2>
+                        </div>
+                        <a id="open-graph-link" href="#" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg border border-amber-300/20 bg-amber-300/10 text-amber-200 flex items-center justify-center hover:bg-amber-300/20 focus:outline-none focus:ring-2 focus:ring-amber-300/50" title="Browse the concept graph">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                    </div>
+                    <p id="selected-document-label" class="mt-3 text-xs leading-relaxed text-gray-400">
+                        Query AIML concepts, prerequisites, and citations from the indexed corpus.
+                    </p>
+                    <div id="new-document-evidence" class="mt-3 hidden space-y-2"></div>
+                    <div id="view-nodes-container" class="mt-4 hidden">
+                        <button id="view-nodes-btn" class="w-full py-2 px-3 rounded-lg bg-amber-400 text-black font-bold text-xs hover:bg-amber-300 transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-circle-nodes"></i>
+                            <span>View concepts in graph</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Chat History / Saved Sessions -->
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Chat History</h3>
+                    <div id="chat-history-list" class="flex flex-col gap-1 max-h-36 overflow-y-auto">
+                        <p class="text-[10px] text-gray-500 italic px-1">No saved chats.</p>
+                    </div>
+                </div>
+
+                <!-- Topic Topology (Inferred paths / traversed concept hierarchy) -->
+                <div class="flex-1 flex flex-col gap-4">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Topic Topology</h3>
+                    
+                    <div id="topology-placeholder" class="flex-1 flex flex-col items-center justify-center p-6 border border-dashed border-white/10 rounded-2xl text-center text-gray-500">
+                        <i class="fa-solid fa-route text-2xl mb-2 text-white/10"></i>
+                        <p class="text-[11px] leading-relaxed">No concept traversed yet. Ask a question to view the inferred local topology path.</p>
+                    </div>
+
+                    <div id="topology-view" class="hidden flex flex-col gap-3">
+                        <div id="topology-flow" class="relative pl-4 border-l border-accentPurple/30 space-y-4">
+                            <!-- Inferred path / traversed nodes -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer details -->
+                <div class="text-[10px] text-gray-500 mt-auto text-center border-t border-white/5 pt-4">
+                    Archipelago RAG Engine v1.6<br>
+                    Running via localhost endpoint
+                </div>
+            </aside>
+
+            <!-- Center Panel: Chat Interface -->
+            <main class="flex-1 flex flex-col min-w-0 bg-black/10 relative">
+
+                <!-- Message Window -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-6 md:p-8 space-y-6">
+                    
+                    <!-- Welcome State -->
+                    <div id="welcome-container" class="max-w-2xl mx-auto flex flex-col items-center justify-center text-center py-12 md:py-20 gap-8">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-accentPurple to-accentPink flex items-center justify-center shadow-xl shadow-accentPurple/25 animate-pulse">
+                            <i class="fa-solid fa-mountain-sun text-white text-3xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-white tracking-tight">Welcome to Archipelago</h2>
+                            <p class="text-sm text-gray-400 mt-2 max-w-md mx-auto leading-relaxed">
+                                A high-fidelity local RAG research tool. Ask questions to query the concept database, traverse topology, and receive streamed synthesis answers.
+                            </p>
+                        </div>
+
+                        <!-- Suggested Prompts -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-xl text-left mt-4">
+                            <button onclick="autoPrompt('What is Low-Rank Adaptation (LoRA)?')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                                <i class="fa-solid fa-brain mt-0.5 text-accentPurple group-hover:scale-110 transition-transform"></i>
+                                <span>What is Low-Rank Adaptation (LoRA)?</span>
+                            </button>
+                            <button onclick="autoPrompt('Explain the main components of retrieval augmented generation (RAG)')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                                <i class="fa-solid fa-search mt-0.5 text-accentPink group-hover:scale-110 transition-transform"></i>
+                                <span>Explain the main components of RAG</span>
+                            </button>
+                            <button onclick="autoPrompt('What are the prerequisites for BERT model training?')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                                <i class="fa-solid fa-link mt-0.5 text-accentCyan group-hover:scale-110 transition-transform"></i>
+                                <span>What are the prerequisites for BERT?</span>
+                            </button>
+                            <button onclick="autoPrompt('How does the Attention mechanism handle sequence alignment?')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                                <i class="fa-solid fa-chart-line mt-0.5 text-purple-400 group-hover:scale-110 transition-transform"></i>
+                                <span>How does the Attention mechanism work?</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Input area -->
+                <div class="px-4 py-4 md:px-8 md:py-6 border-t border-white/10 glass-light">
+                    <div class="max-w-3xl mx-auto relative flex items-center">
+                        <textarea id="chat-input" placeholder="Type a message..." rows="1" class="w-full py-4 pl-4 pr-16 bg-black/40 text-gray-200 text-sm rounded-xl border border-white/10 outline-none focus:border-accentPurple/50 focus:ring-1 focus:ring-accentPurple/20 transition-all duration-200 resize-none" onkeydown="handleKey(event)"></textarea>
+                        
+                        <div class="absolute right-3 flex items-center gap-2">
+                            <button id="send-btn" onclick="sendMessage()" class="w-10 h-10 rounded-lg bg-accentPurple text-white hover:bg-accentPurple/80 flex items-center justify-center transition-all duration-200 shadow-md shadow-accentPurple/20">
+                                <i class="fa-solid fa-arrow-up text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p id="chat-availability" class="max-w-3xl mx-auto mt-2 text-[11px] text-gray-500">Student mode: query only. Librarians manage PDFs in the Graph UI → Librarian tab.</p>
+                </div>
+            </main>
+
+            <!-- Right Panel: Ingestion operations + retrieval trace -->
+            <aside id="pipeline-panel" class="w-[380px] border-l border-white/10 glass flex flex-col p-5 overflow-y-auto gap-6 shrink-0 transition-all duration-350 ease-in-out">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+<i class="fa-solid fa-route text-accentPurple"></i>
+Live operations
+</h3>
+<button onclick="togglePipeline()" class="text-gray-400 hover:text-white transition-colors">
+<i class="fa-solid fa-xmark text-sm"></i>
+</button>
+</div>
+
+<hr class="border-white/10">
+
+<!-- 📚 Stack of Books -->
+<div class="flex flex-col gap-3">
+<span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+<i class="fa-solid fa-book-open text-amber-400"></i>
+Stack of Books
+</span>
+<div id="books-list" class="flex flex-col gap-1.5"></div>
+</div>
+
+<hr class="border-white/10">
+
+
+                    <!-- KuzuDB Source Citations -->
+                    <div class="flex flex-col gap-3">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-file-invoice text-accentPink"></i>
+                            KuzuDB Source Citations
+                        </span>
+                        
+                        <div id="citations-placeholder" class="text-xs text-gray-500 italic p-3 rounded bg-white/5 border border-white/5">
+                            No citations retrieved yet.
+                        </div>
+
+                        <div id="citations-list" class="hidden flex flex-col gap-2"></div>
+                    </div>
+
+                    <!-- Step Execution Logs -->
+                    <div class="flex flex-col gap-3">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-accentCyan"></i>
+                            Execution Trace
+                        </span>
+                        
+                        <div id="logs-placeholder" class="text-xs text-gray-500 italic p-3 rounded bg-white/5 border border-white/5">
+                            No logs captured yet.
+                        </div>
+
+                        <div id="logs-list" class="hidden flex flex-col gap-2.5"></div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+
+    <!-- Reading Mode Modal -->
+<div id="reading-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 md:p-8">
+<div class="w-full max-w-5xl h-[90vh] flex flex-col rounded-2xl glass border border-white/10 shadow-2xl">
+<div class="flex items-center justify-between p-5 border-b border-white/10">
+<div class="flex items-center gap-3 min-w-0">
+<span id="reading-type-badge" class="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wide bg-accentCyan/15 text-accentCyan border border-accentCyan/20">Paper</span>
+<h3 id="reading-title" class="text-sm font-bold text-white truncate max-w-md">Book Title</h3>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<div id="reading-view-toggle" class="hidden items-center gap-1 rounded-lg bg-white/5 border border-white/10 p-0.5">
+<button id="reading-tab-pdf" onclick="setReadingView('pdf')" class="px-2.5 py-1 rounded-md text-[10px] font-bold transition-all">Full text</button>
+<button id="reading-tab-summary" onclick="setReadingView('summary')" class="px-2.5 py-1 rounded-md text-[10px] font-bold transition-all">Summary</button>
+</div>
+<a id="reading-open-tab" href="#" target="_blank" rel="noopener" class="hidden w-8 h-8 rounded-lg bg-white/5 border border-white/10 items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all" title="Open PDF in new tab">
+<i class="fa-solid fa-up-right-from-square text-xs"></i>
+</a>
+<button onclick="closeReadingMode()" class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all">
+<i class="fa-solid fa-xmark text-sm"></i>
+</button>
+</div>
+</div>
+<div id="reading-pdf-wrap" class="hidden flex-1 min-h-0 bg-black/40">
+<iframe id="reading-pdf-frame" class="w-full h-full border-0" title="Document viewer"></iframe>
+</div>
+<div id="reading-content" class="flex-1 overflow-y-auto p-5 text-sm text-gray-300 leading-relaxed space-y-4"></div>
+<div class="p-4 border-t border-white/10">
+<button onclick="closeReadingMode()" class="w-full py-2.5 px-4 rounded-lg bg-accentPurple/20 border border-accentPurple/30 text-accentPurple text-xs font-bold hover:bg-accentPurple/30 transition-all flex items-center justify-center gap-2">
+<i class="fa-solid fa-arrow-left"></i>
+Back to Chat
+</button>
+</div>
+</div>
+</div>
+
+<!-- JS Logic -->
+    <script>
+        // Student chat client — query only. No upload / ingest / delete endpoints.
+        const API_HOST = `http://${window.location.hostname || 'localhost'}:5051`;
+        const GRAPH_HOST = `http://${window.location.hostname || 'localhost'}:5050`;
+        const API_CONTRACT = Object.assign({
+            health: API_HOST + '/api/readiness',
+            chat: API_HOST + '/api/chat',
+        }, window.ARCHIPELAGO_API || {});
+        // Never allow student page to point at librarian mutate APIs
+        delete API_CONTRACT.upload;
+        delete API_CONTRACT.capabilities;
+        delete API_CONTRACT.jobStatus;
+        delete API_CONTRACT.cancelJob;
+let currentMode = 'rag_synthesis';
+let chatHistory = [];
+let isGenerating = false;
+let conversationSessionId = null;
+
+        // Wire graph browse link (students may browse; only librarians upload there)
+        const _graphLink = document.getElementById('open-graph-link');
+        if (_graphLink) _graphLink.href = GRAPH_HOST;
+
+        const escapeHTML = (value) => String(value ?? '').replace(/[&<>'"]/g, char => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        })[char]);
+
+        function sanitizeMarkdown(html) {
+            const template = document.createElement('template');
+            template.innerHTML = html;
+            // Remove dangerous tags but KEEP <a> anchors (curriculum #page=N PDF links)
+            template.content.querySelectorAll('script, style, iframe, object, embed').forEach(node => node.remove());
+            template.content.querySelectorAll('*').forEach(node => {
+                [...node.attributes].forEach(attribute => {
+                    const name = attribute.name.toLowerCase();
+                    const value = attribute.value.trim().toLowerCase();
+                    if (name.startsWith('on')) node.removeAttribute(attribute.name);
+                    if (name === 'href' && value.startsWith('javascript:')) node.removeAttribute(attribute.name);
+                });
+            });
+            // Harden PDF / external links for Session 2 multi-hop curriculum bubbles
+            template.content.querySelectorAll('a[href]').forEach(a => {
+                const href = (a.getAttribute('href') || '').trim();
+                const ok = href.startsWith('http://') || href.startsWith('https://') || href.startsWith('/pdfs/');
+                if (!ok) {
+                    a.removeAttribute('href');
+                    return;
+                }
+                a.setAttribute('target', '_blank');
+                a.setAttribute('rel', 'noopener noreferrer');
+                if (href.includes('#page=') || href.includes('/pdfs/')) {
+                    a.classList.add('curriculum-pdf-link');
+                }
+            });
+            return template.innerHTML;
+        }
+
+        function renderMarkdownSafely(target, text) {
+            target.innerHTML = sanitizeMarkdown(marked.parse(String(text || '')));
+        }
+
+        function renderCurriculumPaths(paths) {
+            if (!Array.isArray(paths) || !paths.length) return '';
+            const items = paths.slice(0, 3).map((p, i) => {
+                const labels = (p.labels || []).map(l => escapeHTML(l)).join(' → ');
+                const md = p.markdown || labels;
+                // markdown path already has links; parse as mini markdown
+                return `<li class="text-xs text-gray-300 leading-relaxed">${sanitizeMarkdown(marked.parseInline ? marked.parseInline(String(md)) : marked.parse(String(md)))}</li>`;
+            }).join('');
+            return `<div class="mt-2 mb-1 px-3 py-2 rounded-lg bg-accentPurple/10 border border-accentPurple/20">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-accentPurple mb-1">Curriculum path</div>
+                <ol class="list-decimal list-inside space-y-1">${items}</ol>
+            </div>`;
+        }
+
+        function setChatAvailability(available, reason) {
+            // Student chat is never locked for upload jobs (students cannot upload).
+            const input = document.getElementById('chat-input');
+            const send = document.getElementById('send-btn');
+            const note = document.getElementById('chat-availability');
+            if (input) {
+                input.disabled = false;
+                input.classList.remove('opacity-40');
+                input.placeholder = 'Ask an AIML question…';
+            }
+            if (send) {
+                send.disabled = isGenerating;
+                send.classList.toggle('opacity-40', isGenerating);
+            }
+            if (note) {
+                note.textContent = reason || 'Student mode: query only. Librarians manage PDFs in the Graph UI.';
+                note.className = 'max-w-3xl mx-auto mt-2 text-[11px] text-gray-500';
+            }
+        }
+
+        // Auto-resize textarea
+        const textarea = document.getElementById('chat-input');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if (this.scrollHeight > 150) {
+                this.style.overflowY = 'scroll';
+                this.style.height = '150px';
+            } else {
+                this.style.overflowY = 'hidden';
+            }
+        });
+
+        // Connection Check
+        async function checkConnection() {
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+            try {
+                const response = await fetch(API_CONTRACT.health);
+                if (response.ok) {
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-md shadow-emerald-500/50";
+                    statusText.textContent = "Online";
+                    const type = response.headers.get('content-type') || '';
+                    if (type.includes('application/json')) {
+                        const health = await response.clone().json();
+                        const version = health.graph_version || health.artifact_version || health.version;
+                        if (version) document.getElementById('artifact-version').textContent = String(version);
+                    }
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                statusDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-md shadow-rose-500/50 animate-pulse";
+                statusText.textContent = "Offline (Inference Server)";
+            }
+        }
+        setInterval(checkConnection, 10000);
+        checkConnection();
+
+        // No upload capability checks — student chat never calls /api/ingest.
+
+        // Toggle Right Panel
+        const pipelinePanel = document.getElementById('pipeline-panel');
+        const toggleBtn = document.getElementById('toggle-pipeline-btn');
+        function togglePipeline() {
+            if (pipelinePanel.classList.contains('hidden')) {
+                pipelinePanel.classList.remove('hidden');
+                setTimeout(() => pipelinePanel.style.transform = 'translateX(0)', 10);
+            } else {
+                pipelinePanel.classList.add('hidden');
+            }
+        }
+        toggleBtn.addEventListener('click', togglePipeline);
+
+// New Chat — reset conversation and welcome screen
+function startNewChat() {
+    chatHistory = [];
+    conversationSessionId = null;
+    isGenerating = false;
+
+    const chatMsgs = document.getElementById('chat-messages');
+    chatMsgs.innerHTML = '';
+
+    const welcome = document.createElement('div');
+    welcome.id = 'welcome-container';
+    welcome.className = 'max-w-2xl mx-auto flex flex-col items-center justify-center text-center py-12 md:py-20 gap-8';
+    welcome.innerHTML = `
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-accentPurple to-accentPink flex items-center justify-center shadow-xl shadow-accentPurple/25 animate-pulse">
+            <i class="fa-solid fa-mountain-sun text-white text-3xl"></i>
+        </div>
+        <div>
+            <h2 class="text-3xl font-extrabold text-white tracking-tight">Welcome to Archipelago</h2>
+            <p class="text-sm text-gray-400 mt-2 max-w-md mx-auto leading-relaxed">
+                A high-fidelity local RAG research tool. Ask questions to query the concept database, traverse topology, and receive streamed synthesis answers.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-xl text-left mt-4">
+            <button onclick="autoPrompt('What is Low-Rank Adaptation (LoRA)?')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                <i class="fa-solid fa-brain mt-0.5 text-accentPurple group-hover:scale-110 transition-transform"></i>
+                <span>What is Low-Rank Adaptation (LoRA)?</span>
+            </button>
+            <button onclick="autoPrompt('Explain the main components of retrieval augmented generation (RAG)')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                <i class="fa-solid fa-search mt-0.5 text-accentPink group-hover:scale-110 transition-transform"></i>
+                <span>Explain the main components of RAG</span>
+            </button>
+            <button onclick="autoPrompt('What are the prerequisites for BERT model training?')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                <i class="fa-solid fa-link mt-0.5 text-accentCyan group-hover:scale-110 transition-transform"></i>
+                <span>What are the prerequisites for BERT?</span>
+            </button>
+            <button onclick="autoPrompt('How does the Attention mechanism handle sequence alignment?')" class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-xs text-gray-300 font-medium transition-all duration-200 flex items-start gap-3 group">
+                <i class="fa-solid fa-chart-line mt-0.5 text-purple-400 group-hover:scale-110 transition-transform"></i>
+                <span>How does the Attention mechanism work?</span>
+            </button>
+        </div>
+    `;
+    chatMsgs.appendChild(welcome);
+
+    const sendBtn = document.getElementById('send-btn');
+    if (sendBtn) { sendBtn.disabled = false; sendBtn.classList.remove('opacity-50'); }
+    const input = document.getElementById('chat-input');
+    if (input) { input.disabled = false; input.classList.remove('opacity-40'); input.placeholder = 'Ask an AIML question…'; input.value = ''; input.style.height = 'auto'; input.style.overflowY = 'hidden'; }
+    window._lastChatMetadata = null;
+    const citationsPlac = document.getElementById('citations-placeholder');
+    const citationsList = document.getElementById('citations-list');
+    const logsPlac = document.getElementById('logs-placeholder');
+    const logsList = document.getElementById('logs-list');
+    if (citationsPlac) { citationsPlac.classList.remove('hidden'); citationsPlac.textContent = 'No citations retrieved yet.'; }
+    if (citationsList) { citationsList.classList.add('hidden'); citationsList.innerHTML = ''; }
+    if (logsPlac) { logsPlac.classList.remove('hidden'); logsPlac.textContent = 'No logs captured yet.'; }
+    if (logsList) { logsList.classList.add('hidden'); logsList.innerHTML = ''; }
+    
+    const topologyView = document.getElementById('topology-view');
+    const topologyPlaceholder = document.getElementById('topology-placeholder');
+    if (topologyView) topologyView.classList.add('hidden');
+    if (topologyPlaceholder) topologyPlaceholder.classList.remove('hidden');
+
+    pipelinePanel.style.transform = '';
+    pipelinePanel.classList.remove('hidden');
+    renderChatHistory();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const newChatBtn = document.getElementById('new-chat-btn');
+    if (newChatBtn) newChatBtn.addEventListener('click', startNewChat);
+    renderChatHistory();
+});
+
+// 📚 Stack of Books
+const BOOKS = [
+{ title: 'Mathematics for Machine Learning', authors: 'Deisenroth et al.', type: 'textbook', year: 2020, pdf: 'textbooks/Deisenroth_Math_For_ML.pdf', content: `<h4 class="font-bold text-white text-base mb-2">Mathematics for Machine Learning</h4><p class="text-gray-300">A comprehensive textbook covering the mathematical foundations needed for machine learning.</p><h5 class="font-semibold text-accentPurple text-sm mt-3 mb-1">Part I: Mathematical Foundations</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Linear Algebra — vectors, matrices, eigen decomposition</li><li>Analytic Geometry — norms, inner products, distances</li><li>Probability and Information Theory — distributions, entropy</li><li>Optimization — gradient descent, Lagrange multipliers</li></ul><h5 class="font-semibold text-accentPurple text-sm mt-3 mb-1">Part II: Machine Learning</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Linear Regression and Classification</li><li>Neural Networks and Deep Learning basics</li><li>Kernel Methods and SVMs</li></ul>` },
+{ title: 'Attention Is All You Need', authors: 'Vaswani et al.', type: 'paper', year: 2017, pdf: 'papers/Vaswani2017_Attention_Is_All_You_Need.pdf', content: `<h4 class="font-bold text-white text-base mb-2">Attention Is All You Need</h4><p class="text-gray-300">The landmark Transformer paper that introduced self-attention as the primary mechanism for sequence modeling.</p><h5 class="font-semibold text-accentPink text-sm mt-3 mb-1">Key Contributions</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Scaled Dot-Product Attention mechanism</li><li>Multi-Head Attention for diverse representation subspaces</li><li>Positional encoding using sine/cosine functions</li><li>Encoder-Decoder architecture</li></ul><h5 class="font-semibold text-accentPink text-sm mt-3 mb-1">Results</h5><p class="text-gray-300">Achieved state-of-the-art translation quality (28.4 BLEU) on WMT 2014 English-to-German, with only 8 GPUs and 3.5 days of training.</p>` },
+{ title: 'LoRA: Low-Rank Adaptation', authors: 'Hu et al.', type: 'paper', year: 2021, pdf: 'papers/Hu2021_LoRA.pdf', content: `<h4 class="font-bold text-white text-base mb-2">LoRA: Low-Rank Adaptation of Large Language Models</h4><p class="text-gray-300">Proposes low-rank decomposition matrices to efficiently adapt large pre-trained models without retraining full parameters.</p><h5 class="font-semibold text-accentCyan text-sm mt-3 mb-1">Core Idea</h5><p class="text-gray-300">Instead of updating all weights, freeze the pre-trained weights and train only low-rank pairs of matrices A and B where <code class="text-accentCyan">W = W₀ + BA</code>.</p><h5 class="font-semibold text-accentCyan text-sm mt-3 mb-1">Benefits</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>No additional inference latency (mergeable)</li><li>10,000x fewer trainable parameters</li><li>Comparable or better performance than full fine-tuning</li></ul>` },
+{ title: 'Retrieval-Augmented Generation', authors: 'Lewis et al.', type: 'paper', year: 2020, pdf: 'papers/Lewis2020_RAG.pdf', content: `<h4 class="font-bold text-white text-base mb-2">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</h4><p class="text-gray-300">Introduces RAG: a model that combines pre-trained parametric memory (a seq2seq model) with non-parametric memory (Wikipedia via DPR).</p><h5 class="font-semibold text-amber-300 text-sm mt-3 mb-1">Architecture</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Dense Passage Retriever (DPR) for document retrieval</li><li>BART generator that conditions on retrieved documents</li><li>End-to-end training of retrieval and generation</li></ul><h5 class="font-semibold text-amber-300 text-sm mt-3 mb-1">Tasks</h5><p class="text-gray-300">Evaluated on open-domain QA, fact verification, and knowledge-grounded dialogue — RAG consistently outperforms pure parametric baselines.</p>` },
+{ title: 'BERT: Pre-training of Deep Bidirectional Transformers', authors: 'Devlin et al.', type: 'paper', year: 2018, pdf: 'papers/Devlin2018_BERT.pdf', content: `<h4 class="font-bold text-white text-base mb-2">BERT: Bidirectional Encoder Representations from Transformers</h4><p class="text-gray-300">The bidirectional pre-trained Transformer encoder that revolutionized NLP transfer learning.</p><h5 class="font-semibold text-accentPink text-sm mt-3 mb-1">Pre-training Objectives</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Masked Language Modeling (MLM) — predict 15% masked tokens</li><li>Next Sentence Prediction (NSP) — classify sentence relationships</li></ul><h5 class="font-semibold text-accentPink text-sm mt-3 mb-1">Key Results</h5><p class="text-gray-300">BERT-Base (110M params) and BERT-Large (340M params) both achieved SOTA on 11 NLP benchmarks, including GLUE (+7.7%), MultiNLI (+6.3%), and SQuAD v1.1 (+1.5 F1).</p>` },
+{ title: 'From Local to Global: GraphRAG', authors: 'Edge et al.', type: 'paper', year: 2024, pdf: 'papers/Edge2024_GraphRAG.pdf', content: `<h4 class="font-bold text-white text-base mb-2">From Local to Global: A Graph RAG Approach to Query-Focused Summarization</h4><p class="text-gray-300">Microsoft Research's GraphRAG pipeline that combines knowledge graph community detection with LLM summarization for holistic understanding over large text corpora.</p><h5 class="font-semibold text-accentCyan text-sm mt-3 mb-1">Pipeline</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Entity/relation extraction via LLM with Leiden community detection</li><li>Hierarchical community summaries at multiple levels</li><li>Query-focused global answer by reducing all relevant community summaries</li></ul><h5 class="font-semibold text-accentCyan text-sm mt-3 mb-1">Impact</h5><p class="text-gray-300">Enables global understanding across 1M+ token corpora — a scale that naive RAG cannot support due to context window limits.</p>` },
+{ title: 'AI/ML Corpus Seed Syllabus', authors: 'Archipelago Curriculum Team', type: 'syllabus', year: 2025, content: `<h4 class="font-bold text-white text-base mb-2">AI/ML Corpus Seed Syllabus</h4><p class="text-gray-300">The structured curriculum defining concepts and their dependency graph for the Archipelago knowledge engine.</p><h5 class="font-semibold text-amber-400 text-sm mt-3 mb-1">Core Modules</h5><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Module 1: Mathematics for ML — Linear Algebra, Calculus, Probability</li><li>Module 2: Classical ML — Supervised learning, SVMs, Decision Trees</li><li>Module 3: Neural Networks — Perceptrons, Backpropagation, Optimizers</li><li>Module 4: Deep Learning — CNNs, RNNs, Transformers, Attention</li><li>Module 5: RAG & Retrieval — Embeddings, Vector DBs, Retrieval chains</li><li>Module 6: Fine-tuning — LoRA, QLoRA, P-Tuning, RLHF</li><li>Module 7: Evaluation & MLOps — Metrics, Monitoring, Deployment</li></ul><h5 class="font-semibold text-amber-400 text-sm mt-3 mb-1">Assessment</h5><p class="text-gray-300">Written exams, implementation projects, and a final research paper presentation on a selected corpus topic.</p>` },
+];
+
+function renderBookStack() {
+const container = document.getElementById('books-list');
+if (!container) return;
+container.innerHTML = '';
+BOOKS.forEach((book, idx) => {
+const typeIcon = book.type === 'textbook' ? 'fa-book' : book.type === 'paper' ? 'fa-file-lines' : 'fa-scroll';
+const typeColor = book.type === 'textbook' ? 'text-amber-400 bg-amber-400/10 border-amber-400/20' : book.type === 'paper' ? 'text-accentCyan bg-accentCyan/10 border-accentCyan/20' : 'text-accentPurple bg-accentPurple/10 border-accentPurple/20';
+const btn = document.createElement('button');
+btn.className = 'w-full text-left p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all duration-200 flex items-start gap-3 group';
+btn.onclick = () => openReadingMode(book);
+btn.innerHTML = `
+<div class="w-9 h-9 rounded-lg ${typeColor} border flex items-center justify-center shrink-0">
+<i class="fa-solid ${typeIcon} text-xs"></i>
+</div>
+<div class="min-w-0 flex-1">
+<p class="text-xs font-bold text-gray-200 truncate group-hover:text-white transition-colors">${escapeHTML(book.title)}</p>
+<p class="text-[10px] text-gray-500 mt-0.5">${escapeHTML(book.authors)}, ${book.year}</p>
+</div>
+<i class="fa-solid fa-chevron-right text-[10px] text-gray-600 group-hover:text-white group-hover:translate-x-0.5 transition-all mt-1 shrink-0"></i>
+`;
+container.appendChild(btn);
+});
+}
+renderBookStack();
+
+let _readingBook = null;
+
+function openReadingMode(book) {
+const modal = document.getElementById('reading-modal');
+const titleEl = document.getElementById('reading-title');
+const typeEl = document.getElementById('reading-type-badge');
+const contentEl = document.getElementById('reading-content');
+if (!modal || !titleEl || !typeEl || !contentEl) return;
+_readingBook = book;
+
+const typeLabel = book.type === 'textbook' ? 'Textbook' : book.type === 'paper' ? 'Paper' : 'Syllabus';
+const typeColor = book.type === 'textbook' ? 'bg-amber-400/15 text-amber-400 border-amber-400/20' : book.type === 'paper' ? 'bg-accentCyan/15 text-accentCyan border-accentCyan/20' : 'bg-accentPurple/15 text-accentPurple border-accentPurple/20';
+
+titleEl.textContent = book.title;
+typeEl.textContent = typeLabel;
+typeEl.className = `px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wide border ${typeColor}`;
+contentEl.innerHTML = book.content;
+
+// Full-text streaming: /pdfs/<path> serves the local file or 302-redirects
+// to the canonical public source (arXiv / mml-book), so the full document
+// streams even when it isn't on this machine.
+const toggle = document.getElementById('reading-view-toggle');
+const openTab = document.getElementById('reading-open-tab');
+if (book.pdf) {
+    const pdfUrl = `${API_HOST}/pdfs/${book.pdf}`;
+    openTab.href = pdfUrl;
+    openTab.classList.remove('hidden');
+    openTab.classList.add('flex');
+    toggle.classList.remove('hidden');
+    toggle.classList.add('flex');
+    setReadingView('pdf');
+} else {
+    toggle.classList.add('hidden');
+    toggle.classList.remove('flex');
+    openTab.classList.add('hidden');
+    openTab.classList.remove('flex');
+    setReadingView('summary');
+}
+modal.classList.remove('hidden');
+modal.classList.add('flex');
+}
+
+function setReadingView(view) {
+const pdfWrap = document.getElementById('reading-pdf-wrap');
+const frame = document.getElementById('reading-pdf-frame');
+const contentEl = document.getElementById('reading-content');
+const tabPdf = document.getElementById('reading-tab-pdf');
+const tabSummary = document.getElementById('reading-tab-summary');
+const active = 'bg-accentCyan/20 text-accentCyan';
+const idle = 'text-gray-400 hover:text-white';
+if (view === 'pdf' && _readingBook?.pdf) {
+    const pdfUrl = `${API_HOST}/pdfs/${_readingBook.pdf}`;
+    if (frame.getAttribute('src') !== pdfUrl) frame.setAttribute('src', pdfUrl);
+    pdfWrap.classList.remove('hidden');
+    contentEl.classList.add('hidden');
+    tabPdf.className = `px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${active}`;
+    tabSummary.className = `px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${idle}`;
+} else {
+    pdfWrap.classList.add('hidden');
+    contentEl.classList.remove('hidden');
+    tabSummary.className = `px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${active}`;
+    tabPdf.className = `px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${idle}`;
+}
+}
+
+function closeReadingMode() {
+const modal = document.getElementById('reading-modal');
+if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+// Stop streaming the PDF when the modal closes
+const frame = document.getElementById('reading-pdf-frame');
+if (frame) frame.removeAttribute('src');
+_readingBook = null;
+}
+
+// Toggle between RAG and Conversational Agent (kept as default rag_synthesis mode)
+function setMode(mode) {
+currentMode = mode;
+}
+
+        // Auto prompt suggested templates
+        function autoPrompt(text) {
+            document.getElementById('chat-input').value = text;
+            sendMessage();
+        }
+
+        // Trigger prompt from tag click
+        function promptFromConcept(label) {
+            autoPrompt(`Tell me about the concept of ${label}`);
+        }
+
+        // Key handler for Enter key (without Shift)
+        function handleKey(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Main Send Function
+        async function sendMessage() {
+            if (isGenerating) return;
+            const inputVal = textarea.value.trim();
+            if (!inputVal) return;
+
+            if (!conversationSessionId) {
+                conversationSessionId = 'session_' + Date.now();
+            }
+
+            // Clear textarea & reset height
+            textarea.value = '';
+            textarea.style.height = 'auto';
+
+            // Hide welcome screen
+            const welcome = document.getElementById('welcome-container');
+            if (welcome) welcome.remove();
+
+            // Append User Message to Chat Window
+            appendMessage('user', inputVal);
+
+            // Add Assistant response box with Typing dot indicator
+            const assistantMsgId = appendMessage('assistant', '', true);
+            const msgEl = document.getElementById(`msg-body-${assistantMsgId}`);
+
+            isGenerating = true;
+            document.getElementById('send-btn').disabled = true;
+            document.getElementById('send-btn').classList.add('opacity-50');
+
+            try {
+                const response = await fetch(`${API_HOST}/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: inputVal,
+                        mode: currentMode,
+                        history: chatHistory,
+                        // RAG always retrieves and validates the compact path first.
+                        // When Ollama is available, qwen3.5:0.8b then performs only
+                        // the bounded wording pass; the server falls back to the
+                        // deterministic indexed response if it is offline.
+                        synthesis: currentMode === 'rag_synthesis' ? 'ollama' : false
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP Error ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                let metadataParsed = false;
+                let assistantText = '';
+
+                // Remove typing dots when the first text comes in
+                let cleanedIndicator = false;
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        if (buffer) {
+                            if (!cleanedIndicator) {
+                                msgEl.innerHTML = '';
+                                cleanedIndicator = true;
+                            }
+                            assistantText += buffer;
+                            renderMarkdownSafely(msgEl, assistantText);
+                        }
+                        // Append curriculum path breadcrumb if metadata carried multi-hop chains
+                        const paths = (window._lastChatMetadata || {}).curriculum_paths;
+                        if (paths && paths.length && msgEl && !msgEl.querySelector('.curriculum-path-box')) {
+                            const box = document.createElement('div');
+                            box.className = 'curriculum-path-box';
+                            box.innerHTML = renderCurriculumPaths(paths);
+                            msgEl.appendChild(box);
+                        }
+                        break;
+                    }
+
+                    buffer += decoder.decode(value, { stream: true });
+
+                    if (!metadataParsed) {
+                        const idx = buffer.indexOf('\n[STREAM_START]\n');
+                        if (idx !== -1) {
+                            const metaStr = buffer.substring(0, idx);
+                            buffer = buffer.substring(idx + 16);
+                            metadataParsed = true;
+
+                            try {
+                                const metadata = JSON.parse(metaStr);
+                                window._lastChatMetadata = metadata;
+                                populatePipeline(metadata);
+                                populateTopology(metadata.anchor_concept, metadata.prerequisites, metadata.unlocks);
+                            } catch (err) {
+                                console.error('Error parsing pipeline metadata:', err);
+                            }
+                        }
+                    }
+
+                    if (metadataParsed && buffer) {
+                        if (!cleanedIndicator) {
+                            msgEl.innerHTML = '';
+                            cleanedIndicator = true;
+                        }
+                        assistantText += buffer;
+                        renderMarkdownSafely(msgEl, assistantText);
+                        
+                        // Re-trigger syntax highlighting
+                        Prism.highlightAllUnder(msgEl);
+                        
+                        // Auto-scroll to bottom
+                        const chatMsgs = document.getElementById('chat-messages');
+                        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+                        
+                        buffer = '';
+                    }
+                }
+
+                // Add to conversational history
+                chatHistory.push({ role: 'user', content: inputVal });
+                chatHistory.push({ role: 'assistant', content: assistantText });
+                saveSession();
+
+            } catch (err) {
+                console.error(err);
+                if (msgEl.querySelector('.typing-indicator')) {
+                    msgEl.innerHTML = '';
+                }
+                msgEl.innerHTML = `<div class="text-rose-400 flex items-center gap-2 border border-rose-500/20 bg-rose-500/5 p-3 rounded-lg"><i class="fa-solid fa-circle-exclamation"></i>Failed to stream generation: ${err.message}. Ensure the local model / inference server is running.</div>`;
+            } finally {
+                isGenerating = false;
+                document.getElementById('send-btn').disabled = false;
+                document.getElementById('send-btn').classList.remove('opacity-50');
+            }
+        }
+
+        // Render standard chat bubbles
+        function appendMessage(role, text, isTyping = false) {
+            const chatMsgs = document.getElementById('chat-messages');
+            const msgId = Date.now();
+            
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} w-full animate-fade-in`;
+            
+            let messageHtml = '';
+            if (role === 'user') {
+                messageHtml = `
+                    <div data-user-message class="max-w-[80%] rounded-2xl px-4 py-3 bg-gradient-to-r from-accentPurple to-accentPurple/80 text-white shadow-md shadow-accentPurple/10 border border-accentPurple/20 text-sm leading-relaxed"></div>
+                `;
+            } else {
+                messageHtml = `
+                    <div class="flex gap-3 max-w-[85%] items-start">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-accentPurple shrink-0 shadow">
+                            <i class="fa-solid fa-cube text-xs"></i>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider ml-1">Archipelago Synthesis</span>
+                            <div id="msg-body-${msgId}" class="chat-bubble rounded-2xl px-5 py-4 bg-white/5 border border-white/8 text-gray-200 text-sm leading-relaxed shadow-lg backdrop-blur">
+                                ${isTyping ? `
+                                    <div class="typing-indicator flex items-center h-5">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            messageWrapper.innerHTML = messageHtml;
+            if (role === 'user') messageWrapper.querySelector('[data-user-message]').textContent = text;
+            chatMsgs.appendChild(messageWrapper);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            
+            if (role === 'assistant' && !isTyping) {
+                const el = document.getElementById(`msg-body-${msgId}`);
+                renderMarkdownSafely(el, text);
+                Prism.highlightAllUnder(el);
+            }
+            return msgId;
+        }
+
+        // Populate Pipeline panel logs & citations
+        function populatePipeline(data) {
+            const citationsList = document.getElementById('citations-list');
+            const citationsPlac = document.getElementById('citations-placeholder');
+            const logsList = document.getElementById('logs-list');
+            const logsPlac = document.getElementById('logs-placeholder');
+
+            // 1. Citations
+            if (data.citations && data.citations.length > 0) {
+                citationsPlac.classList.add('hidden');
+                citationsList.classList.remove('hidden');
+                citationsList.innerHTML = '';
+                
+                data.citations.forEach(cit => {
+                    const docId = String(cit.doc_id || 'Unspecified source');
+                    const cleanDoc = docId.replace(/^.*[\\\/]/, '');
+                    const citationEl = document.createElement('a');
+                    citationEl.href = `${API_HOST}/pdfs/${cit.doc_id}#page=${cit.page_number || ''}`;
+                    citationEl.target = '_blank';
+                    citationEl.rel = 'noopener noreferrer';
+                    citationEl.className = "flex flex-col p-3 rounded-lg bg-white/5 border border-white/5 hover:border-accentPink/30 hover:bg-accentPink/5 text-left transition-all duration-200 group";
+                    
+                    if (window._newlyIngestedDocId && window._newlyIngestedDocId === cit.doc_id) {
+                        citationEl.classList.add('new-evidence');
+                    }
+                    
+                    const row = document.createElement('div'); row.className = 'flex items-center justify-between mb-1 gap-2';
+                    
+                    const nameWrapper = document.createElement('div');
+                    nameWrapper.className = 'flex items-center truncate min-w-0';
+                    nameWrapper.innerHTML = `<span class="mr-1.5 px-1.5 py-0.5 rounded bg-accentPink/20 text-accentPink font-mono text-[9px] font-bold">${cit.evidence_id || 'S?'}</span>`;
+                    
+                    const name = document.createElement('span'); name.className = 'text-xs font-bold text-gray-300 truncate max-w-[200px] group-hover:text-accentPink transition-colors'; name.textContent = cleanDoc;
+                    nameWrapper.appendChild(name);
+                    
+                    const page = document.createElement('span'); page.className = 'px-2 py-0.5 rounded bg-accentPink/15 text-accentPink text-[9px] font-bold whitespace-nowrap';
+                    page.textContent = cit.printed_page ? cit.printed_page : (cit.page_number ? `PDF page ${cit.page_number}` : 'Page not reported');
+                    
+                    const section = document.createElement('span'); section.className = 'text-[11px] text-gray-400 truncate'; section.textContent = cit.section_title || 'General Reference';
+                    
+                    row.append(nameWrapper, page); citationEl.append(row, section);
+                    citationsList.appendChild(citationEl);
+                });
+            } else {
+                citationsList.classList.add('hidden');
+                citationsPlac.classList.remove('hidden');
+            }
+
+            // 2. Step logs
+            if (data.logs && data.logs.length > 0) {
+                logsPlac.classList.add('hidden');
+                logsList.classList.remove('hidden');
+                logsList.innerHTML = '';
+
+                data.logs.forEach(log => {
+                    const logEl = document.createElement('div');
+                    logEl.className = "flex gap-2.5 p-3 rounded-lg bg-white/5 border border-white/5 relative overflow-hidden";
+                    
+                    const status = String(log.status || 'Unknown');
+                    const isSuccess = status.toLowerCase().includes('success') || status.toLowerCase().includes('executed');
+                    const dotClass = isSuccess ? 'bg-emerald-500' : 'bg-rose-500';
+                    const dot = document.createElement('span'); dot.className = `w-1.5 h-1.5 rounded-full ${dotClass} mt-1.5 shrink-0`;
+                    const content = document.createElement('div'); content.className = 'flex flex-col gap-1 w-full';
+                    const row = document.createElement('div'); row.className = 'flex items-center justify-between gap-2';
+                    const step = document.createElement('span'); step.className = 'text-[11px] font-bold text-gray-300'; step.textContent = log.step || 'Pipeline step';
+                    const label = document.createElement('span'); label.className = 'text-[9px] font-semibold text-gray-400 uppercase tracking-widest'; label.textContent = status;
+                    const details = document.createElement('p'); details.className = 'text-[11px] text-gray-400 leading-relaxed'; details.textContent = log.details || '';
+                    row.append(step, label); content.append(row, details); logEl.append(dot, content);
+                    logsList.appendChild(logEl);
+                });
+            } else {
+                logsList.classList.add('hidden');
+                logsPlac.classList.remove('hidden');
+            }
+        }
+
+        // Populate Left Dashboard interactive topology flow
+        function populateTopology(anchor, prereqs, unlocks) {
+            const placeholder = document.getElementById('topology-placeholder');
+            const view = document.getElementById('topology-view');
+            const flow = document.getElementById('topology-flow');
+            
+            if (!anchor) {
+                view.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                return;
+            }
+            
+            placeholder.classList.add('hidden');
+            view.classList.remove('hidden');
+            flow.innerHTML = '';
+            
+            // 1. Render Prerequisites (Upstream)
+            if (prereqs && prereqs.length > 0) {
+                prereqs.forEach(p => {
+                    const pNode = document.createElement('div');
+                    pNode.className = 'relative flex flex-col gap-0.5 group cursor-pointer';
+                    pNode.onclick = () => promptFromConcept(p.name);
+                    pNode.innerHTML = `
+                        <div class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-gray-600 border-2 border-darkBg group-hover:bg-accentPurple transition-colors"></div>
+                        <span class="text-[9px] uppercase tracking-wider text-gray-500 font-bold">Prerequisite</span>
+                        <span class="text-xs font-bold text-gray-300 group-hover:text-white transition-colors">${escapeHTML(p.name)}</span>
+                    `;
+                    flow.appendChild(pNode);
+                });
+            }
+            
+            // 2. Render Anchor Concept (Center)
+            const anchorNode = document.createElement('div');
+            anchorNode.className = 'relative flex flex-col gap-1 p-3 rounded-xl bg-accentPurple/10 border border-accentPurple/30 shadow-lg shadow-accentPurple/5';
+            
+            const typeLabel = anchor.concept_type || 'Concept';
+            const diffLabel = anchor.difficulty || 'Intermediate';
+            
+            anchorNode.innerHTML = `
+                <div class="absolute -left-[22px] top-4 w-3.5 h-3.5 rounded-full bg-accentPurple border-2 border-darkBg shadow-md shadow-accentPurple/50 animate-pulse"></div>
+                <div class="flex items-center justify-between gap-2">
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-extrabold uppercase tracking-wide bg-accentCyan/15 text-accentCyan border border-accentCyan/20">${escapeHTML(typeLabel)}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[8px] font-extrabold uppercase tracking-wide bg-amber-500/15 text-amber-400 border border-amber-500/20">${escapeHTML(diffLabel)}</span>
+                </div>
+                <span class="text-xs font-extrabold text-white mt-1">${escapeHTML(anchor.label || anchor.id)}</span>
+                <span class="text-[10px] text-gray-400 leading-relaxed">${escapeHTML(anchor.summary || 'No description.')}</span>
+            `;
+            flow.appendChild(anchorNode);
+            
+            // 3. Render Unlocks (Downstream)
+            if (unlocks && unlocks.length > 0) {
+                unlocks.forEach(u => {
+                    const uNode = document.createElement('div');
+                    uNode.className = 'relative flex flex-col gap-0.5 group cursor-pointer';
+                    uNode.onclick = () => promptFromConcept(u.name);
+                    uNode.innerHTML = `
+                        <div class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-gray-600 border-2 border-darkBg group-hover:bg-accentPink transition-colors"></div>
+                        <span class="text-[9px] uppercase tracking-wider text-gray-500 font-bold">Unlocks</span>
+                        <span class="text-xs font-bold text-gray-300 group-hover:text-white transition-colors">${escapeHTML(u.name)}</span>
+                    `;
+                    flow.appendChild(uNode);
+                });
+            }
+        }
+
+        // LocalStorage Chat History Management
+        function saveSession() {
+            if (!chatHistory.length) return;
+            let sessions = JSON.parse(localStorage.getItem('archipelago_sessions') || '[]');
+            const existingIdx = sessions.findIndex(s => s.id === conversationSessionId);
+            
+            // Generate a title from the first user query
+            const userMsgs = chatHistory.filter(m => m.role === 'user');
+            const title = userMsgs[0]?.content || "New Chat";
+            const cleanTitle = title.length > 25 ? title.substring(0, 22) + "..." : title;
+            
+            const sessionData = {
+                id: conversationSessionId,
+                title: cleanTitle,
+                history: chatHistory,
+                lastMetadata: window._lastChatMetadata,
+                timestamp: Date.now()
+            };
+            
+            if (existingIdx !== -1) {
+                sessions[existingIdx] = sessionData;
+            } else {
+                sessions.unshift(sessionData);
+            }
+            localStorage.setItem('archipelago_sessions', JSON.stringify(sessions));
+            renderChatHistory();
+        }
+
+        function renderChatHistory() {
+            const listEl = document.getElementById('chat-history-list');
+            if (!listEl) return;
+            const sessions = JSON.parse(localStorage.getItem('archipelago_sessions') || '[]');
+            listEl.innerHTML = '';
+            
+            if (sessions.length === 0) {
+                listEl.innerHTML = '<p class="text-[10px] text-gray-500 italic px-1">No saved chats.</p>';
+                return;
+            }
+            
+            sessions.forEach(s => {
+                const item = document.createElement('div');
+                item.className = `group flex items-center justify-between p-2 rounded-lg text-xs font-medium cursor-pointer transition-all duration-150 ${s.id === conversationSessionId ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'}`;
+                
+                const titleWrapper = document.createElement('div');
+                titleWrapper.className = 'flex items-center gap-2 truncate min-w-0 flex-1';
+                titleWrapper.onclick = () => loadSession(s.id);
+                titleWrapper.innerHTML = `<i class="fa-regular fa-comment text-[10px]"></i><span class="truncate">${escapeHTML(s.title)}</span>`;
+                
+                const delBtn = document.createElement('button');
+                delBtn.className = 'opacity-0 group-hover:opacity-100 text-gray-500 hover:text-rose-400 transition-opacity px-1';
+                delBtn.innerHTML = '<i class="fa-regular fa-trash-can text-[10px]"></i>';
+                delBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteSession(s.id);
+                };
+                
+                item.append(titleWrapper, delBtn);
+                listEl.appendChild(item);
+            });
+        }
+
+        function loadSession(id) {
+            const sessions = JSON.parse(localStorage.getItem('archipelago_sessions') || '[]');
+            const session = sessions.find(s => s.id === id);
+            if (!session) return;
+            
+            conversationSessionId = session.id;
+            chatHistory = session.history;
+            window._lastChatMetadata = session.lastMetadata;
+            
+            // Clear & render messages
+            const chatMsgs = document.getElementById('chat-messages');
+            chatMsgs.innerHTML = '';
+            
+            chatHistory.forEach(msg => {
+                appendMessage(msg.role, msg.content);
+            });
+            
+            // Populate pipeline and topology flow
+            if (window._lastChatMetadata) {
+                populatePipeline(window._lastChatMetadata);
+                populateTopology(window._lastChatMetadata.anchor_concept, window._lastChatMetadata.prerequisites, window._lastChatMetadata.unlocks);
+            } else {
+                populateTopology(null);
+            }
+            
+            renderChatHistory();
+        }
+
+        function deleteSession(id) {
+            let sessions = JSON.parse(localStorage.getItem('archipelago_sessions') || '[]');
+            sessions = sessions.filter(s => s.id !== id);
+            localStorage.setItem('archipelago_sessions', JSON.stringify(sessions));
+            if (conversationSessionId === id) {
+                startNewChat();
+            } else {
+                renderChatHistory();
+            }
+        }
+
+        // ── Share chat: snapshot → server → copy link ─────────────────
+        async function shareChat() {
+            const btn = document.getElementById('share-chat-btn');
+            if (!chatHistory.length) {
+                flashShareBtn(btn, 'Nothing to share yet', true);
+                return;
+            }
+            const userMsgs = chatHistory.filter(m => m.role === 'user');
+            const title = (userMsgs[0]?.content || 'Archipelago chat').substring(0, 100);
+            try {
+                const res = await fetch(API_HOST + '/api/share', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, history: chatHistory }),
+                });
+                const data = await res.json();
+                if (!res.ok || !data.share_id) throw new Error(data.error || 'share failed');
+                const link = `${window.location.origin}${window.location.pathname}?share=${data.share_id}`;
+                try {
+                    await navigator.clipboard.writeText(link);
+                    flashShareBtn(btn, 'Link copied!');
+                } catch {
+                    window.prompt('Copy this share link:', link);
+                }
+            } catch (err) {
+                console.error('shareChat failed:', err);
+                flashShareBtn(btn, 'Share failed', true);
+            }
+        }
+
+        function flashShareBtn(btn, text, isError = false) {
+            if (!btn) return;
+            const orig = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid ${isError ? 'fa-triangle-exclamation' : 'fa-check'}"></i><span class="hidden md:inline">${text}</span>`;
+            btn.classList.toggle('text-rose-400', isError);
+            setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-rose-400'); }, 2200);
+        }
+
+        async function loadSharedChat(shareId) {
+            try {
+                const res = await fetch(API_HOST + '/api/share/' + encodeURIComponent(shareId));
+                const data = await res.json();
+                if (!res.ok || !Array.isArray(data.history)) throw new Error(data.error || 'not found');
+                conversationSessionId = 'shared-' + shareId;
+                chatHistory = data.history;
+                const chatMsgs = document.getElementById('chat-messages');
+                chatMsgs.innerHTML = '';
+                const banner = document.createElement('div');
+                banner.className = 'max-w-2xl mx-auto mb-4 p-3 rounded-xl bg-accentCyan/10 border border-accentCyan/25 text-xs text-accentCyan flex items-center gap-2';
+                banner.innerHTML = `<i class="fa-solid fa-share-nodes"></i><span>Viewing a shared conversation${data.title ? ': <b>' + escapeHTML(data.title) + '</b>' : ''}. Continue the chat below to make it yours.</span>`;
+                chatMsgs.appendChild(banner);
+                chatHistory.forEach(msg => appendMessage(msg.role, msg.content));
+                chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            } catch (err) {
+                console.error('loadSharedChat failed:', err);
+            }
+        }
+
+        // Open shared conversation when the URL carries ?share=<id>
+        (() => {
+            const shareId = new URLSearchParams(window.location.search).get('share');
+            if (shareId && /^[A-Za-z0-9_-]{6,32}$/.test(shareId)) loadSharedChat(shareId);
+        })();
+
+        // Student chat has no ingestion lifecycle hooks.
+        setChatAvailability(true);
+    </script>
+</body>
+</html>

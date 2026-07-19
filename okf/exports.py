@@ -232,3 +232,106 @@ def audit_graph_export(graph_export: dict) -> dict:
             "reciprocal_requires": reciprocal_requires[:25],
         }
     }
+
+
+def export_vis_json(db, nodes_path: str, edges_path: str):
+    """Export visualization nodes and edges to separate JSON files."""
+    import kuzu
+    import json
+    if hasattr(db, 'execute'):
+        conn = db
+    else:
+        conn = kuzu.Connection(db)
+
+    from okf.graph_db import export_graph
+    graph_export = export_graph(conn)
+    visual = build_visual_graph([], graph_export)
+
+    with open(nodes_path, "w", encoding="utf-8") as f:
+        json.dump(visual["nodes"], f, indent=2, ensure_ascii=False)
+    with open(edges_path, "w", encoding="utf-8") as f:
+        json.dump(visual["links"], f, indent=2, ensure_ascii=False)
+
+
+def write_all_artifacts(graph_export: dict, okf_results: list, db,
+                        total_chunks: int = None,
+                        successful_chunk_count: int = None,
+                        base_dir=None) -> tuple:
+    """Write every downstream graph artifact in one place: graph_audit.json,
+    root okf_graph.json, graph_ui/okf_graph.json (static fallback hosting),
+    _graph_nodes.json/_graph_edges.json and accuracy.json.
+
+    Shared by finalize_and_build and the ingestion worker's live swap so the
+    two paths can never drift (e.g. root okf_graph.json updated but
+    graph_ui/okf_graph.json and accuracy.json left stale).
+
+    total_chunks / successful_chunk_count default to the number of distinct
+    extracted chunks in okf_results (same fallback run_relations_only uses).
+    All paths are anchored to base_dir (BASE_DIR by default).
+
+    Returns (graph_audit, accuracy).
+    """
+    import json
+    from okf.config import BASE_DIR
+    from okf.evaluate import evaluate_extraction
+
+    if base_dir is None:
+        base_dir = BASE_DIR
+    if total_chunks is None:
+        total_chunks = len({(r.get("doc_id", ""), r.get("chunk_id", ""))
+                            for r in okf_results if r.get("chunk_id")})
+    if successful_chunk_count is None:
+        successful_chunk_count = total_chunks
+
+    graph_audit = audit_graph_export(graph_export)
+
+    with open(base_dir / "okf_graph.json", "w", encoding="utf-8") as f:
+        json.dump(graph_export, f, indent=2, ensure_ascii=False)
+    with open(base_dir / "graph_audit.json", "w", encoding="utf-8") as f:
+        json.dump(graph_audit, f, indent=2, ensure_ascii=False)
+
+    static_dest = base_dir / "graph_ui" / "okf_graph.json"
+    if static_dest.parent.exists():
+        with open(static_dest, "w", encoding="utf-8") as f:
+            json.dump(graph_export, f, indent=2, ensure_ascii=False)
+        print(f"  Saved to okf_graph.json, graph_audit.json and graph_ui/okf_graph.json")
+    else:
+        print(f"  Saved to okf_graph.json and graph_audit.json")
+
+    export_vis_json(
+        db,
+        str(base_dir / "_graph_nodes.json"),
+        str(base_dir / "_graph_edges.json")
+    )
+    print(f"  Exported visualization to _graph_nodes.json and _graph_edges.json")
+
+    accuracy = evaluate_extraction(okf_results, total_chunks, graph_export,
+                                    raw_extraction_count=successful_chunk_count)
+
+    with open(base_dir / "accuracy.json", "w", encoding="utf-8") as f:
+        json.dump(accuracy, f, indent=2)
+    print(f"  Saved to accuracy.json")
+
+    return graph_audit, accuracy
+
+
+def export_full_json(db, output_path: str):
+    """Export full graph structure (concepts, edges, stats, visualization, index) to JSON."""
+    import kuzu
+    import json
+    if hasattr(db, 'execute'):
+        conn = db
+    else:
+        conn = kuzu.Connection(db)
+
+    from okf.graph_db import export_graph
+    graph_export = export_graph(conn)
+    graph_export["visualization"] = build_visual_graph([], graph_export)
+    graph_export["graph_rag_index"] = build_graph_rag_index([], graph_export)
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(graph_export, f, indent=2, ensure_ascii=False)
+
+
+# Import auxiliary functions from okf.exports_extra
+from okf.exports_extra import export_gold_template, export_cytoscape, diff_graphs

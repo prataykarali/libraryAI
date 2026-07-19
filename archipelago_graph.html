@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Archipelago · Knowledge Graph</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090f;--s1:#111118;--s2:#181820;
+  --bd:rgba(255,255,255,.07);
+  --tx:#e8e8f2;--mu:#6060a0;
+  --req:#a374ff;--enb:#00e5b0;--use:#00b4d8;
+  --ext:#ff9f43;--pof:#ff6b9d;--ctr:#ff5e5e;--evl:#f9c74f;
+}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--tx);
+  font-family:'Inter',sans-serif;overflow:hidden;user-select:none}
+
+/* HEADER */
+#hdr{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;
+  display:flex;align-items:center;gap:14px;padding:0 20px;
+  background:rgba(9,9,15,.95);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--bd)}
+.logo{font-size:15px;font-weight:700;
+  background:linear-gradient(125deg,#a374ff,#00e5b0 70%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo em{-webkit-text-fill-color:var(--mu);font-style:normal;font-weight:300}
+#sw{flex:1;max-width:320px;position:relative}
+#srch{width:100%;padding:7px 12px 7px 32px;background:var(--s2);
+  border:1px solid var(--bd);border-radius:8px;color:var(--tx);
+  font-family:inherit;font-size:12px;outline:none;transition:border-color .2s,box-shadow .2s}
+#srch:focus{border-color:rgba(163,116,255,.5);box-shadow:0 0 0 3px rgba(163,116,255,.12)}
+#srch::placeholder{color:var(--mu)}
+.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--mu);font-size:13px;pointer-events:none}
+#leg{display:flex;gap:12px;align-items:center;margin-left:auto}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mu);white-space:nowrap}
+.ll{height:2px;width:20px;border-radius:2px}
+
+/* CHIPS */
+#chips{position:fixed;top:60px;left:14px;z-index:190;display:flex;gap:5px;flex-wrap:wrap;padding-top:5px}
+.chip{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:500;cursor:pointer;
+  border:1px solid var(--bd);color:var(--mu);background:var(--s2);transition:all .15s}
+.chip:hover{color:var(--tx)}
+.chip.on{color:#fff}
+.chip[data-r="all"].on{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22)}
+.chip[data-r="requires"].on{background:rgba(163,116,255,.2);border-color:var(--req);color:#c8aaff}
+.chip[data-r="enables"].on{background:rgba(0,229,176,.15);border-color:var(--enb);color:var(--enb)}
+.chip[data-r="uses"].on{background:rgba(0,180,216,.15);border-color:var(--use);color:var(--use)}
+.chip[data-r="extends"].on{background:rgba(255,159,67,.15);border-color:var(--ext);color:var(--ext)}
+.chip[data-r="part_of"].on{background:rgba(255,107,157,.15);border-color:var(--pof);color:var(--pof)}
+.chip[data-r="contrasts_with"].on{background:rgba(255,94,94,.15);border-color:var(--ctr);color:var(--ctr)}
+.chip[data-r="evaluated_by"].on{background:rgba(249,199,79,.15);border-color:var(--evl);color:var(--evl)}
+
+/* GRAPH */
+#gw{position:fixed;inset:52px 0 0 0;transition:right .32s cubic-bezier(.4,0,.2,1)}
+#gw.po{right:330px}
+svg#g{width:100%;height:100%;display:block;cursor:grab}
+svg#g:active{cursor:grabbing}
+
+.lnk{fill:none;stroke-width:1.5;stroke-linecap:round}
+.lnk.requires{stroke:var(--req)}.lnk.enables{stroke:var(--enb)}
+.lnk.uses{stroke:var(--use)}.lnk.extends{stroke:var(--ext)}
+.lnk.part_of{stroke:var(--pof)}.lnk.contrasts_with{stroke:var(--ctr)}
+.lnk.evaluated_by{stroke:var(--evl)}.lnk.dim{opacity:.04!important}
+
+.ng{cursor:pointer}
+.ng .core{transition:filter .2s}
+.ng:hover .core,.ng.sel .core{filter:brightness(1.7) saturate(1.4)!important}
+.ng.dim{opacity:.07}
+.ng .ring{transition:opacity .25s;opacity:0}
+.ng.sel .ring{opacity:1}
+.lbl{font-family:'Inter',sans-serif;font-size:9.5px;fill:var(--tx);
+  pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:3px;
+  stroke-linejoin:round;font-weight:500}
+
+/* PANEL */
+#panel{position:fixed;top:52px;right:0;bottom:0;width:330px;z-index:180;
+  background:rgba(9,9,15,.98);backdrop-filter:blur(28px);
+  border-left:1px solid var(--bd);
+  transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column}
+#panel.open{transform:translateX(0)}
+#pcls{position:absolute;top:11px;right:11px;width:26px;height:26px;border-radius:6px;
+  background:var(--s2);border:1px solid var(--bd);color:var(--mu);cursor:pointer;
+  font-size:12px;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;z-index:1}
+#pcls:hover{background:rgba(255,255,255,.1);color:var(--tx)}
+#pc{padding:20px 16px;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:var(--bd) transparent}
+
+.pbadge{display:inline-flex;padding:2px 9px;border-radius:20px;font-size:9px;font-weight:700;
+  letter-spacing:.6px;text-transform:uppercase;margin-bottom:11px}
+.pb-beginner{background:rgba(0,229,176,.12);color:#00e5b0;border:1px solid rgba(0,229,176,.3)}
+.pb-intermediate{background:rgba(163,116,255,.12);color:#c8aaff;border:1px solid rgba(163,116,255,.3)}
+.pb-advanced{background:rgba(255,107,157,.12);color:#ff6b9d;border:1px solid rgba(255,107,157,.3)}
+
+#pname{font-size:17px;font-weight:700;line-height:1.25;margin-bottom:8px}
+#psumm{font-size:12px;line-height:1.75;color:var(--mu);margin-bottom:15px}
+.pmeta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px}
+.mcard{background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:9px}
+.mlbl{font-size:9px;letter-spacing:.7px;text-transform:uppercase;color:var(--mu);margin-bottom:2px}
+.mval{font-size:11.5px;font-weight:600}
+.stitle{font-size:9px;letter-spacing:.7px;text-transform:uppercase;color:var(--mu);margin-bottom:6px;font-weight:600}
+.elist{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:13px}
+.ei{display:flex;align-items:center;gap:7px;padding:7px 9px;
+  border-radius:7px;cursor:pointer;background:var(--s2);border:1px solid var(--bd);
+  font-size:11px;transition:background .12s,border-color .12s}
+.ei:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15)}
+.earr{font-size:12px;flex-shrink:0}
+.ename{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.erel{font-size:9px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;opacity:.55;flex-shrink:0}
+.src{font-size:9.5px;font-family:'JetBrains Mono',monospace;color:var(--mu);
+  background:var(--s2);border:1px solid var(--bd);border-radius:7px;
+  padding:8px;word-break:break-all;line-height:1.65}
+
+/* TOOLTIP */
+#tip{position:fixed;z-index:500;
+  background:rgba(9,9,15,.98);backdrop-filter:blur(16px);
+  border:1px solid var(--bd);border-radius:9px;padding:9px 13px;
+  font-size:12px;pointer-events:none;opacity:0;transition:opacity .1s;max-width:240px}
+#tip.v{opacity:1}
+#tname{font-weight:700;margin-bottom:2px}
+#ttype{font-size:10px;color:var(--mu)}
+
+/* CONTROLS */
+#ctrls{position:fixed;bottom:56px;right:14px;z-index:190;display:flex;flex-direction:column;gap:4px}
+.cb{width:32px;height:32px;border-radius:7px;background:var(--s2);border:1px solid var(--bd);
+  color:var(--mu);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .12s}
+.cb:hover{background:rgba(255,255,255,.08);color:var(--tx)}
+
+/* STATS */
+#sbar{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:190;
+  display:flex;background:rgba(9,9,15,.92);backdrop-filter:blur(14px);
+  border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sp{padding:6px 14px;font-size:10px;color:var(--mu);display:flex;align-items:center;gap:4px;border-right:1px solid var(--bd)}
+.sp:last-child{border-right:none}
+.sp strong{color:var(--tx);font-weight:600;font-size:12px}
+
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<header id="hdr">
+  <div class="logo">Archipelago <em>/</em> Knowledge Graph</div>
+  <div id="sw">
+    <span class="si">⌕</span>
+    <input id="srch" type="text" placeholder="Search 113 concepts…" autocomplete="off"/>
+  </div>
+  <div id="leg">
+    <div class="li"><div class="ll" style="background:#a374ff;box-shadow:0 0 5px rgba(163,116,255,.7)"></div>REQUIRES</div>
+    <div class="li"><div class="ll" style="background:#00e5b0;box-shadow:0 0 5px rgba(0,229,176,.7)"></div>ENABLES</div>
+    <div class="li"><div class="ll" style="background:#00b4d8;box-shadow:0 0 5px rgba(0,180,216,.6)"></div>USES</div>
+    <div class="li"><div class="ll" style="background:#ff9f43;box-shadow:0 0 5px rgba(255,159,67,.6)"></div>EXTENDS</div>
+  </div>
+</header>
+
+<div id="chips">
+  <div class="chip on" data-r="all">All</div>
+  <div class="chip" data-r="requires">REQUIRES</div>
+  <div class="chip" data-r="enables">ENABLES</div>
+  <div class="chip" data-r="uses">USES</div>
+  <div class="chip" data-r="extends">EXTENDS</div>
+  <div class="chip" data-r="part_of">PART OF</div>
+  <div class="chip" data-r="contrasts_with">CONTRASTS</div>
+  <div class="chip" data-r="evaluated_by">EVALUATED BY</div>
+</div>
+
+<div id="gw">
+  <svg id="g">
+    <defs>
+      <marker id="mr" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0L0,6L7,3z" fill="#a374ff"/></marker>
+      <marker id="me" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0L0,6L7,3z" fill="#00e5b0"/></marker>
+      <marker id="mu" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0L0,6L7,3z" fill="#00b4d8"/></marker>
+      <marker id="mx" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0L0,6L7,3z" fill="#ff9f43"/></marker>
+      <marker id="mp" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0L0,6L7,3z" fill="#ff6b9d"/></marker>
+      <marker id="mc" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0L0,6L7,3z" fill="#ff5e5e"/></marker>
+      <marker id="mv" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0L0,6L7,3z" fill="#f9c74f"/></marker>
+      <filter id="fr" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="fe" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="fu" x="-70%" y="-70%" width="240%" height="240%">
+        <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="fx" x="-70%" y="-70%" width="240%" height="240%">
+        <feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="gnhub" x="-120%" y="-120%" width="340%" height="340%">
+        <feGaussianBlur stdDeviation="11" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="gnhi" x="-90%" y="-90%" width="280%" height="280%">
+        <feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="gnlo" x="-70%" y="-70%" width="240%" height="240%">
+        <feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+  </svg>
+</div>
+
+<div id="panel">
+  <button id="pcls">✕</button>
+  <div id="pc">
+    <div id="pbdg" class="pbadge pb-intermediate">intermediate</div>
+    <div id="pname"></div>
+    <div id="psumm"></div>
+    <div class="pmeta">
+      <div class="mcard"><div class="mlbl">Type</div><div id="ptype" class="mval">—</div></div>
+      <div class="mcard"><div class="mlbl">Difficulty</div><div id="pdiff" class="mval">—</div></div>
+    </div>
+    <div id="psr" style="display:none"><div class="stitle" style="color:#a374ff">↑ REQUIRES</div><ul id="plr" class="elist"></ul></div>
+    <div id="pse" style="display:none"><div class="stitle" style="color:#00e5b0">↓ ENABLES</div><ul id="ple" class="elist"></ul></div>
+    <div id="psu" style="display:none"><div class="stitle" style="color:#00b4d8">◈ USES</div><ul id="plu" class="elist"></ul></div>
+    <div id="psx" style="display:none"><div class="stitle" style="color:#ff9f43">⤳ EXTENDS</div><ul id="plx" class="elist"></ul></div>
+    <div id="psrc-sec" style="display:none"><div class="stitle">📄 Source</div><div id="psrc" class="src"></div></div>
+  </div>
+</div>
+
+<div id="tip"><div id="tname"></div><div id="ttype"></div></div>
+
+<div id="ctrls">
+  <button class="cb" id="zi">+</button>
+  <button class="cb" id="zo">−</button>
+  <button class="cb" id="zr" style="font-size:11px">⊙</button>
+</div>
+
+<div id="sbar">
+  <div class="sp"><strong id="sn">113</strong>&nbsp;concepts</div>
+  <div class="sp"><strong id="se">317</strong>&nbsp;edges</div>
+  <div class="sp"><strong id="sp2">—</strong>&nbsp;papers</div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   EMBEDDED REAL OKF DATA
+═══════════════════════════════════════ */
+const NODES=[{"id":"query","name":"Query","type":"technique","difficulty":"intermediate","summary":"A task where the primary goal is to summarize a text corpus rather than retrieve specific entities from it.","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"graph_indexing","name":"Graph Indexing","type":"definition","difficulty":"intermediate","summary":"","sources":"web_syllabi/AI_ML_Archipelago_Corpus_Seed.md:chunk_010:p0"},{"id":"bidirectional_language_model","name":"Bidirectional Language Model","type":"method","difficulty":"advanced","summary":"A deep bidirectional model that processes input sequences in both forward and backward directions simultaneously.","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"transformer_model","name":"Transformer Model","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_019:p5"},{"id":"string_seed_of_thought","name":"String Seed of Thought","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_015:p5"},{"id":"representation_learning","name":"Representation Learning","type":"technique","difficulty":"advanced","summary":"A method of training bidirectional models where the model processes both past and future tokens simultaneously.","sources":"papers/Devlin2018_BERT.pdf:chunk_029:p8"},{"id":"self_attention","name":"Self-Attention","type":"technique","difficulty":"advanced","summary":"A mechanism that allows the model to attend to all other tokens in a sequence simultaneously.","sources":"papers/Devlin2018_BERT.pdf:chunk_010:p3"},{"id":"hard_targeted_methods","name":"Hard-Targeted Methods","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_006:p2"},{"id":"rag_token","name":"RAG-Token","type":"method","difficulty":"advanced","summary":"A technique that combines retrieval of documents with generation to produce more accurate and factually correct responses.","sources":"papers/Lewis2020_RAG.pdf:chunk_025:p7"},{"id":"bertbase","name":"Bertbase","type":"metric","difficulty":"intermediate","summary":"A method for comparing model architecture and parameter counts across different transformer variants.","sources":"papers/Devlin2018_BERT.pdf:chunk_011:p3"},{"id":"gradient_descent","name":"Gradient Descent","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_002:p1"},{"id":"base_models","name":"Base Models","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Vaswani2017_Attention_Is_All_You_Need.pdf:chunk_024:p8"},{"id":"gpt_3","name":"Gpt-3","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"subspace_similarity","name":"Subspace Similarity","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_030:p10"},{"id":"dot_product_attention","name":"Dot-Product Attention","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"entity_extraction","name":"Entity Extraction","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_018:p5"},{"id":"structured_sampling","name":"Structured Sampling","type":"method","difficulty":"advanced","summary":"A technique for generating structured data distributions by sampling from a fixed set of seeds and reasoning protocols.","sources":"probable.pdf:chunk_018:p6"},{"id":"parametric_seq2seq","name":"Parametric Seq2Seq","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Lewis2020_RAG.pdf:chunk_001:p1"},{"id":"transformer","name":"Transformer","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_010:p3"},{"id":"prefix_mass","name":"Prefix Mass","type":"metric","difficulty":"intermediate","summary":"A method for accumulating probability mass over token prefixes in a sequence to determine next-token probabilities.","sources":"probable.pdf:chunk_042:p15"},{"id":"encoder","name":"Encoder","type":"method","difficulty":"advanced","summary":"A multi-layer bidirectional Transformer encoder that processes input sequences through self-attention and hidden layers.","sources":"papers/Devlin2018_BERT.pdf:chunk_010:p3"},{"id":"bilstm","name":"BiLSTM","type":"method","difficulty":"intermediate","summary":"A recurrent neural network architecture that processes sequences by alternating between left and right memory cells.","sources":"papers/Devlin2018_BERT.pdf:chunk_028:p7"},{"id":"mcq_transfer","name":"MCQ Transfer","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_018:p6"},{"id":"rag_model","name":"RAG Model","type":"method","difficulty":"advanced","summary":"A general-purpose fine-tuning recipe combining pre-trained parametric and non-parametric memory for language generation.","sources":"papers/Lewis2020_RAG.pdf:chunk_001:p1"},{"id":"model_training","name":"Model Training","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Lewis2020_RAG.pdf:chunk_030:p8"},{"id":"feature_based_approach","name":"Feature-based approach","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_028:p7"},{"id":"pre_training","name":"Pre-Training","type":"technique","difficulty":"advanced","summary":"A strategy where the pre-trained model is trained on identical data to ensure consistency across different tasks.","sources":"papers/Devlin2018_BERT.pdf:chunk_029:p8"},{"id":"glue","name":"Glue","type":"dataset","difficulty":"intermediate","summary":"A standardized evaluation benchmark for natural language understanding tasks used to measure model performance.","sources":"papers/Devlin2018_BERT.pdf:chunk_019:p5"},{"id":"learning_rate_schedule","name":"Learning Rate Schedule","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Vaswani2017_Attention_Is_All_You_Need.pdf:chunk_021:p7"},{"id":"bert","name":"Bert","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_011:p3"},{"id":"community_summary","name":"Community Summary","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"adaptive_learning_rate_tuning","name":"Adaptive Learning Rate Tuning","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_011:p1"},{"id":"soft_targeting","name":"Soft Targeting","type":"method","difficulty":"advanced","summary":"A technique where a model fine-tunes language models to produce diffuse distributions over valid outputs rather than strict hard targets.","sources":"probable.pdf:chunk_006:p2"},{"id":"natural_language_generation","name":"Natural Language Generation","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_006:p1"},{"id":"transformer_architecture","name":"Transformer Architecture","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"natural_language_understanding","name":"Natural Language Understanding","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_019:p5"},{"id":"rnn","name":"RNN","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"corpus","name":"Corpus","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_023:p6"},{"id":"community_level","name":"Community Level","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_014:p4"},{"id":"intrinsic_rank","name":"Intrinsic Rank","type":"theory","difficulty":"advanced","summary":"A hypothesis that pre-trained language models can learn efficiently despite having a low intrinsic rank in their weight matrices.","sources":"papers/Hu2021_LoRA.pdf:chunk_011:p1"},{"id":"diffuse_distributions","name":"Diffuse Distributions","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_006:p2"},{"id":"singular_value_decomposition","name":"Singular Value Decomposition","type":"technique","difficulty":"intermediate","summary":"A method for breaking down a matrix into its singular vectors and eigenvalues.","sources":"papers/Hu2021_LoRA.pdf:chunk_030:p10"},{"id":"openai_gpt","name":"OpenAI GPT","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_034:p9"},{"id":"key_value_pair","name":"Key-Value Pair","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Vaswani2017_Attention_Is_All_You_Need.pdf:chunk_009:p3"},{"id":"adam_optimizer","name":"Adam Optimizer","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_002:p1"},{"id":"factuality_check","name":"Factuality Check","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Lewis2020_RAG.pdf:chunk_025:p7"},{"id":"calibration_aware_training","name":"Calibration-Aware Training","type":"method","difficulty":"advanced","summary":"A method that aligns model outputs with a target statistical distribution to reduce uncertainty and improve generalization.","sources":"probable.pdf:chunk_006:p2"},{"id":"conditional_language_modeling","name":"Conditional Language Modeling","type":"method","difficulty":"advanced","summary":"A framework for maximizing conditional probabilities given a task-specific prompt to generate language outputs.","sources":"papers/Hu2021_LoRA.pdf:chunk_006:p1"},{"id":"classification_layer_weights","name":"Classification Layer Weights","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_019:p5"},{"id":"multi_head_attention","name":"Multi-Head Attention","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"entity_knowledge_graph","name":"Entity Knowledge Graph","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"attention_heads","name":"Attention Heads","type":"method","difficulty":"intermediate","summary":"A mechanism where each head processes a specific subset of input tokens to learn distinct features.","sources":"papers/Vaswani2017_Attention_Is_All_You_Need.pdf:chunk_018:p6"},{"id":"author_name","name":"Author Name","type":"method","difficulty":"intermediate","summary":"A reusable identifier for a specific person who wrote or contributed to the work.","sources":"papers/Edge2024_GraphRAG.pdf:chunk_045:p12"},{"id":"document_retrieval","name":"Document Retrieval","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_014:p4"},{"id":"tokenization","name":"Tokenization","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Lewis2020_RAG.pdf:chunk_025:p7"},{"id":"work","name":"Work","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"fine_tuning","name":"Fine-Tuning","type":"method","difficulty":"intermediate","summary":"A process where a pre-trained model is initialized and parameters are adjusted using labeled data from downstream tasks.","sources":"papers/Devlin2018_BERT.pdf:chunk_010:p3"},{"id":"model_evaluation","name":"Model Evaluation","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_010:p3"},{"id":"sentence_sequence","name":"Sentence Sequence","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_015:p4"},{"id":"output","name":"Output","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_011:p3"},{"id":"open_ended_random_generation_requests","name":"Open-ended random-generation requests","type":"dataset","difficulty":"intermediate","summary":"A benchmark constructed for this work to test whether fine-tuning broadens stochastic support and increases empirical diversity.","sources":"probable.pdf:chunk_015:p5"},{"id":"contributors","name":"Contributors","type":"dataset","difficulty":"intermediate","summary":"A list of individuals who contributed to a specific work or project.","sources":"papers/Edge2024_GraphRAG.pdf:chunk_045:p12"},{"id":"text_comparison","name":"Text Comparison","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_036:p10"},{"id":"retrieval_augmented_generation","name":"Retrieval-Augmented Generation","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Lewis2020_RAG.pdf:chunk_025:p7"},{"id":"sequence_level_targets","name":"Sequence-Level Targets","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_006:p2"},{"id":"sequence_length","name":"Sequence Length","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"reference_distribution","name":"Reference Distribution","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_014:p5"},{"id":"sensemaking_questions","name":"Sensemaking Questions","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"re_ranking","name":"Re-ranking","type":"technique","difficulty":"advanced","summary":"A method for re-ordering retrieved documents to improve retrieval accuracy and relevance.","sources":"papers/Lewis2020_RAG.pdf:chunk_018:p5"},{"id":"hard_target_fine_tuning","name":"Hard-Target Fine-Tuning","type":"method","difficulty":"advanced","summary":"A variant of fine-tuning that prioritizes hard constraints over soft ones, often showing stronger performance on unseen parameters.","sources":"probable.pdf:chunk_018:p6"},{"id":"graph_based_approach","name":"Graph-based approach","type":"method","difficulty":"advanced","summary":"A technique for constructing a knowledge graph from source documents to enable question answering over private text corpora.","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"sequence_modeling","name":"Sequence Modeling","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_015:p4"},{"id":"next_sentence_prediction","name":"Next Sentence Prediction","type":"definition","difficulty":"intermediate","summary":"A supervised learning task where a model predicts which sentence follows another in a sequence.","sources":"papers/Devlin2018_BERT.pdf:chunk_015:p4"},{"id":"masked_language_model","name":"Masked Language Model","type":"method","difficulty":"advanced","summary":"A pre-training objective where tokens are masked during training to prevent the model from predicting them, forcing it to learn contextual dependencies.","sources":"papers/Devlin2018_BERT.pdf:chunk_029:p8"},{"id":"pre_trained_language_models","name":"Pre-trained Language Models","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_034:p9"},{"id":"constitutional_ai_ai_feedback","name":"Constitutional AI (AI Feedback)","type":"method","difficulty":"advanced","summary":"A framework that introduces critique-and-revision and feedback-guided principles, requiring instruction tuning while unlocking alignment methods.","sources":"web_syllabi/AI_ML_Archipelago_Corpus_Seed.md:chunk_013:p0"},{"id":"self_attention_module","name":"Self-Attention Module","type":"technique","difficulty":"advanced","summary":"A mechanism in Transformer architectures that allows the model to relate every position in a sequence to every other by computing attention scores.","sources":"papers/Hu2021_LoRA.pdf:chunk_005:p1"},{"id":"soft_cross_evaluation","name":"Soft-Cross-Evaluation","type":"method","difficulty":"advanced","summary":"A technique for evaluating model performance by generating synthetic data and comparing it against ground truth using a soft loss function.","sources":"probable.pdf:chunk_041:p15"},{"id":"linear_transformation","name":"Linear Transformation","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Vaswani2017_Attention_Is_All_You_Need.pdf:chunk_013:p5"},{"id":"weight_type_wq_wk_wo","name":"Weight Type Wq, Wk, Wo","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"llm","name":"Llm","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"parameter_budget","name":"Parameter Budget","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_028:p9"},{"id":"sentence_embeddings","name":"Sentence Embeddings","type":"technique","difficulty":"intermediate","summary":"A method for representing the meaning of a single sentence within a sequence using token embeddings.","sources":"papers/Devlin2018_BERT.pdf:chunk_015:p4"},{"id":"positional_encoding","name":"Positional Encoding","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"rag_models","name":"RAG Models","type":"result","difficulty":"intermediate","summary":"Models that combine pre-trained parametric and non-parametric memory for language generation, achieving state-of-the-art results on knowledge-intensive tasks.","sources":"papers/Lewis2020_RAG.pdf:chunk_001:p1"},{"id":"softmax_function","name":"Softmax Function","type":"method","difficulty":"intermediate","summary":"A probability distribution function that maps a vector of probabilities to the maximum value among them, used for classification.","sources":"papers/Devlin2018_BERT.pdf:chunk_019:p5"},{"id":"decoder_layer","name":"Decoder Layer","type":"method","difficulty":"advanced","summary":"A layer in a BERT model that uses self-attention to relate all positions.","sources":"papers/Hu2021_LoRA.pdf:chunk_001:p1"},{"id":"evaluation_metrics","name":"Evaluation Metrics","type":"metric","difficulty":"advanced","summary":"A standardized framework for comparing model outputs against reference distributions to measure performance across different dimensions.","sources":"probable.pdf:chunk_014:p5"},{"id":"elmo","name":"ELMo","type":"method","difficulty":"advanced","summary":"A method for representing tokens as concatenations of left-to-right and right-to-left models to improve performance on tasks like QA.","sources":"papers/Devlin2018_BERT.pdf:chunk_030:p8"},{"id":"fine_tune","name":"Fine-Tune","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_002:p1"},{"id":"transformer_language_models","name":"Transformer Language Models","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_034:p9"},{"id":"wasserstein_1_distance_metric","name":"Wasserstein-1 Distance Metric","type":"metric","difficulty":"advanced","summary":"A distance measure between two probability distributions defined by the L2 norm of their difference.","sources":"probable.pdf:chunk_014:p5"},{"id":"open_ended_random_generation","name":"Open-ended Random Generation","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_018:p6"},{"id":"graphrag","name":"GraphRAG","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"text_processing","name":"Text Processing","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"embeddings","name":"Embeddings","type":"technique","difficulty":"intermediate","summary":"A representation of a sequence or token that captures its meaning and is used as input for downstream tasks.","sources":"papers/Devlin2018_BERT.pdf:chunk_034:p9"},{"id":"chain_of_thought_prompting","name":"Chain-of-Thought Prompting","type":"method","difficulty":"advanced","summary":"A technique that forces large language models to generate intermediate reasoning steps before producing final answers, thereby improving performance on arithmetic and commonsense tasks.","sources":"web_syllabi/AI_ML_Archipelago_Corpus_Seed.md:chunk_013:p0"},{"id":"react_reason_and_act","name":"ReAct (Reason and Act)","type":"method","difficulty":"advanced","summary":"A synergizing technique that combines reasoning traces with tool-using actions, requiring chain-of-thought prompting while unlocking agent automation.","sources":"web_syllabi/AI_ML_Archipelago_Corpus_Seed.md:chunk_013:p0"},{"id":"input_representation","name":"Input Representation","type":"technique","difficulty":"intermediate","summary":"A method for defining how input data is structured and tokenized to support downstream tasks.","sources":"papers/Devlin2018_BERT.pdf:chunk_011:p3"},{"id":"adaptation_matrix_w","name":"Adaptation Matrix ∆W","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Hu2021_LoRA.pdf:chunk_032:p10"},{"id":"semantic_similarity","name":"Semantic Similarity","type":"metric","difficulty":"advanced","summary":"A method for evaluating how similar two texts are in terms of meaning and structure.","sources":"papers/Hu2021_LoRA.pdf:chunk_036:p10"},{"id":"bidirectional_model","name":"Bidirectional Model","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_013:p4"},{"id":"bert_model_architecture","name":"BERT Model Architecture","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_010:p3"},{"id":"lora","name":"LoRA","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_034:p9"},{"id":"stochastic_support_expansion","name":"Stochastic Support Expansion","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_018:p6"},{"id":"answer_position_balance","name":"Answer-Position Balance","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_018:p6"},{"id":"w1","name":"W1","type":"definition","difficulty":"intermediate","summary":"","sources":"probable.pdf:chunk_015:p5"},{"id":"multi_stage_process","name":"Multi-Stage Process","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_022:p6"},{"id":"low_rank_decomposition","name":"Low-Rank Decomposition","type":"technique","difficulty":"advanced","summary":"A method for representing a weight matrix as the sum of two matrices with low ranks, where one is frozen and contains trainable parameters.","sources":"papers/Hu2021_LoRA.pdf:chunk_011:p1"},{"id":"rag_system","name":"RAG System","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_002:p1"},{"id":"large_language_models","name":"Large Language Models","type":"definition","difficulty":"intermediate","summary":"","sources":"web_syllabi/AI_ML_Archipelago_Corpus_Seed.md:chunk_013:p0"},{"id":"question_generation","name":"Question Generation","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Edge2024_GraphRAG.pdf:chunk_024:p7"},{"id":"attention_mechanism","name":"Attention Mechanism","type":"definition","difficulty":"intermediate","summary":"","sources":"papers/Devlin2018_BERT.pdf:chunk_010:p3"}];
+const EDGES=[{"source":"encoder","target":"transformer","rel":"requires"},{"source":"encoder","target":"attention_mechanism","rel":"requires"},{"source":"attention_mechanism","target":"transformer_architecture","rel":"requires"},{"source":"attention_mechanism","target":"sequence_length","rel":"requires"},{"source":"attention_mechanism","target":"self_attention","rel":"requires"},{"source":"attention_mechanism","target":"transformer","rel":"requires"},{"source":"transformer","target":"base_models","rel":"requires"},{"source":"transformer","target":"fine_tuning","rel":"requires"},{"source":"transformer","target":"self_attention","rel":"requires"},{"source":"transformer","target":"attention_mechanism","rel":"requires"},{"source":"self_attention","target":"transformer","rel":"requires"},{"source":"self_attention","target":"encoder","rel":"requires"},{"source":"fine_tuning","target":"open_ended_random_generation","rel":"requires"},{"source":"fine_tuning","target":"structured_sampling","rel":"requires"},{"source":"fine_tuning","target":"pre_trained_language_models","rel":"requires"},{"source":"fine_tuning","target":"pre_training","rel":"requires"},{"source":"fine_tuning","target":"bert","rel":"requires"},{"source":"fine_tuning","target":"bert_model_architecture","rel":"requires"},{"source":"bert","target":"lora","rel":"requires"},{"source":"bert","target":"pre_trained_language_models","rel":"requires"},{"source":"bert","target":"attention_mechanism","rel":"requires"},{"source":"bidirectional_language_model","target":"encoder","rel":"requires"},{"source":"bidirectional_model","target":"bilstm","rel":"requires"},{"source":"multi_head_attention","target":"attention_mechanism","rel":"requires"},{"source":"positional_encoding","target":"self_attention","rel":"requires"},{"source":"gpt_3","target":"fine_tune","rel":"requires"},{"source":"work","target":"linear_transformation","rel":"requires"},{"source":"work","target":"self_attention","rel":"requires"},{"source":"work","target":"transformer","rel":"requires"},{"source":"work","target":"attention_mechanism","rel":"requires"},{"source":"dot_product_attention","target":"query","rel":"requires"},{"source":"dot_product_attention","target":"attention_mechanism","rel":"requires"},{"source":"next_sentence_prediction","target":"sentence_sequence","rel":"requires"},{"source":"next_sentence_prediction","target":"bertbase","rel":"requires"},{"source":"glue","target":"natural_language_understanding","rel":"requires"},{"source":"glue","target":"bert","rel":"requires"},{"source":"bilstm","target":"bert","rel":"requires"},{"source":"masked_language_model","target":"bertbase","rel":"requires"},{"source":"representation_learning","target":"bertbase","rel":"requires"},{"source":"pre_training","target":"re_ranking","rel":"requires"},{"source":"pre_training","target":"bertbase","rel":"requires"},{"source":"elmo","target":"pre_trained_language_models","rel":"requires"},{"source":"openai_gpt","target":"pre_trained_language_models","rel":"requires"},{"source":"lora","target":"fine_tune","rel":"requires"},{"source":"lora","target":"transformer_architecture","rel":"requires"},{"source":"lora","target":"bert","rel":"requires"},{"source":"lora","target":"fine_tuning","rel":"requires"},{"source":"lora","target":"transformer","rel":"requires"},{"source":"lora","target":"attention_mechanism","rel":"requires"},{"source":"embeddings","target":"bert","rel":"requires"},{"source":"graph_based_approach","target":"entity_knowledge_graph","rel":"requires"},{"source":"entity_knowledge_graph","target":"graph_based_approach","rel":"requires"},{"source":"graphrag","target":"community_level","rel":"requires"},{"source":"graphrag","target":"document_retrieval","rel":"requires"},{"source":"community_summary","target":"entity_knowledge_graph","rel":"requires"},{"source":"llm","target":"text_processing","rel":"requires"},{"source":"rag_system","target":"llm","rel":"requires"},{"source":"sensemaking_questions","target":"work","rel":"requires"},{"source":"conditional_language_modeling","target":"transformer_architecture","rel":"requires"},{"source":"intrinsic_rank","target":"subspace_similarity","rel":"requires"},{"source":"parameter_budget","target":"attention_mechanism","rel":"requires"},{"source":"singular_value_decomposition","target":"lora","rel":"requires"},{"source":"semantic_similarity","target":"work","rel":"requires"},{"source":"rag_model","target":"pre_training","rel":"requires"},{"source":"re_ranking","target":"encoder","rel":"requires"},{"source":"attention_heads","target":"self_attention","rel":"requires"},{"source":"soft_targeting","target":"fine_tuning","rel":"requires"},{"source":"diffuse_distributions","target":"fine_tuning","rel":"requires"},{"source":"sequence_level_targets","target":"fine_tuning","rel":"requires"},{"source":"calibration_aware_training","target":"fine_tuning","rel":"requires"},{"source":"evaluation_metrics","target":"reference_distribution","rel":"requires"},{"source":"wasserstein_1_distance_metric","target":"evaluation_metrics","rel":"requires"},{"source":"hard_target_fine_tuning","target":"fine_tuning","rel":"requires"},{"source":"stochastic_support_expansion","target":"open_ended_random_generation","rel":"requires"},{"source":"answer_position_balance","target":"question_generation","rel":"requires"},{"source":"prefix_mass","target":"tokenization","rel":"requires"},{"source":"chain_of_thought_prompting","target":"large_language_models","rel":"requires"},{"source":"react_reason_and_act","target":"large_language_models","rel":"requires"},{"source":"constitutional_ai_ai_feedback","target":"large_language_models","rel":"requires"},{"source":"encoder","target":"transformer","rel":"enables"},{"source":"encoder","target":"bert_model_architecture","rel":"enables"},{"source":"attention_mechanism","target":"multi_head_attention","rel":"enables"},{"source":"attention_mechanism","target":"text_processing","rel":"enables"},{"source":"attention_mechanism","target":"transformer","rel":"enables"},{"source":"attention_mechanism","target":"encoder","rel":"enables"},{"source":"bert_model_architecture","target":"transformer","rel":"enables"},{"source":"transformer","target":"bert","rel":"enables"},{"source":"self_attention","target":"multi_head_attention","rel":"enables"},{"source":"fine_tuning","target":"mcq_transfer","rel":"enables"},{"source":"fine_tuning","target":"stochastic_support_expansion","rel":"enables"},{"source":"fine_tuning","target":"lora","rel":"enables"},{"source":"bert","target":"transformer","rel":"enables"},{"source":"bertbase","target":"bert","rel":"enables"},{"source":"input_representation","target":"bert","rel":"enables"},{"source":"input_representation","target":"attention_mechanism","rel":"enables"},{"source":"sequence_length","target":"transformer","rel":"enables"},{"source":"transformer_architecture","target":"bilstm","rel":"enables"},{"source":"multi_head_attention","target":"transformer","rel":"enables"},{"source":"multi_head_attention","target":"encoder","rel":"enables"},{"source":"positional_encoding","target":"transformer","rel":"enables"},{"source":"work","target":"semantic_similarity","rel":"enables"},{"source":"work","target":"text_processing","rel":"enables"},{"source":"next_sentence_prediction","target":"sequence_modeling","rel":"enables"},{"source":"next_sentence_prediction","target":"bertbase","rel":"enables"},{"source":"sentence_sequence","target":"next_sentence_prediction","rel":"enables"},{"source":"sentence_embeddings","target":"next_sentence_prediction","rel":"enables"},{"source":"softmax_function","target":"transformer_model","rel":"enables"},{"source":"transformer_model","target":"text_processing","rel":"enables"},{"source":"bilstm","target":"elmo","rel":"enables"},{"source":"bilstm","target":"bertbase","rel":"enables"},{"source":"feature_based_approach","target":"bert","rel":"enables"},{"source":"pre_training","target":"sequence_length","rel":"enables"},{"source":"elmo","target":"bilstm","rel":"enables"},{"source":"lora","target":"parameter_budget","rel":"enables"},{"source":"lora","target":"gpt_3","rel":"enables"},{"source":"lora","target":"fine_tuning","rel":"enables"},{"source":"graph_based_approach","target":"community_summary","rel":"enables"},{"source":"graph_based_approach","target":"graphrag","rel":"enables"},{"source":"llm","target":"entity_extraction","rel":"enables"},{"source":"rag_system","target":"graphrag","rel":"enables"},{"source":"query","target":"graphrag","rel":"enables"},{"source":"entity_extraction","target":"llm","rel":"enables"},{"source":"corpus","target":"llm","rel":"enables"},{"source":"contributors","target":"work","rel":"enables"},{"source":"author_name","target":"work","rel":"enables"},{"source":"decoder_layer","target":"transformer","rel":"enables"},{"source":"self_attention_module","target":"lora","rel":"enables"},{"source":"self_attention_module","target":"transformer","rel":"enables"},{"source":"intrinsic_rank","target":"low_rank_decomposition","rel":"enables"},{"source":"text_comparison","target":"semantic_similarity","rel":"enables"},{"source":"rag_models","target":"fine_tuning","rel":"enables"},{"source":"tokenization","target":"transformer_model","rel":"enables"},{"source":"rag_token","target":"document_retrieval","rel":"enables"},{"source":"model_training","target":"transformer","rel":"enables"},{"source":"attention_heads","target":"transformer","rel":"enables"},{"source":"soft_targeting","target":"hard_targeted_methods","rel":"enables"},{"source":"string_seed_of_thought","target":"w1","rel":"enables"},{"source":"open_ended_random_generation_requests","target":"w1","rel":"enables"},{"source":"hard_target_fine_tuning","target":"open_ended_random_generation","rel":"enables"},{"source":"stochastic_support_expansion","target":"open_ended_random_generation","rel":"enables"},{"source":"answer_position_balance","target":"mcq_transfer","rel":"enables"},{"source":"soft_cross_evaluation","target":"work","rel":"enables"},{"source":"prefix_mass","target":"transformer_model","rel":"enables"},{"source":"graph_indexing","target":"query","rel":"enables"},{"source":"encoder","target":"transformer","rel":"uses"},{"source":"encoder","target":"self_attention","rel":"extends"},{"source":"encoder","target":"decoder_layer","rel":"part_of"},{"source":"encoder","target":"self_attention","rel":"part_of"},{"source":"attention_mechanism","target":"self_attention","rel":"uses"},{"source":"attention_mechanism","target":"positional_encoding","rel":"uses"},{"source":"attention_mechanism","target":"transformer","rel":"uses"},{"source":"attention_mechanism","target":"rnn","rel":"contrasts_with"},{"source":"attention_mechanism","target":"self_attention","rel":"part_of"},{"source":"attention_mechanism","target":"gpt_3","rel":"uses"},{"source":"attention_mechanism","target":"weight_type_wq_wk_wo","rel":"extends"},{"source":"attention_mechanism","target":"work","rel":"extends"},{"source":"attention_mechanism","target":"encoder","rel":"uses"},{"source":"attention_mechanism","target":"positional_encoding","rel":"part_of"},{"source":"bert_model_architecture","target":"self_attention","rel":"extends"},{"source":"transformer","target":"feature_based_approach","rel":"extends"},{"source":"transformer","target":"lora","rel":"extends"},{"source":"transformer","target":"self_attention","rel":"uses"},{"source":"transformer","target":"embeddings","rel":"extends"},{"source":"transformer","target":"encoder","rel":"uses"},{"source":"transformer","target":"self_attention","rel":"evaluated_by"},{"source":"transformer","target":"attention_mechanism","rel":"uses"},{"source":"self_attention","target":"attention_mechanism","rel":"uses"},{"source":"self_attention","target":"bert","rel":"contrasts_with"},{"source":"self_attention","target":"rnn","rel":"contrasts_with"},{"source":"fine_tuning","target":"classification_layer_weights","rel":"uses"},{"source":"fine_tuning","target":"feature_based_approach","rel":"contrasts_with"},{"source":"fine_tuning","target":"bert","rel":"uses"},{"source":"fine_tuning","target":"transformer_language_models","rel":"extends"},{"source":"fine_tuning","target":"lora","rel":"contrasts_with"},{"source":"fine_tuning","target":"string_seed_of_thought","rel":"uses"},{"source":"fine_tuning","target":"hard_target_fine_tuning","rel":"contrasts_with"},{"source":"fine_tuning","target":"hard_target_fine_tuning","rel":"extends"},{"source":"fine_tuning","target":"answer_position_balance","rel":"uses"},{"source":"bert","target":"feature_based_approach","rel":"extends"},{"source":"bert","target":"openai_gpt","rel":"contrasts_with"},{"source":"bert","target":"transformer","rel":"uses"},{"source":"bert","target":"attention_mechanism","rel":"uses"},{"source":"bert","target":"sequence_modeling","rel":"uses"},{"source":"input_representation","target":"output","rel":"uses"},{"source":"input_representation","target":"self_attention","rel":"uses"},{"source":"bidirectional_model","target":"transformer","rel":"extends"},{"source":"sequence_length","target":"attention_mechanism","rel":"uses"},{"source":"sequence_length","target":"pre_training","rel":"uses"},{"source":"sequence_length","target":"positional_encoding","rel":"uses"},{"source":"transformer_architecture","target":"bidirectional_model","rel":"extends"},{"source":"multi_head_attention","target":"self_attention","rel":"uses"},{"source":"multi_head_attention","target":"positional_encoding","rel":"uses"},{"source":"multi_head_attention","target":"dot_product_attention","rel":"uses"},{"source":"multi_head_attention","target":"output","rel":"uses"},{"source":"multi_head_attention","target":"transformer","rel":"extends"},{"source":"multi_head_attention","target":"encoder","rel":"uses"},{"source":"positional_encoding","target":"self_attention","rel":"part_of"},{"source":"positional_encoding","target":"rnn","rel":"contrasts_with"},{"source":"gpt_3","target":"transformer_language_models","rel":"evaluated_by"},{"source":"work","target":"text_comparison","rel":"extends"},{"source":"work","target":"natural_language_generation","rel":"extends"},{"source":"work","target":"encoder","rel":"part_of"},{"source":"work","target":"decoder_layer","rel":"part_of"},{"source":"work","target":"self_attention","rel":"evaluated_by"},{"source":"work","target":"transformer","rel":"extends"},{"source":"work","target":"self_attention","rel":"contrasts_with"},{"source":"dot_product_attention","target":"multi_head_attention","rel":"uses"},{"source":"dot_product_attention","target":"output","rel":"uses"},{"source":"next_sentence_prediction","target":"sequence_modeling","rel":"extends"},{"source":"next_sentence_prediction","target":"bertbase","rel":"uses"},{"source":"next_sentence_prediction","target":"transformer","rel":"uses"},{"source":"sentence_sequence","target":"sequence_modeling","rel":"extends"},{"source":"sentence_embeddings","target":"sequence_modeling","rel":"extends"},{"source":"glue","target":"bert","rel":"evaluated_by"},{"source":"glue","target":"transformer","rel":"evaluated_by"},{"source":"softmax_function","target":"classification_layer_weights","rel":"uses"},{"source":"softmax_function","target":"attention_mechanism","rel":"uses"},{"source":"transformer_model","target":"work","rel":"extends"},{"source":"bilstm","target":"bertbase","rel":"uses"},{"source":"bilstm","target":"feature_based_approach","rel":"extends"},{"source":"bilstm","target":"bidirectional_model","rel":"contrasts_with"},{"source":"feature_based_approach","target":"pre_training","rel":"extends"},{"source":"masked_language_model","target":"transformer","rel":"uses"},{"source":"representation_learning","target":"transformer","rel":"uses"},{"source":"pre_training","target":"transformer","rel":"evaluated_by"},{"source":"pre_training","target":"transformer","rel":"uses"},{"source":"pre_training","target":"positional_encoding","rel":"uses"},{"source":"pre_training","target":"model_evaluation","rel":"evaluated_by"},{"source":"elmo","target":"bidirectional_model","rel":"uses"},{"source":"elmo","target":"bert","rel":"contrasts_with"},{"source":"openai_gpt","target":"bert","rel":"contrasts_with"},{"source":"lora","target":"attention_mechanism","rel":"extends"},{"source":"lora","target":"gradient_descent","rel":"uses"},{"source":"lora","target":"transformer","rel":"extends"},{"source":"lora","target":"adam_optimizer","rel":"uses"},{"source":"lora","target":"transformer_language_models","rel":"uses"},{"source":"lora","target":"gpt_3","rel":"uses"},{"source":"lora","target":"transformer_language_models","rel":"extends"},{"source":"lora","target":"transformer","rel":"part_of"},{"source":"lora","target":"self_attention","rel":"uses"},{"source":"lora","target":"weight_type_wq_wk_wo","rel":"extends"},{"source":"lora","target":"subspace_similarity","rel":"uses"},{"source":"transformer_language_models","target":"lora","rel":"extends"},{"source":"embeddings","target":"feature_based_approach","rel":"uses"},{"source":"embeddings","target":"transformer","rel":"uses"},{"source":"embeddings","target":"attention_mechanism","rel":"uses"},{"source":"graph_based_approach","target":"llm","rel":"uses"},{"source":"graph_based_approach","target":"rag_system","rel":"extends"},{"source":"entity_knowledge_graph","target":"rag_system","rel":"extends"},{"source":"graphrag","target":"graph_indexing","rel":"extends"},{"source":"community_summary","target":"graphrag","rel":"uses"},{"source":"community_summary","target":"multi_stage_process","rel":"uses"},{"source":"rag_system","target":"sensemaking_questions","rel":"evaluated_by"},{"source":"rag_system","target":"corpus","rel":"uses"},{"source":"sensemaking_questions","target":"corpus","rel":"uses"},{"source":"query","target":"sensemaking_questions","rel":"contrasts_with"},{"source":"query","target":"key_value_pair","rel":"uses"},{"source":"document_retrieval","target":"model_training","rel":"evaluated_by"},{"source":"community_level","target":"multi_stage_process","rel":"extends"},{"source":"community_level","target":"graphrag","rel":"evaluated_by"},{"source":"entity_extraction","target":"text_processing","rel":"uses"},{"source":"corpus","target":"rag_system","rel":"uses"},{"source":"corpus","target":"question_generation","rel":"uses"},{"source":"corpus","target":"sensemaking_questions","rel":"uses"},{"source":"question_generation","target":"corpus","rel":"uses"},{"source":"author_name","target":"contributors","rel":"part_of"},{"source":"decoder_layer","target":"self_attention","rel":"extends"},{"source":"decoder_layer","target":"encoder","rel":"part_of"},{"source":"adam_optimizer","target":"learning_rate_schedule","rel":"extends"},{"source":"self_attention_module","target":"attention_mechanism","rel":"extends"},{"source":"self_attention_module","target":"positional_encoding","rel":"part_of"},{"source":"self_attention_module","target":"gpt_3","rel":"uses"},{"source":"self_attention_module","target":"weight_type_wq_wk_wo","rel":"extends"},{"source":"conditional_language_modeling","target":"natural_language_generation","rel":"uses"},{"source":"low_rank_decomposition","target":"adaptive_learning_rate_tuning","rel":"uses"},{"source":"intrinsic_rank","target":"adaptive_learning_rate_tuning","rel":"uses"},{"source":"intrinsic_rank","target":"adaptation_matrix_w","rel":"evaluated_by"},{"source":"parameter_budget","target":"gpt_3","rel":"evaluated_by"},{"source":"parameter_budget","target":"weight_type_wq_wk_wo","rel":"extends"},{"source":"subspace_similarity","target":"adaptation_matrix_w","rel":"uses"},{"source":"singular_value_decomposition","target":"subspace_similarity","rel":"uses"},{"source":"semantic_similarity","target":"text_comparison","rel":"uses"},{"source":"text_comparison","target":"work","rel":"uses"},{"source":"rag_model","target":"parametric_seq2seq","rel":"extends"},{"source":"rag_models","target":"parametric_seq2seq","rel":"extends"},{"source":"re_ranking","target":"rnn","rel":"contrasts_with"},{"source":"tokenization","target":"prefix_mass","rel":"extends"},{"source":"rag_token","target":"retrieval_augmented_generation","rel":"uses"},{"source":"rag_token","target":"factuality_check","rel":"uses"},{"source":"model_training","target":"attention_heads","rel":"uses"},{"source":"key_value_pair","target":"query","rel":"uses"},{"source":"key_value_pair","target":"output","rel":"uses"},{"source":"linear_transformation","target":"work","rel":"uses"},{"source":"attention_heads","target":"rnn","rel":"contrasts_with"},{"source":"soft_targeting","target":"diffuse_distributions","rel":"uses"},{"source":"soft_targeting","target":"sequence_level_targets","rel":"uses"},{"source":"diffuse_distributions","target":"soft_targeting","rel":"uses"},{"source":"diffuse_distributions","target":"hard_targeted_methods","rel":"uses"},{"source":"sequence_level_targets","target":"soft_targeting","rel":"uses"},{"source":"sequence_level_targets","target":"hard_targeted_methods","rel":"uses"},{"source":"calibration_aware_training","target":"soft_targeting","rel":"uses"},{"source":"calibration_aware_training","target":"hard_targeted_methods","rel":"uses"},{"source":"wasserstein_1_distance_metric","target":"reference_distribution","rel":"part_of"},{"source":"string_seed_of_thought","target":"open_ended_random_generation_requests","rel":"uses"},{"source":"open_ended_random_generation_requests","target":"string_seed_of_thought","rel":"evaluated_by"},{"source":"structured_sampling","target":"string_seed_of_thought","rel":"uses"},{"source":"hard_target_fine_tuning","target":"string_seed_of_thought","rel":"uses"},{"source":"hard_target_fine_tuning","target":"fine_tuning","rel":"contrasts_with"},{"source":"stochastic_support_expansion","target":"hard_target_fine_tuning","rel":"extends"},{"source":"mcq_transfer","target":"open_ended_random_generation","rel":"uses"},{"source":"mcq_transfer","target":"hard_target_fine_tuning","rel":"extends"},{"source":"answer_position_balance","target":"open_ended_random_generation","rel":"contrasts_with"},{"source":"answer_position_balance","target":"hard_target_fine_tuning","rel":"uses"},{"source":"prefix_mass","target":"attention_mechanism","rel":"uses"},{"source":"large_language_models","target":"chain_of_thought_prompting","rel":"uses"},{"source":"react_reason_and_act","target":"chain_of_thought_prompting","rel":"uses"},{"source":"constitutional_ai_ai_feedback","target":"chain_of_thought_prompting","rel":"extends"}];
+</script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+/* ═══════════════════════════════════════
+   STARFIELD
+═══════════════════════════════════════ */
+(()=>{
+  const c=document.getElementById('stars'),ctx=c.getContext('2d');
+  let st=[];
+  const rsz=()=>{
+    c.width=innerWidth;c.height=innerHeight;
+    st=Array.from({length:200},()=>({
+      x:Math.random()*c.width,y:Math.random()*c.height,
+      r:Math.random()*1.3+.2,a:Math.random()*.4+.06,
+      da:(Math.random()-.5)*.003
+    }));
+  };
+  const draw=()=>{
+    ctx.clearRect(0,0,c.width,c.height);
+    st.forEach(s=>{s.a+=s.da;if(s.a<.05||s.a>.55)s.da*=-1;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(180,180,255,${s.a})`;ctx.fill();});
+    requestAnimationFrame(draw);
+  };
+  rsz();addEventListener('resize',rsz);draw();
+})();
+
+/* ═══════════════════════════════════════
+   GRAPH
+═══════════════════════════════════════ */
+(()=>{
+  const nodes=NODES, edges=EDGES;
+
+  // Compute degree
+  const deg={};
+  edges.forEach(e=>{deg[e.source]=(deg[e.source]||0)+1;deg[e.target]=(deg[e.target]||0)+1;});
+  nodes.forEach(n=>{n._d=deg[n.id]||0;});
+
+  const nm={};nodes.forEach(n=>nm[n.id]=n);
+  const rid=x=>typeof x==='object'?x.id:x;
+
+  const CLRS={requires:'#a374ff',enables:'#00e5b0',uses:'#00b4d8',
+    extends:'#ff9f43',part_of:'#ff6b9d',contrasts_with:'#ff5e5e',evaluated_by:'#f9c74f'};
+  const MARKS={requires:'mr',enables:'me',uses:'mu',extends:'mx',
+    part_of:'mp',contrasts_with:'mc',evaluated_by:'mv'};
+  const FILTS={requires:'fr',enables:'fe',uses:'fu',extends:'fx',
+    part_of:'fx',contrasts_with:'fx',evaluated_by:'fx'};
+  const TCLRS={method:'#a374ff',technique:'#38d9ff',definition:'#d4d4ff',
+    theory:'#ff9f43',metric:'#f9c74f',result:'#ff6b9d',dataset:'#b8c0ff'};
+
+  const nR=d=>d._d>=30?20:d._d>=15?14:d._d>=8?10:d._d>=4?7:5;
+  const nC=d=>d._d>=30?'#ffcc00':d._d>=15?'#f0f0ff':(TCLRS[d.type]||'#c0c0e0');
+  const nF=d=>d._d>=30?'url(#gnhub)':d._d>=10?'url(#gnhi)':'url(#gnlo)';
+
+  const svg=d3.select('#g');
+  const gw=document.getElementById('gw');
+  let W=gw.clientWidth, H=gw.clientHeight;
+  const root=svg.append('g');
+
+  const zoom=d3.zoom().scaleExtent([.03,8])
+    .on('zoom',ev=>root.attr('transform',ev.transform));
+  svg.call(zoom).on('dblclick.zoom',null);
+
+  const resetV=()=>svg.transition().duration(700)
+    .call(zoom.transform,d3.zoomIdentity.translate(W/2,H/2).scale(.55));
+
+  document.getElementById('zi').onclick=()=>svg.transition().call(zoom.scaleBy,1.35);
+  document.getElementById('zo').onclick=()=>svg.transition().call(zoom.scaleBy,1/1.35);
+  document.getElementById('zr').onclick=resetV;
+
+  const sim=d3.forceSimulation(nodes)
+    .force('link',d3.forceLink(edges).id(d=>d.id)
+      .distance(d=>{
+        const s=typeof d.source==='object'?d.source:nm[d.source];
+        const t=typeof d.target==='object'?d.target:nm[d.target];
+        return 95+(s?._d||0)*2.5+(t?._d||0)*2.5;
+      }).strength(.4))
+    .force('charge',d3.forceManyBody().strength(d=>-220-d._d*16))
+    .force('center',d3.forceCenter(0,0))
+    .force('collide',d3.forceCollide().radius(d=>nR(d)+22).strength(.8))
+    .alphaDecay(.02);
+
+  // Links
+  const lg=root.append('g');
+  const lSel=lg.selectAll('.lnk')
+    .data(edges).join('line')
+    .attr('class',d=>`lnk ${d.rel}`)
+    .attr('marker-end',d=>`url(#${MARKS[d.rel]||'mu'})`)
+    .attr('filter',d=>`url(#${FILTS[d.rel]||'fu'})`)
+    .attr('opacity',.72);
+
+  // Nodes
+  const ng=root.append('g');
+  const nSel=ng.selectAll('.ng')
+    .data(nodes).join('g')
+    .attr('class','ng')
+    .call(d3.drag()
+      .on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y;})
+      .on('drag', (e,d)=>{d.fx=e.x;d.fy=e.y;})
+      .on('end',  (e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}));
+
+  nSel.append('circle').attr('class','ring')
+    .attr('r',d=>nR(d)+9).attr('fill','none')
+    .attr('stroke',d=>nC(d)).attr('stroke-width',2).attr('opacity',0);
+
+  nSel.append('circle').attr('class','core')
+    .attr('r',d=>nR(d))
+    .attr('fill',d=>nC(d))
+    .attr('filter',d=>nF(d))
+    .attr('stroke','rgba(255,255,255,.1)').attr('stroke-width',.8);
+
+  nSel.filter(d=>d._d>=4).append('text').attr('class','lbl')
+    .attr('dy',d=>nR(d)+12).attr('text-anchor','middle')
+    .text(d=>d.name.length>22?d.name.slice(0,21)+'…':d.name);
+
+  // Tooltip
+  const tip=document.getElementById('tip');
+  nSel
+    .on('mousemove',(e,d)=>{
+      tip.style.left=(e.clientX+16)+'px';
+      tip.style.top=(e.clientY-8)+'px';
+      document.getElementById('tname').textContent=d.name;
+      document.getElementById('ttype').textContent=d.type+' · '+d.difficulty+' · '+d._d+' edges';
+      tip.classList.add('v');
+    })
+    .on('mouseleave',()=>tip.classList.remove('v'))
+    .on('click',(e,d)=>{e.stopPropagation();openPanel(d);});
+
+  svg.on('click',()=>{closePanel();clearHL();});
+
+  sim.on('tick',()=>{
+    lSel.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+        .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    nSel.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+
+  setTimeout(()=>{W=gw.clientWidth;H=gw.clientHeight;resetV();},150);
+  addEventListener('resize',()=>{W=gw.clientWidth;H=gw.clientHeight;});
+
+  /* ── Panel ─────────────── */
+  const panel=document.getElementById('panel');
+
+  function makeList(listId,secId,items,clr,icon){
+    const sec=document.getElementById(secId);
+    const ul=document.getElementById(listId);
+    ul.innerHTML='';
+    if(!items.length){sec.style.display='none';return;}
+    items.slice(0,10).forEach(({node,arrow,rel})=>{
+      if(!node)return;
+      const li=document.createElement('li');li.className='ei';
+      li.innerHTML=`<span class="earr" style="color:${clr}">${icon}</span>`+
+        `<span class="ename">${node.name}</span>`+
+        `<span class="erel" style="color:${clr}">${arrow}${rel}</span>`;
+      li.onclick=ev=>{ev.stopPropagation();openPanel(node);};
+      ul.appendChild(li);
+    });
+    sec.style.display='';
+  }
+
+  function openPanel(d){
+    document.getElementById('pbdg').textContent=d.difficulty||'intermediate';
+    document.getElementById('pbdg').className='pbadge pb-'+(d.difficulty||'intermediate');
+    document.getElementById('pname').textContent=d.name;
+    document.getElementById('psumm').textContent=d.summary||'No summary available.';
+    document.getElementById('ptype').textContent=d.type||'—';
+    document.getElementById('pdiff').textContent=d.difficulty||'—';
+
+    const cats={requires:[],enables:[],uses:[],extends:[]};
+    edges.forEach(l=>{
+      const s=rid(l.source),t=rid(l.target),r=l.rel;
+      if(cats[r]===undefined)return;
+      if(s===d.id){const n=nm[t];if(n)cats[r].push({node:n,arrow:'→',rel:r});}
+      if(t===d.id){const n=nm[s];if(n)cats[r].push({node:n,arrow:'←',rel:r});}
+    });
+
+    makeList('plr','psr',cats.requires,'#a374ff','↑');
+    makeList('ple','pse',cats.enables, '#00e5b0','↓');
+    makeList('plu','psu',cats.uses,    '#00b4d8','◈');
+    makeList('plx','psx',cats.extends, '#ff9f43','⤳');
+
+    const s=document.getElementById('psrc-sec');
+    if(d.sources){document.getElementById('psrc').textContent=d.sources;s.style.display='';}
+    else s.style.display='none';
+
+    panel.classList.add('open');
+    gw.classList.add('po');
+    highlightNode(d);
+  }
+
+  function closePanel(){panel.classList.remove('open');gw.classList.remove('po');}
+  document.getElementById('pcls').onclick=()=>{closePanel();clearHL();};
+
+  function highlightNode(d){
+    const conn=new Set([d.id]);
+    edges.forEach(l=>{const s=rid(l.source),t=rid(l.target);if(s===d.id||t===d.id){conn.add(s);conn.add(t);}});
+    nSel.classed('dim',nd=>!conn.has(nd.id)).classed('sel',nd=>nd.id===d.id);
+    lSel.classed('dim',l=>rid(l.source)!==d.id&&rid(l.target)!==d.id);
+  }
+  function clearHL(){nSel.classed('dim',false).classed('sel',false);lSel.classed('dim',false);}
+
+  /* ── Search ─── */
+  document.getElementById('srch').addEventListener('input',function(){
+    const q=this.value.trim().toLowerCase();
+    if(!q){clearHL();return;}
+    const m=nodes.filter(n=>n.name.toLowerCase().includes(q));
+    const ms=new Set(m.map(n=>n.id));
+    nSel.classed('dim',nd=>!ms.has(nd.id));
+    lSel.classed('dim',true);
+    if(m.length===1)openPanel(m[0]);
+  });
+
+  /* ── Filter chips ─── */
+  document.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      const r=chip.dataset.r;
+      document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+      chip.classList.add('on');
+      lSel.style('display',r==='all'?null:l=>l.rel===r?null:'none');
+    });
+  });
+
+  /* ── Stats ─── */
+  const papers=new Set(nodes.map(n=>(n.sources||'').split(':')[0]).filter(Boolean));
+  document.getElementById('sn').textContent=nodes.length;
+  document.getElementById('se').textContent=edges.length;
+  document.getElementById('sp2').textContent=papers.size;
+})();
+</script>
+</body>
+</html>

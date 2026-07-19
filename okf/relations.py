@@ -192,3 +192,303 @@ def run_relations_only():
     chunk_count = len({(r.get("doc_id", ""), r.get("chunk_id", ""))
                        for r in okf_results if r.get("chunk_id")})
     return finalize_and_build(okf_results, chunk_count, chunk_count)
+
+
+def validate_relation(relation, chunks: list, alias_index: dict = None) -> bool:
+    """Check if both concepts of the relation (or their aliases) co-occur in at least one chunk."""
+    if isinstance(relation, dict):
+        concept_a = relation.get("source") or relation.get("concept_a") or relation.get("from") or relation.get("from_name") or relation.get("from_id")
+        concept_b = relation.get("target") or relation.get("concept_b") or relation.get("to") or relation.get("to_name") or relation.get("to_id") or relation.get("concept")
+    elif isinstance(relation, (tuple, list)) and len(relation) >= 2:
+        concept_a = relation[0]
+        concept_b = relation[1]
+    else:
+        return False
+
+    if not concept_a or not concept_b:
+        return False
+
+    from okf.alias_index import generate_aliases_for_name, resolve_concept_name
+    
+    a_canon = resolve_concept_name(str(concept_a), alias_index) if alias_index else str(concept_a)
+    b_canon = resolve_concept_name(str(concept_b), alias_index) if alias_index else str(concept_b)
+    
+    aliases_a = generate_aliases_for_name(a_canon)
+    aliases_b = generate_aliases_for_name(b_canon)
+
+    for chunk in chunks:
+        text = (chunk.get("text") or chunk.get("text_passage") or "").lower()
+        has_a = any(al in text for al in aliases_a)
+        has_b = any(al in text for al in aliases_b)
+        if has_a and has_b:
+            return True
+    return False
+
+
+def filter_relations(relations, chunks: list, concepts: list, alias_index: dict = None):
+    """Filter a list/dict of relations against chunks and concepts using alias-aware matching."""
+    from okf.alias_index import build_alias_index, resolve_concept_name
+    
+    if alias_index is None:
+        raw_names = []
+        for c in concepts:
+            if isinstance(c, dict):
+                name = c.get("concept_name") or c.get("name")
+                if name:
+                    raw_names.append(str(name))
+            elif isinstance(c, str):
+                raw_names.append(c)
+        alias_index = build_alias_index(raw_names)
+
+    concept_canon_names = set()
+    for c in concepts:
+        if isinstance(c, dict):
+            name = c.get("concept_name") or c.get("name")
+            if name:
+                concept_canon_names.add(resolve_concept_name(str(name), alias_index).lower().strip())
+        elif isinstance(c, str):
+            concept_canon_names.add(resolve_concept_name(c, alias_index).lower().strip())
+
+    filtered = []
+    is_dict = isinstance(relations, dict)
+    items = relations.values() if is_dict else relations
+
+    for rel in items:
+        if isinstance(rel, dict):
+            concept_a = rel.get("source") or rel.get("concept_a") or rel.get("from") or rel.get("from_name") or rel.get("from_id")
+            concept_b = rel.get("target") or rel.get("concept_b") or rel.get("to") or rel.get("to_name") or rel.get("to_id") or rel.get("concept")
+        elif isinstance(rel, (tuple, list)) and len(rel) >= 2:
+            concept_a = rel[0]
+            concept_b = rel[1]
+        else:
+            continue
+
+        if not concept_a or not concept_b:
+            continue
+
+        a_canon = resolve_concept_name(str(concept_a), alias_index).lower().strip()
+        b_canon = resolve_concept_name(str(concept_b), alias_index).lower().strip()
+
+        if a_canon in concept_canon_names and b_canon in concept_canon_names:
+            if validate_relation(rel, chunks, alias_index):
+                filtered.append(rel)
+
+    if is_dict:
+        filtered_dict = {}
+        for k, rel in relations.items():
+            if rel in filtered:
+                filtered_dict[k] = rel
+        return filtered_dict
+    return filtered
+
+
+def infer_prerequisite_direction(concept_a, concept_b, chunks: list) -> tuple:
+    """Infer prerequisite direction between concept_a and concept_b.
+
+    Uses order of appearance in chunks (first occurrence or co-occurrence position).
+    Falls back to difficulty ranks (foundational < intermediate < advanced < expert).
+    """
+    diff_rank = {"foundational": 1, "intermediate": 2, "advanced": 3, "expert": 4}
+
+    diff_a = "intermediate"
+    diff_b = "intermediate"
+
+    if isinstance(concept_a, dict):
+        diff_a = concept_a.get("difficulty", "intermediate")
+        name_a = concept_a.get("concept_name") or concept_a.get("name") or ""
+    else:
+        name_a = str(concept_a)
+
+    if isinstance(concept_b, dict):
+        diff_b = concept_b.get("difficulty", "intermediate")
+        name_b = concept_b.get("concept_name") or concept_b.get("name") or ""
+    else:
+        name_b = str(concept_b)
+
+    a_lower = name_a.strip().lower()
+    b_lower = name_b.strip().lower()
+
+    co_occur_score = 0
+    first_chunk_a = None
+    first_chunk_b = None
+
+    for idx, chunk in enumerate(chunks):
+        text = (chunk.get("text") or chunk.get("text_passage") or "").lower()
+        has_a = a_lower in text
+        has_b = b_lower in text
+
+        if has_a and first_chunk_a is None:
+            first_chunk_a = idx
+        if has_b and first_chunk_b is None:
+            first_chunk_b = idx
+
+        if has_a and has_b:
+            try:
+                idx_a = text.index(a_lower)
+                idx_b = text.index(b_lower)
+                if idx_a < idx_b:
+                    co_occur_score += 1
+                elif idx_b < idx_a:
+                    co_occur_score -= 1
+            except ValueError:
+                pass
+
+    if co_occur_score > 0:
+        return (name_a, name_b)
+    elif co_occur_score < 0:
+        return (name_b, name_a)
+
+    if first_chunk_a is not None and first_chunk_b is not None and first_chunk_a != first_chunk_b:
+        if first_chunk_a < first_chunk_b:
+            return (name_a, name_b)
+        else:
+            return (name_b, name_a)
+
+    # Fallback to difficulty rank
+    rank_a = diff_rank.get(str(diff_a).lower(), 2)
+    rank_b = diff_rank.get(str(diff_b).lower(), 2)
+
+    if rank_a < rank_b:
+        return (name_a, name_b)
+    elif rank_b < rank_a:
+        return (name_b, name_a)
+
+    # Final fallback: alphabetical
+    if name_a < name_b:
+        return (name_a, name_b)
+    else:
+        return (name_b, name_a)
+
+
+def build_validated_edges(concepts: list, chunks: list, model_name: str = None) -> list:
+    """Build and validate relationships from concepts against chunks using alias-aware matching."""
+    from okf.alias_index import build_alias_index, resolve_concept_name
+
+    concept_raw_names = []
+    concept_diffs = {}
+    for c in concepts:
+        if isinstance(c, dict):
+            name = c.get("concept_name") or c.get("name")
+            if name:
+                name_str = str(name).strip()
+                concept_raw_names.append(name_str)
+                concept_diffs[name_str.lower()] = c.get("difficulty", "intermediate")
+        elif isinstance(c, str):
+            concept_raw_names.append(c.strip())
+            concept_diffs[c.strip().lower()] = "intermediate"
+
+    alias_index = build_alias_index(concept_raw_names)
+    canonical_concept_names = {
+        resolve_concept_name(name, alias_index).lower().strip() for name in concept_raw_names
+    }
+
+    edges = []
+    seen_edges = set()  # (from_lower, to_lower, edge_type)
+
+    def add_edge(from_name, to_name, edge_type, relation, source):
+        from_canon = resolve_concept_name(from_name, alias_index)
+        to_canon = resolve_concept_name(to_name, alias_index)
+        
+        fl = from_canon.lower().strip()
+        tl = to_canon.lower().strip()
+        if fl == tl:
+            return
+        key = (fl, tl, edge_type)
+        if key in seen_edges:
+            return
+        seen_edges.add(key)
+        edges.append({
+            "from_name": from_canon,
+            "to_name": to_canon,
+            "relation": relation,
+            "edge_type": edge_type,
+            "source": source
+        })
+
+    for c in concepts:
+        if not isinstance(c, dict):
+            continue
+        raw_name = c.get("concept_name", "").strip()
+        name = resolve_concept_name(raw_name, alias_index)
+        if not name or name.lower().strip() not in canonical_concept_names:
+            continue
+
+        doc_id = c.get("doc_id", "")
+        chunk_id = c.get("chunk_id", "")
+        default_source = f"{doc_id}:{chunk_id}"
+        rel_prov = c.get("relation_provenance") or {}
+
+        # Prerequisites
+        for p in c.get("prerequisites", []):
+            if not isinstance(p, str) or not p.strip():
+                continue
+            p = p.strip()
+            p_canon = resolve_concept_name(p, alias_index)
+            if p_canon.lower().strip() not in canonical_concept_names:
+                continue
+
+            rel_dict = {"source": name, "target": p_canon}
+            if not validate_relation(rel_dict, chunks, alias_index):
+                continue
+
+            diff_a = concept_diffs.get(name.lower(), "intermediate")
+            diff_b = concept_diffs.get(p_canon.lower(), "intermediate")
+            obj_a = {"concept_name": name, "difficulty": diff_a}
+            obj_b = {"concept_name": p_canon, "difficulty": diff_b}
+            dir_first, dir_second = infer_prerequisite_direction(obj_a, obj_b, chunks)
+
+            src = rel_prov.get(f"prereq:{p.lower()}", default_source)
+            if dir_first.lower() == p_canon.lower():
+                add_edge(name, p_canon, "REQUIRES", "requires", src)
+            else:
+                add_edge(p_canon, name, "REQUIRES", "requires", src)
+
+        # Unlocks
+        for u in c.get("unlocks", []):
+            if not isinstance(u, str) or not u.strip():
+                continue
+            u = u.strip()
+            u_canon = resolve_concept_name(u, alias_index)
+            if u_canon.lower().strip() not in canonical_concept_names:
+                continue
+
+            rel_dict = {"source": name, "target": u_canon}
+            if not validate_relation(rel_dict, chunks, alias_index):
+                continue
+
+            diff_a = concept_diffs.get(name.lower(), "intermediate")
+            diff_b = concept_diffs.get(u_canon.lower(), "intermediate")
+            obj_a = {"concept_name": name, "difficulty": diff_a}
+            obj_b = {"concept_name": u_canon, "difficulty": diff_b}
+            dir_first, dir_second = infer_prerequisite_direction(obj_a, obj_b, chunks)
+
+            src = rel_prov.get(f"unlock:{u.lower()}", default_source)
+            if dir_first.lower() == name.lower():
+                add_edge(name, u_canon, "UNLOCKS", "enables", src)
+            else:
+                add_edge(u_canon, name, "UNLOCKS", "enables", src)
+
+        # Related
+        for rel in c.get("related_to", []):
+            if not isinstance(rel, dict):
+                continue
+            target = rel.get("concept", "").strip()
+            if not target:
+                continue
+            target_canon = resolve_concept_name(target, alias_index)
+            if target_canon.lower().strip() not in canonical_concept_names:
+                continue
+
+            rel_dict = {"source": name, "target": target_canon}
+            if not validate_relation(rel_dict, chunks, alias_index):
+                continue
+
+            rel_type = rel.get("relation", "related")
+            src = rel_prov.get(f"related:{target.lower()}", default_source)
+
+            if name.lower() < target_canon.lower():
+                add_edge(name, target_canon, "RELATED", rel_type, src)
+            else:
+                add_edge(target_canon, name, "RELATED", rel_type, src)
+
+    return edges

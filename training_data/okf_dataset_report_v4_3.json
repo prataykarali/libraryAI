@@ -1,0 +1,117 @@
+{
+  "source_train": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_train_pairs_v4_2.jsonl.v4_2.bak",
+  "source_test": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v4_2.jsonl.v4_2.bak",
+  "out_train": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_train_pairs_v4_3.jsonl",
+  "out_test": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v4_3.jsonl",
+  "before": {
+    "train": {
+      "n": 500,
+      "empty": 66,
+      "empty_pct": 13.2,
+      "concepts": 847,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 364,
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf": 25,
+        "papers/Devlin2018_BERT.pdf": 43,
+        "papers/Edge2024_GraphRAG.pdf": 11,
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md": 15,
+        "probable.pdf": 18,
+        "papers/Lewis2020_RAG.pdf": 18,
+        "papers/Hu2021_LoRA.pdf": 6
+      }
+    },
+    "test": {
+      "n": 197,
+      "empty": 20,
+      "empty_pct": 10.15,
+      "concepts": 344,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 120,
+        "papers/Lewis2020_RAG.pdf": 9,
+        "papers/Edge2024_GraphRAG.pdf": 28,
+        "papers/Hu2021_LoRA.pdf": 35,
+        "probable.pdf": 5
+      }
+    }
+  },
+  "after": {
+    "train": {
+      "n": 500,
+      "empty": 66,
+      "empty_pct": 13.2,
+      "concepts": 847,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 364,
+        "papers/Vaswani2017_Attention_Is_All_You_Need.pdf": 25,
+        "papers/Devlin2018_BERT.pdf": 43,
+        "papers/Edge2024_GraphRAG.pdf": 11,
+        "web_syllabi/AI_ML_Archipelago_Corpus_Seed.md": 15,
+        "probable.pdf": 18,
+        "papers/Lewis2020_RAG.pdf": 18,
+        "papers/Hu2021_LoRA.pdf": 6
+      }
+    },
+    "test": {
+      "n": 197,
+      "empty": 24,
+      "empty_pct": 12.18,
+      "concepts": 337,
+      "docs": {
+        "textbooks/Deisenroth_Math_For_ML.pdf": 120,
+        "papers/Lewis2020_RAG.pdf": 9,
+        "papers/Edge2024_GraphRAG.pdf": 28,
+        "papers/Hu2021_LoRA.pdf": 35,
+        "probable.pdf": 5
+      }
+    }
+  },
+  "stats_train": {
+    "summary_rewritten": 26,
+    "concepts_kept": 847,
+    "rows": 500,
+    "concepts_final": 847,
+    "empty_final": 66,
+    "summary_name_prefixed": 207,
+    "empty_bibliography_like": 1
+  },
+  "stats_test": {
+    "concepts_kept": 337,
+    "rows": 197,
+    "concepts_final": 337,
+    "empty_final": 24,
+    "summary_name_prefixed": 90,
+    "empty_bibliography_like": 1,
+    "empty_force_empty_chunk_id": 4,
+    "summary_rewritten": 17
+  },
+  "policy": {
+    "force_empty_chunk_ids": [
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        "chunk_029"
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        "chunk_062"
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        "chunk_063"
+      ],
+      [
+        "papers/Edge2024_GraphRAG.pdf",
+        "chunk_064"
+      ]
+    ],
+    "name_canon_entries": 25,
+    "contam_regex": "(?is)(britney\\s*spears|taylor\\s*swift|travis\\s*kelce|justin\\s*timberlake|kardashian|american\\s*idol|the\\s*weeknd|public\\..."
+  },
+  "also_updated": [
+    "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_train_pairs_v4_2.jsonl",
+    "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v4_2.jsonl"
+  ],
+  "backups": [
+    "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_train_pairs_v4_2.jsonl.v4_2.bak",
+    "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v4_2.jsonl.v4_2.bak"
+  ]
+}

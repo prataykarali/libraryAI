@@ -1,0 +1,722 @@
+{
+  "model": "/home/pratay-karali/Desktop/libraryAI/lib-qwen",
+  "test_set": "/home/pratay-karali/Desktop/libraryAI/libraryAI/training_data/okf_test_pairs_v4_4.jsonl",
+  "n_probes": 32,
+  "device": "cuda",
+  "metrics": {
+    "json_valid_pct": 100.0,
+    "schema_ok_pct": 100.0,
+    "mean_f1_exact": 0.2522,
+    "mean_f1_alias": 0.4219,
+    "empty_gold_n": 11,
+    "empty_exact_match_pct": 0.0,
+    "celeb_concept_failures": 1,
+    "self_ref_count": 0,
+    "latency_s_mean": 11.07,
+    "latency_s_p50": 10.84,
+    "latency_s_max": 29.56
+  },
+  "by_tag": {
+    "contam_text": {
+      "n": 2,
+      "json_ok": 1.0,
+      "mean_f1_exact": 0.0,
+      "mean_f1_alias": 0.0
+    },
+    "empty_gold": {
+      "n": 6,
+      "json_ok": 1.0,
+      "mean_f1_exact": 0.0,
+      "mean_f1_alias": 0.0
+    },
+    "graphrag": {
+      "n": 4,
+      "json_ok": 1.0,
+      "mean_f1_exact": 0.416675,
+      "mean_f1_alias": 0.416675
+    },
+    "lora": {
+      "n": 8,
+      "json_ok": 1.0,
+      "mean_f1_exact": 0.416675,
+      "mean_f1_alias": 0.666675
+    },
+    "math": {
+      "n": 5,
+      "json_ok": 1.0,
+      "mean_f1_exact": 0.1,
+      "mean_f1_alias": 0.73334
+    },
+    "other_paper": {
+      "n": 1,
+      "json_ok": 1.0,
+      "mean_f1_exact": 0.0,
+      "mean_f1_alias": 0.0
+    },
+    "random": {
+      "n": 6,
+      "json_ok": 1.0,
+      "mean_f1_exact": 0.4285666666666667,
+      "mean_f1_alias": 0.47223333333333334
+    }
+  },
+  "ingestion_gate": {
+    "checks": {
+      "json_valid_ge_95": true,
+      "schema_ok_ge_90": true,
+      "alias_f1_ge_0_35": true,
+      "no_celeb_concepts": false,
+      "empty_match_ge_40_if_present": false,
+      "self_ref_low": true
+    },
+    "pass_count": 4,
+    "total": 6,
+    "ready_for_pilot_ingest": false,
+    "ready_for_full_replace": false,
+    "notes": [
+      "Probe set is stratified (~32), not full 197 \u2014 treat as go/no-go smoke.",
+      "ready_for_pilot_ingest: can point extraction at lib-qwen for limited re-ingest with cleanup still on.",
+      "ready_for_full_replace: replace aura-qwen as default only if full 197 eval still strong."
+    ]
+  },
+  "examples": [
+    {
+      "i": 0,
+      "tag": "empty_gold",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_185",
+      "latency_s": 8.04,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Vector",
+        "Matrix"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Vector\", \"concept_type\": \"definition\", \"difficulty\": \"foundational\", \"summary\": \"Vector: An element of a vector space that can be added together and multiplied by scalars.\", \"prerequ"
+    },
+    {
+      "i": 1,
+      "tag": "empty_gold",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_692",
+      "latency_s": 7.28,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Probability",
+        "Maximum Likelihood Estimation"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Probability\", \"concept_type\": \"definition\", \"difficulty\": \"foundational\", \"summary\": \"A tool for describing uncertainty by quantifying the probability distribution of random events.\""
+    },
+    {
+      "i": 2,
+      "tag": "empty_gold",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_682",
+      "latency_s": 12.97,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Dimensionality Reduction",
+        "PCA",
+        "Auto-Encoder"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Dimensionality Reduction\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"Methods that compress data while retaining essential features, reducing the dimensi"
+    },
+    {
+      "i": 3,
+      "tag": "empty_gold",
+      "doc_id": "papers/Lewis2020_RAG.pdf",
+      "chunk_id": "chunk_050",
+      "latency_s": 9.48,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Language Model",
+        "Fine-Tuning"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Language Model\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"A type of transfer learning where the model is pre-trained on a broad domain of text, then fi"
+    },
+    {
+      "i": 4,
+      "tag": "empty_gold",
+      "doc_id": "papers/Lewis2020_RAG.pdf",
+      "chunk_id": "chunk_044",
+      "latency_s": 9.79,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Nearest Neighbor",
+        "Denoising Diffusion Probabilistic Model"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Nearest Neighbor\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"The concept that predicts the label of an example based on the closest training example of "
+    },
+    {
+      "i": 5,
+      "tag": "empty_gold",
+      "doc_id": "papers/Lewis2020_RAG.pdf",
+      "chunk_id": "chunk_054",
+      "latency_s": 4.52,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Graph RAG"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Graph RAG\", \"concept_type\": \"technique\", \"difficulty\": \"advanced\", \"summary\": \"GraphRAG uses graph embeddings to generate context-aware answers by following structured relationships "
+    },
+    {
+      "i": 6,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_047",
+      "latency_s": 4.48,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Low-Rank Adaptation"
+      ],
+      "pred_names": [
+        "LoRA"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 1.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"LoRA\", \"concept_type\": \"technique\", \"difficulty\": \"advanced\", \"summary\": \"Low-Rank Adaptation freezes pre-trained weights and injects task-specific rank decomposition matrices into T"
+    },
+    {
+      "i": 7,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_038",
+      "latency_s": 9.89,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Neural Network"
+      ],
+      "pred_names": [
+        "Neural Network",
+        "Gradient Descent"
+      ],
+      "f1_exact": 0.6667,
+      "f1_alias": 0.6667,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Neural Network\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"A neural network is a machine learning model consisting of layers of neurons connected via we"
+    },
+    {
+      "i": 8,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_029",
+      "latency_s": 9.77,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "GPT",
+        "Transformer"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"GPT\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"Generative Pre-trained Transformer - a left-to-right language model using Transformer decoder architecture.\""
+    },
+    {
+      "i": 9,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_040",
+      "latency_s": 8.64,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Neural Network",
+        "Transformer"
+      ],
+      "pred_names": [
+        "Transformer",
+        "Neural Network"
+      ],
+      "f1_exact": 1.0,
+      "f1_alias": 1.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Transformer\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"Transformer: A sequence-to-sequence neural network using masked language modeling and next-token pre"
+    },
+    {
+      "i": 10,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_049",
+      "latency_s": 7.48,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Beam Search",
+        "Weight Decay"
+      ],
+      "pred_names": [
+        "LoRA",
+        "Beam Search"
+      ],
+      "f1_exact": 0.5,
+      "f1_alias": 0.5,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"LoRA\", \"concept_type\": \"method\", \"difficulty\": \"advanced\", \"summary\": \"Low-Rank Adaptation freezes pre-trained weights and injects trainable rank-decomposition matrices into specific"
+    },
+    {
+      "i": 11,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_036",
+      "latency_s": 10.95,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Bidirectional Transformer",
+        "Neural Network"
+      ],
+      "pred_names": [
+        "Deep Neural Network",
+        "BERT"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.5,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Deep Neural Network\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"A multi-layer neural network where both input and output are represented as dense vector"
+    },
+    {
+      "i": 12,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_044",
+      "latency_s": 4.66,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Adapter Layers",
+        "Sequence"
+      ],
+      "pred_names": [
+        "Adapter Layers"
+      ],
+      "f1_exact": 0.6667,
+      "f1_alias": 0.6667,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Adapter Layers\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"Adapter layers are external modules added to a pre-trained model in a sequential manner, whereas "
+    },
+    {
+      "i": 13,
+      "tag": "lora",
+      "doc_id": "papers/Hu2021_LoRA.pdf",
+      "chunk_id": "chunk_043",
+      "latency_s": 9.6,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Neural Network",
+        "Fine-Tuning"
+      ],
+      "pred_names": [
+        "Fine-Tuning",
+        "Inference Latency"
+      ],
+      "f1_exact": 0.5,
+      "f1_alias": 1.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Fine-Tuning\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"A transfer learning approach where all pre-trained model parameters are updated on a downstream task"
+    },
+    {
+      "i": 14,
+      "tag": "graphrag",
+      "doc_id": "papers/Edge2024_GraphRAG.pdf",
+      "chunk_id": "chunk_069",
+      "latency_s": 6.91,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Relationship"
+      ],
+      "pred_names": [
+        "Relationship"
+      ],
+      "f1_exact": 1.0,
+      "f1_alias": 1.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Relationship\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"Relationships are connections between entities, enabling the inference of properties and behavi"
+    },
+    {
+      "i": 15,
+      "tag": "graphrag",
+      "doc_id": "papers/Edge2024_GraphRAG.pdf",
+      "chunk_id": "chunk_062",
+      "latency_s": 12.25,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Britney Spears",
+        "Travis Kelce",
+        "Taylor Swift"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Britney Spears\", \"concept_type\": \"person\", \"difficulty\": \"intermediate\", \"summary\": \"Britney Spears (1984\u20131996) was an American pop singer known for her high-profile music career.\", "
+    },
+    {
+      "i": 16,
+      "tag": "graphrag",
+      "doc_id": "papers/Edge2024_GraphRAG.pdf",
+      "chunk_id": "chunk_066",
+      "latency_s": 12.01,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Relationship"
+      ],
+      "pred_names": [
+        "Entity",
+        "Relationship"
+      ],
+      "f1_exact": 0.6667,
+      "f1_alias": 0.6667,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Entity\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"A distinct thing of interest that can be analyzed for characteristics, relationships, and roles.\", \"p"
+    },
+    {
+      "i": 17,
+      "tag": "graphrag",
+      "doc_id": "papers/Edge2024_GraphRAG.pdf",
+      "chunk_id": "chunk_079",
+      "latency_s": 15.67,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Event"
+      ],
+      "pred_names": [
+        "Wilcoxon Signed-Rank Test",
+        "Pearson Chi-Square"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Wilcoxon Signed-Rank Test\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"A signed-rank test non-parametrically tests whether two related continuous random vari"
+    },
+    {
+      "i": 18,
+      "tag": "math",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_183",
+      "latency_s": 6.31,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Dimensionality Reduction",
+        "High-Dimensional Data",
+        "Orthogonal Projection",
+        "Linear Regression"
+      ],
+      "pred_names": [
+        "Projection"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.5,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Projection\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"Projection: An operation in a vector space that maps a vector onto a lower-dimensional subspace.\""
+    },
+    {
+      "i": 19,
+      "tag": "math",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_184",
+      "latency_s": 15.08,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Orthogonal Projection",
+        "Vector Space"
+      ],
+      "pred_names": [
+        "Vector",
+        "Endomorphism"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 1.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Vector\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"Vectors are elements of a vector space that can be added together and multiplied by scalars.\", \"prere"
+    },
+    {
+      "i": 20,
+      "tag": "math",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_199",
+      "latency_s": 7.32,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Linear Mapping",
+        "Vector Space"
+      ],
+      "pred_names": [
+        "Matrix Decomposition",
+        "Vector"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 1.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Matrix Decomposition\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"Factorizing a square matrix into constituent matrices to reveal structural properties.\", \"p"
+    },
+    {
+      "i": 21,
+      "tag": "math",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_182",
+      "latency_s": 11.2,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Linear Equation",
+        "Gradient"
+      ],
+      "pred_names": [
+        "Vector",
+        "Gradient"
+      ],
+      "f1_exact": 0.5,
+      "f1_alias": 0.5,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Vector\", \"concept_type\": \"definition\", \"difficulty\": \"foundational\", \"summary\": \"An element of a vector space that can be added to other vectors and multiplied by scalars.\", \"prerequ"
+    },
+    {
+      "i": 22,
+      "tag": "math",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_189",
+      "latency_s": 12.0,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Determinant"
+      ],
+      "pred_names": [
+        "Matrix Decomposition",
+        "Matrix Multiplication"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.6667,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Matrix Decomposition\", \"concept_type\": \"technique\", \"difficulty\": \"intermediate\", \"summary\": \"Factorizing a square matrix into constituent matrices to reveal structural properties.\","
+    },
+    {
+      "i": 23,
+      "tag": "other_paper",
+      "doc_id": "papers/Lewis2020_RAG.pdf",
+      "chunk_id": "chunk_048",
+      "latency_s": 13.38,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Sequence",
+        "BERT"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Sequence\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"An element of a sequence type that can be added to another sequence and processed through the model"
+    },
+    {
+      "i": 24,
+      "tag": "contam_text",
+      "doc_id": "papers/Edge2024_GraphRAG.pdf",
+      "chunk_id": "chunk_064",
+      "latency_s": 11.04,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Graph RAG",
+        "Retrieval-Augmented Generation"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Graph RAG\", \"concept_type\": \"technique\", \"difficulty\": \"advanced\", \"summary\": \"GraphRAG uses graph embeddings to generate answer summaries that capture the complete meaning and relat"
+    },
+    {
+      "i": 25,
+      "tag": "contam_text",
+      "doc_id": "papers/Edge2024_GraphRAG.pdf",
+      "chunk_id": "chunk_063",
+      "latency_s": 7.8,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [],
+      "pred_names": [
+        "Graph RAG"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Graph RAG\", \"concept_type\": \"technique\", \"difficulty\": \"advanced\", \"summary\": \"GraphRAG uses graph embeddings to generate community-specific responses for the claims contained in doc"
+    },
+    {
+      "i": 26,
+      "tag": "random",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_287",
+      "latency_s": 12.11,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Partial Derivative",
+        "Derivative",
+        "Calculus",
+        "Gradient"
+      ],
+      "pred_names": [
+        "Vector",
+        "Gradient"
+      ],
+      "f1_exact": 0.3333,
+      "f1_alias": 0.5,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Vector\", \"concept_type\": \"definition\", \"difficulty\": \"foundational\", \"summary\": \"Vector: An element of a vector space that can be added together and multiplied by scalars.\", \"prerequ"
+    },
+    {
+      "i": 27,
+      "tag": "random",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_629",
+      "latency_s": 22.69,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Dimensionality Reduction",
+        "Principal Component Analysis",
+        "Linear Mapping"
+      ],
+      "pred_names": [
+        "Dimensionality Reduction",
+        "Principal Component Analysis",
+        "Linear Mapping"
+      ],
+      "f1_exact": 1.0,
+      "f1_alias": 1.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Dimensionality Reduction\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"Methods that compress data while retaining essential features, reducing the dimensi"
+    },
+    {
+      "i": 28,
+      "tag": "random",
+      "doc_id": "papers/Lewis2020_RAG.pdf",
+      "chunk_id": "chunk_063",
+      "latency_s": 10.84,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Gradient",
+        "Sequence"
+      ],
+      "pred_names": [
+        "Retrieval-Augmented Generation",
+        "Generative Language Model"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Retrieval-Augmented Generation\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"A method that retrieves relevant documents from an external knowledge source and "
+    },
+    {
+      "i": 29,
+      "tag": "random",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_625",
+      "latency_s": 29.56,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Dimensionality Reduction",
+        "High-Dimensional Data",
+        "Eigenvalue"
+      ],
+      "pred_names": [
+        "Dimensionality Reduction",
+        "Principal Component Analysis",
+        "Eigenvalue",
+        "Linear Algebra"
+      ],
+      "f1_exact": 0.5714,
+      "f1_alias": 0.6667,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Dimensionality Reduction\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"Methods that compress data while retaining essential features, reducing the dimensi"
+    },
+    {
+      "i": 30,
+      "tag": "random",
+      "doc_id": "textbooks/Deisenroth_Math_For_ML.pdf",
+      "chunk_id": "chunk_600",
+      "latency_s": 13.99,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Linear Regression"
+      ],
+      "pred_names": [
+        "Linear Regression",
+        "Bayesian Linear Regression"
+      ],
+      "f1_exact": 0.6667,
+      "f1_alias": 0.6667,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"Linear Regression\", \"concept_type\": \"definition\", \"difficulty\": \"intermediate\", \"summary\": \"A statistical method for predicting continuous targets based on inputs based on a linear c"
+    },
+    {
+      "i": 31,
+      "tag": "random",
+      "doc_id": "papers/Lewis2020_RAG.pdf",
+      "chunk_id": "chunk_062",
+      "latency_s": 16.48,
+      "json_ok": true,
+      "schema_ok": true,
+      "parse_err": null,
+      "gold_names": [
+        "Non-Parametric Memory",
+        "Parametric Memory",
+        "Open-domain Qa"
+      ],
+      "pred_names": [
+        "BERT",
+        "RAG"
+      ],
+      "f1_exact": 0.0,
+      "f1_alias": 0.0,
+      "raw_preview": "<think>\n\n</think>\n\n[{\"concept_name\": \"BERT\", \"concept_type\": \"method\", \"difficulty\": \"intermediate\", \"summary\": \"BERT: Bidirectional Encoder Representations from Transformers - a bidirectional Transformer encoder pre-tra"
+    }
+  ]
+}

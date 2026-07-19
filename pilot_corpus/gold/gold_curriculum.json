@@ -1,0 +1,28 @@
+{
+  "concepts": [
+    "Attention Mechanism",
+    "Self-Attention",
+    "Multi-Head Attention",
+    "Transformer Encoder",
+    "Positional Encoding",
+    "BERT",
+    "Masked Language Modeling",
+    "Fine-Tuning",
+    "Parameter-Efficient Fine-Tuning",
+    "Low-Rank Adaptation",
+    "Retrieval-Augmented Generation",
+    "Dense Retrieval",
+    "Graph RAG",
+    "Knowledge Graph"
+  ],
+  "edges": [
+    {"source": "Attention Mechanism", "target": "Self-Attention", "type": "requires"},
+    {"source": "Self-Attention", "target": "Multi-Head Attention", "type": "requires"},
+    {"source": "Multi-Head Attention", "target": "Transformer Encoder", "type": "requires"},
+    {"source": "Transformer Encoder", "target": "BERT", "type": "requires"},
+    {"source": "Fine-Tuning", "target": "Parameter-Efficient Fine-Tuning", "type": "requires"},
+    {"source": "Parameter-Efficient Fine-Tuning", "target": "Low-Rank Adaptation", "type": "requires"},
+    {"source": "Dense Retrieval", "target": "Retrieval-Augmented Generation", "type": "requires"},
+    {"source": "Retrieval-Augmented Generation", "target": "Graph RAG", "type": "requires"}
+  ]
+}
